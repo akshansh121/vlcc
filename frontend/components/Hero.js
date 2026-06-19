@@ -34,6 +34,8 @@ export default function Hero() {
           alt="Luxury Salon Interior"
           className="w-full h-full object-cover object-center"
           loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
         {/* Multi-layer gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-dark-900/95 via-dark-900/75 to-dark-900/40" />

@@ -109,6 +109,8 @@ export default function AboutSection() {
                 src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80"
                 alt="Beauty World Salon Interior"
                 className="w-full h-full object-cover object-center"
+                loading="lazy"
+                decoding="async"
               />
               {/* Image overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent" />

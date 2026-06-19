@@ -56,6 +56,8 @@ function TestimonialCard({ testimonial }) {
             src={avatarUrl}
             alt={testimonial.name || testimonial.customerName}
             className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                 testimonial.name || 'Client'

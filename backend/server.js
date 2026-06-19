@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 
@@ -75,6 +76,12 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+// ---------------------------------------------------------------------------
+// Compression (gzip) — early, after security/cors, before routes
+// ---------------------------------------------------------------------------
+
+app.use(compression());
 
 // ---------------------------------------------------------------------------
 // Rate limiting
@@ -152,17 +159,32 @@ app.get('/api/health', (_req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// Public cache headers
+// ---------------------------------------------------------------------------
+
+// Sets Cache-Control on PUBLIC, non-personalized GET responses only.
+// Never applied to auth/admin/user-specific/booking/cart endpoints.
+// `skip` lists path suffixes (relative to the mount point) that must NOT be
+// cached because they are admin-protected (e.g. offers' GET /all).
+const publicCache = (skip = []) => (req, res, next) => {
+  if (req.method === 'GET' && !skip.includes(req.path)) {
+    res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
+  }
+  next();
+};
+
+// ---------------------------------------------------------------------------
 // API routes
 // ---------------------------------------------------------------------------
 
 app.use('/api/auth',         authLimiter, authRoutes);
-app.use('/api/services',     servicesRoutes);
-app.use('/api/packages',     packagesRoutes);
-app.use('/api/staff',        staffRoutes);
+app.use('/api/services',     publicCache(), servicesRoutes);
+app.use('/api/packages',     publicCache(), packagesRoutes);
+app.use('/api/staff',        publicCache(), staffRoutes);
 app.use('/api/bookings',     bookingsRoutes);
 app.use('/api/cart',         cartRoutes);
-app.use('/api/offers',       offersRoutes);
-app.use('/api/testimonials', testimonialsRoutes);
+app.use('/api/offers',       publicCache(['/all']), offersRoutes);
+app.use('/api/testimonials', publicCache(), testimonialsRoutes);
 app.use('/api/contact',      contactRoutes);
 app.use('/api/admin',        adminRoutes);
 
@@ -176,6 +198,13 @@ app.use(errorHandler);
 // ---------------------------------------------------------------------------
 // Start server
 // ---------------------------------------------------------------------------
+
+// Fire-and-forget performance index creation. Must never crash boot.
+try {
+  require('./config/perfIndexes');
+} catch (err) {
+  console.error('Performance index setup failed (non-fatal):', err.message);
+}
 
 app.listen(PORT, () => {
   console.log(`\n  Beauty World API running on port ${PORT}`);

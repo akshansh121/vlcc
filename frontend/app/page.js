@@ -1,14 +1,17 @@
 'use client';
 
+import dynamic from 'next/dynamic';
+
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import AboutSection from '../components/AboutSection';
 import FeaturedServices from '../components/FeaturedServices';
-import PackagesSection from '../components/PackagesSection';
-import StaffSection from '../components/StaffSection';
-import TestimonialsSection from '../components/TestimonialsSection';
-import ContactSection from '../components/ContactSection';
-import Footer from '../components/Footer';
+
+const PackagesSection = dynamic(() => import('../components/PackagesSection'), { ssr: true });
+const StaffSection = dynamic(() => import('../components/StaffSection'), { ssr: true });
+const TestimonialsSection = dynamic(() => import('../components/TestimonialsSection'), { ssr: true });
+const ContactSection = dynamic(() => import('../components/ContactSection'), { ssr: true });
+const Footer = dynamic(() => import('../components/Footer'), { ssr: true });
 
 export default function HomePage() {
   return (

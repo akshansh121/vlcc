@@ -49,6 +49,8 @@ function StaffCard({ member, index }) {
             src={avatarUrl}
             alt={member.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=D4AF37&color=0a0a0a&size=150`;
             }}

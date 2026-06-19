@@ -13,15 +13,58 @@
   box-sizing: border-box;
 }
 
+@layer base {
+  :root {
+    --dark-900: 10 10 10;
+    --dark-800: 17 17 17;
+    --dark-700: 26 26 26;
+    --dark-600: 42 42 42;
+    --dark-500: 58 58 58;
+  }
+
+  html.light {
+    --dark-900: 255 255 255;
+    --dark-800: 248 245 239;
+    --dark-700: 241 236 227;
+    --dark-600: 228 221 208;
+    --dark-500: 212 203 185;
+  }
+
+  html.light .text-white {
+    color: #1a1a1a;
+  }
+
+  html.light .text-gray-300 {
+    color: #374151;
+  }
+
+  html.light .text-gray-400 {
+    color: #4b5563;
+  }
+
+  html.light .text-gray-500 {
+    color: #6b7280;
+  }
+
+  html.light .text-gray-600 {
+    color: #9ca3af;
+  }
+}
+
 html {
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #0a0a0a;
+  background-color: rgb(var(--dark-900));
   color: #ffffff;
   overflow-x: hidden;
+}
+
+html.light body {
+  color: #1f2937;
 }
 
 .font-display {

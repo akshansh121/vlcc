@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Menu, X, Sparkles, User, LogOut, Calendar, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Menu, X, Sparkles, User, LogOut, Calendar, ChevronDown, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -19,6 +20,7 @@ const navLinks = [
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { cartCount } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const [scrolled, setScrolled] = useState(false);
@@ -99,6 +101,19 @@ export default function Navbar() {
 
             {/* Desktop Right Actions */}
             <div className="hidden md:flex items-center gap-4">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="relative p-2 text-gray-300 hover:text-gold-500 transition-colors duration-200"
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-5 h-5" />
+                ) : (
+                  <Sun className="w-5 h-5" />
+                )}
+              </button>
+
               {/* Cart */}
               <Link
                 href="/cart"
@@ -197,6 +212,17 @@ export default function Navbar() {
 
             {/* Mobile Right */}
             <div className="flex md:hidden items-center gap-3">
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-gray-300 hover:text-gold-500 transition-colors duration-200"
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? (
+                  <Moon className="w-5 h-5" />
+                ) : (
+                  <Sun className="w-5 h-5" />
+                )}
+              </button>
               <Link href="/cart" className="relative p-2 text-gray-300">
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (

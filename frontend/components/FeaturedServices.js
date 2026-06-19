@@ -72,6 +72,8 @@ function ServiceCard({ service, index }) {
           src={imageUrl}
           alt={service.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent" />
 
