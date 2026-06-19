@@ -4,6 +4,13 @@ const { body } = require('express-validator');
 const authController = require('../controllers/authController');
 const { authenticateUser, authenticateAny } = require('../middleware/auth');
 
+// POST /api/auth/send-registration-otp
+router.post(
+  '/send-registration-otp',
+  [body('email').isEmail().normalizeEmail().withMessage('Valid email is required')],
+  authController.sendRegistrationOtp
+);
+
 // POST /api/auth/register
 router.post(
   '/register',
@@ -19,6 +26,7 @@ router.post(
     body('password')
       .isLength({ min: 6 })
       .withMessage('Password must be at least 6 characters'),
+    body('otp').isLength({ min: 6, max: 6 }).withMessage('OTP must be 6 digits'),
   ],
   authController.register
 );

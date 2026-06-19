@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const { OAuth2Client } = require('google-auth-library');
 const db = require('../config/database');
-const { sendOtpEmail } = require('../utils/email');
+const { sendOtpEmail, sendRegistrationOtpEmail } = require('../utils/email');
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -18,6 +18,52 @@ const TEMP_ADMIN_EMAIL = 'abc@gmail.com';
 const TEMP_ADMIN_PASSWORD = '123456789';
 const TEMP_ADMIN_HASH = '$2b$12$LcWCqqiQW0IPfr12TM/8kuVU4hmaO7hr9N3Da17z6nznjvQMGOxni';
 
+// POST /api/auth/send-registration-otp
+const sendRegistrationOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    await ensureOtpTable();
+
+    const existing = await db.query('SELECT id FROM users WHERE email = $1', [normalizedEmail]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ success: false, message: 'This email is already registered. Please sign in instead.' });
+    }
+
+    // Invalidate old registration OTPs for this email
+    await db.query(
+      "UPDATE password_reset_otps SET used = TRUE WHERE email = $1 AND used = FALSE AND purpose = 'registration'",
+      [normalizedEmail]
+    );
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+    await db.query(
+      "INSERT INTO password_reset_otps (email, otp, expires_at, purpose) VALUES ($1, $2, $3, 'registration')",
+      [normalizedEmail, otp, expiresAt]
+    );
+
+    setImmediate(async () => {
+      try {
+        await sendRegistrationOtpEmail({ email: normalizedEmail }, otp);
+      } catch (err) {
+        console.error('Registration OTP email error:', err.message);
+      }
+    });
+
+    return res.json({ success: true, message: 'Verification OTP sent to your email.' });
+  } catch (err) {
+    console.error('sendRegistrationOtp error:', err);
+    return res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
 // POST /api/auth/register
 const register = async (req, res) => {
   try {
@@ -26,12 +72,33 @@ const register = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Validation failed', errors: errors.array() });
     }
 
-    const { name, email, mobile, password } = req.body;
+    const { name, email, mobile, password, otp } = req.body;
+    const normalizedEmail = email.toLowerCase().trim();
 
-    const existing = await db.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (!otp) {
+      return res.status(400).json({ success: false, message: 'Email verification OTP is required' });
+    }
+
+    await ensureOtpTable();
+
+    // Verify registration OTP
+    const otpResult = await db.query(
+      `SELECT id FROM password_reset_otps
+       WHERE email = $1 AND otp = $2 AND purpose = 'registration'
+       AND used = FALSE AND expires_at > NOW()`,
+      [normalizedEmail, otp]
+    );
+    if (otpResult.rows.length === 0) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired OTP. Please request a new one.' });
+    }
+
+    const existing = await db.query('SELECT id FROM users WHERE email = $1', [normalizedEmail]);
     if (existing.rows.length > 0) {
       return res.status(409).json({ success: false, message: 'Email already registered' });
     }
+
+    // Mark OTP as used
+    await db.query('UPDATE password_reset_otps SET used = TRUE WHERE id = $1', [otpResult.rows[0].id]);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -39,7 +106,7 @@ const register = async (req, res) => {
       `INSERT INTO users (name, email, mobile, password)
        VALUES ($1, $2, $3, $4)
        RETURNING id, name, email, mobile, role, created_at`,
-      [name, email, mobile, hashedPassword]
+      [name, normalizedEmail, mobile, hashedPassword]
     );
 
     const user = result.rows[0];
@@ -336,7 +403,7 @@ const googleAuth = async (req, res) => {
   }
 };
 
-// Ensure OTP table exists (called once on first use)
+// Ensure OTP table exists with purpose column
 const ensureOtpTable = async () => {
   await db.query(`
     CREATE TABLE IF NOT EXISTS password_reset_otps (
@@ -345,9 +412,11 @@ const ensureOtpTable = async () => {
       otp VARCHAR(6) NOT NULL,
       expires_at TIMESTAMP NOT NULL,
       used BOOLEAN DEFAULT FALSE,
+      purpose VARCHAR(50) DEFAULT 'password_reset',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  await db.query(`ALTER TABLE password_reset_otps ADD COLUMN IF NOT EXISTS purpose VARCHAR(50) DEFAULT 'password_reset'`);
 };
 
 // POST /api/auth/forgot-password
@@ -479,5 +548,5 @@ const resetPassword = async (req, res) => {
 
 module.exports = {
   register, login, adminLogin, getMe, updateProfile, changePassword, googleAuth,
-  forgotPassword, verifyOtp, resetPassword,
+  forgotPassword, verifyOtp, resetPassword, sendRegistrationOtp,
 };

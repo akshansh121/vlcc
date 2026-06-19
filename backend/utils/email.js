@@ -286,6 +286,32 @@ const sendOtpEmail = async (user, otp) => {
 };
 
 // ---------------------------------------------------------------------------
+// sendRegistrationOtpEmail
+// ---------------------------------------------------------------------------
+
+const sendRegistrationOtpEmail = async (user, otp) => {
+  const html = emailWrapper(`
+    <h2>Verify Your Email</h2>
+    <p>Thank you for signing up with Beauty World! Use the code below to verify your email and complete your registration.</p>
+    <div class="info-box" style="text-align:center;">
+      <p style="color:#b0b0b0;font-size:13px;margin-bottom:8px;">Your Verification Code</p>
+      <p style="font-size:42px;font-weight:bold;letter-spacing:12px;color:#d4af37;margin:0;">${otp}</p>
+      <p style="color:#888;font-size:12px;margin-top:10px;">Valid for 10 minutes</p>
+    </div>
+    <p>Enter this code on the registration page to activate your account. Do not share this code with anyone.</p>
+    <div class="divider"></div>
+    <p style="font-size:13px;color:#999;">If you did not attempt to create an account at Beauty World, please ignore this email.</p>
+  `);
+
+  await transporter.sendMail({
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
+    to: user.email,
+    subject: `${otp} – Verify your Beauty World account`,
+    html,
+  });
+};
+
+// ---------------------------------------------------------------------------
 // sendAdminReply  (admin replies to a contact query)
 // ---------------------------------------------------------------------------
 
@@ -321,6 +347,7 @@ module.exports = {
   sendContactQueryNotification,
   sendContactAutoReply,
   sendOtpEmail,
+  sendRegistrationOtpEmail,
   sendAdminReply,
   transporter,
 };

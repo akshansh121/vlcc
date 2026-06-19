@@ -44,6 +44,7 @@ api.interceptors.response.use(
 
 // ─── Auth ────────────────────────────────────────────────────────────────────
 
+export const sendRegistrationOtp = (data) => api.post('/auth/send-registration-otp', data);
 export const register = (data) => api.post('/auth/register', data);
 export const login = (data) => api.post('/auth/login', data);
 export const adminLogin = (data) => api.post('/auth/admin/login', data);
