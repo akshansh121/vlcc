@@ -35,7 +35,7 @@ services:
       EMAIL_PORT: 465
       EMAIL_SECURE: "true"
       EMAIL_USER: support@sunderdikho.com
-      EMAIL_PASS: "your Kumar123##"
+      EMAIL_PASS: "Kumar123##"
       EMAIL_FROM: support@sunderdikho.com
       ADMIN_EMAIL: support@sunderdikho.com
       GOOGLE_CLIENT_ID: 964449766103-lt4id9t6df27jfdpab1em0r7tnokj3vs.apps.googleusercontent.com
