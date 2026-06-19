@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { X, Eye, Trash2, Mail, MailOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Eye, Trash2, Mail, MailOpen, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import * as api from '../../../lib/api';
 import toast from 'react-hot-toast';
 
@@ -34,6 +34,9 @@ export default function ContactPage() {
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [markingId, setMarkingId] = useState(null);
+  const [replyOpen, setReplyOpen] = useState(false);
+  const [replyMsg, setReplyMsg] = useState('');
+  const [replying, setReplying] = useState(false);
 
   const fetchQueries = useCallback(async () => {
     setLoading(true);
@@ -77,6 +80,22 @@ export default function ContactPage() {
       toast.error('Failed to update');
     } finally {
       setMarkingId(null);
+    }
+  };
+
+  const handleReply = async () => {
+    if (!replyMsg.trim()) return;
+    setReplying(true);
+    try {
+      const id = viewQuery.id || viewQuery._id;
+      await api.replyToQuery(id, { message: replyMsg.trim() });
+      toast.success('Reply sent successfully');
+      setReplyOpen(false);
+      setReplyMsg('');
+    } catch {
+      toast.error('Failed to send reply');
+    } finally {
+      setReplying(false);
     }
   };
 
@@ -246,7 +265,7 @@ export default function ContactPage() {
 
       {/* View Query Modal */}
       {viewQuery && (
-        <Modal title="Contact Query" onClose={() => setViewQuery(null)}>
+        <Modal title="Contact Query" onClose={() => { setViewQuery(null); setReplyOpen(false); setReplyMsg(''); }}>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
@@ -282,26 +301,59 @@ export default function ContactPage() {
               <p className="text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{viewQuery.message || 'No message provided'}</p>
             </div>
 
+            {/* Reply compose area */}
+            {replyOpen && (
+              <div className="bg-dark-700 rounded-xl p-4 space-y-3 border border-gold-500/20">
+                <p className="text-gold-500 text-xs font-semibold uppercase tracking-wider">
+                  Replying to {viewQuery.email}
+                </p>
+                <textarea
+                  rows={5}
+                  value={replyMsg}
+                  onChange={(e) => setReplyMsg(e.target.value)}
+                  placeholder="Type your reply here..."
+                  className="w-full bg-dark-800 border border-dark-500 rounded-lg px-3 py-2.5 text-sm text-gray-200 placeholder-gray-600 resize-none focus:outline-none focus:border-gold-500 transition-colors"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => { setReplyOpen(false); setReplyMsg(''); }}
+                    className="flex-1 py-2 rounded-lg text-sm bg-dark-800 border border-dark-500 text-gray-400 hover:text-white transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleReply}
+                    disabled={replying || !replyMsg.trim()}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-semibold bg-gold-500 hover:bg-gold-600 text-dark-900 disabled:opacity-50 transition-colors"
+                  >
+                    <Send size={14} />
+                    {replying ? 'Sending…' : 'Send Reply'}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-2">
               <button
                 onClick={() => handleMarkRead(viewQuery)}
                 disabled={markingId === viewQuery._id}
                 className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium bg-dark-700 border border-dark-500 text-gray-300 hover:text-white hover:border-dark-400 transition-all disabled:opacity-50"
               >
-                {viewQuery.isRead ? <Mail size={14} /> : <MailOpen size={14} />}
-                {viewQuery.isRead ? 'Mark as Unread' : 'Mark as Read'}
+                {viewQuery.is_read || viewQuery.isRead ? <Mail size={14} /> : <MailOpen size={14} />}
+                {viewQuery.is_read || viewQuery.isRead ? 'Mark as Unread' : 'Mark as Read'}
               </button>
-              {viewQuery.email && (
-                <a
-                  href={`mailto:${viewQuery.email}`}
+              {viewQuery.email && !replyOpen && (
+                <button
+                  onClick={() => setReplyOpen(true)}
                   className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium bg-gold-500 hover:bg-gold-600 text-dark-900 transition-all"
                 >
+                  <Mail size={14} />
                   Reply via Email
-                </a>
+                </button>
               )}
             </div>
             <button
-              onClick={() => { setDeleteId(viewQuery._id); setViewQuery(null); }}
+              onClick={() => { setDeleteId(viewQuery.id || viewQuery._id); setViewQuery(null); }}
               className="w-full flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all"
             >
               <Trash2 size={14} />

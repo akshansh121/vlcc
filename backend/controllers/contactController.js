@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const db = require('../config/database');
-const { sendContactQueryNotification, sendContactAutoReply } = require('../utils/email');
+const { sendContactQueryNotification, sendContactAutoReply, sendAdminReply } = require('../utils/email');
 
 // Auto-migrate: add missing columns to contact_queries if they don't exist
 (async () => {
@@ -125,6 +125,37 @@ exports.markRead = async (req, res) => {
   } catch (err) {
     console.error('markRead error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// POST /api/contact/:id/reply
+exports.replyToQuery = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ success: false, errors: errors.array() });
+  }
+
+  try {
+    const { id } = req.params;
+    const { message } = req.body;
+
+    const result = await db.query(
+      `SELECT id, name, email, subject FROM contact_queries WHERE id = $1`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Query not found' });
+    }
+
+    const query = result.rows[0];
+
+    await sendAdminReply(query, message);
+
+    res.json({ success: true, message: 'Reply sent successfully' });
+  } catch (err) {
+    console.error('replyToQuery error:', err);
+    res.status(500).json({ success: false, message: 'Failed to send reply' });
   }
 };
 

@@ -285,6 +285,34 @@ const sendOtpEmail = async (user, otp) => {
   });
 };
 
+// ---------------------------------------------------------------------------
+// sendAdminReply  (admin replies to a contact query)
+// ---------------------------------------------------------------------------
+
+const sendAdminReply = async (query, replyMessage) => {
+  const html = emailWrapper(`
+    <h2>Reply from Beauty World</h2>
+    <p>Dear <strong style="color:#d4af37;">${query.name}</strong>, our team has responded to your query.</p>
+    ${query.subject ? `<div class="info-box"><p><span class="label">Your Subject:</span> ${query.subject}</p></div>` : ''}
+    <p style="color:#b0b0b0;font-size:13px;font-weight:bold;margin-bottom:6px;">Our Reply:</p>
+    <div style="background:#2d2d2d;border-left:4px solid #d4af37;padding:16px 20px;border-radius:4px;color:#e0e0e0;line-height:1.8;white-space:pre-wrap;">${replyMessage}</div>
+    <div class="divider"></div>
+    <p>If you have further questions, feel free to reach us:</p>
+    <ul style="color:#c0c0c0;line-height:2;font-size:14px;">
+      <li>📞 Call us: <a href="tel:+918340433268" style="color:#d4af37;">+91 83404 33268</a></li>
+      <li>📧 Email: <a href="mailto:support@sunderdikho.com" style="color:#d4af37;">support@sunderdikho.com</a></li>
+    </ul>
+    <a href="${process.env.FRONTEND_URL || 'https://sunderdikho.com'}/services" class="cta-button">Explore Services</a>
+  `);
+
+  await transporter.sendMail({
+    from: `Beauty World <${process.env.EMAIL_FROM || 'akshanshkr085@gmail.com'}>`,
+    to: query.email,
+    subject: `Re: ${query.subject || 'Your Query'} – Beauty World`,
+    html,
+  });
+};
+
 module.exports = {
   sendWelcomeEmail,
   sendBookingConfirmation,
@@ -293,5 +321,6 @@ module.exports = {
   sendContactQueryNotification,
   sendContactAutoReply,
   sendOtpEmail,
+  sendAdminReply,
   transporter,
 };

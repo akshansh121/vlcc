@@ -26,4 +26,12 @@ router.put('/:id/read', authenticateAdmin, contactController.markRead);
 // DELETE /api/contact/:id - admin delete
 router.delete('/:id', authenticateAdmin, contactController.deleteQuery);
 
+// POST /api/contact/:id/reply - admin reply to a query via SMTP
+router.post(
+  '/:id/reply',
+  authenticateAdmin,
+  [body('message').trim().notEmpty().withMessage('Reply message is required')],
+  contactController.replyToQuery
+);
+
 module.exports = router;

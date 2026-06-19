@@ -127,6 +127,7 @@ export const submitQuery = (data) => api.post('/contact', data);
 export const getQueries = (params) => api.get('/contact', { params });
 export const markQueryRead = (id) => api.put(`/contact/${id}/read`);
 export const deleteQuery = (id) => api.delete(`/contact/${id}`);
+export const replyToQuery = (id, data) => api.post(`/contact/${id}/reply`, data);
 
 // ─── Admin ───────────────────────────────────────────────────────────────────
 
