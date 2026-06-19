@@ -29,26 +29,6 @@
     --dark-600: 228 221 208;
     --dark-500: 212 203 185;
   }
-
-  html.light .text-white {
-    color: #1a1a1a;
-  }
-
-  html.light .text-gray-300 {
-    color: #374151;
-  }
-
-  html.light .text-gray-400 {
-    color: #4b5563;
-  }
-
-  html.light .text-gray-500 {
-    color: #6b7280;
-  }
-
-  html.light .text-gray-600 {
-    color: #9ca3af;
-  }
 }
 
 html {
@@ -66,6 +46,38 @@ body {
 html.light body {
   color: #1f2937;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Light-mode text overrides.
+   These are intentionally UNLAYERED: Tailwind's text utilities live in
+   @layer utilities, and an unlayered rule beats any layered rule regardless of
+   specificity — so these reliably win. Without this, white/light text stays
+   white and is invisible on the light background.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Light/white text → dark so it reads on light surfaces */
+html.light .text-white,
+html.light .text-gray-100,
+html.light .text-gray-200 { color: #1a1a1a; }
+html.light .text-white\/90 { color: rgba(26, 26, 26, 0.9); }
+html.light .text-white\/80 { color: rgba(26, 26, 26, 0.8); }
+html.light .text-gray-300 { color: #374151; }
+html.light .text-gray-400 { color: #4b5563; }
+html.light .text-gray-500 { color: #6b7280; }
+html.light .text-gray-600 { color: #9ca3af; }
+
+/* "dark-*" text tokens are used as DARK text on gold/light elements (e.g. button
+   labels, badges) — keep them dark instead of letting the var remap flip them white */
+html.light .text-dark-900 { color: #0f0f0f; }
+html.light .text-dark-500 { color: #9ca3af; }
+
+/* Component classes that bake their text color via @apply (so the utility
+   overrides above can't reach them) */
+html.light .section-title { color: #1a1a1a; }
+html.light .input-dark { color: #1a1a1a; }
+html.light .input-dark::placeholder { color: #9ca3af; }
+html.light .btn-gold,
+html.light .btn-outline-gold:hover { color: #0f0f0f; }
 
 .font-display {
   font-family: 'Playfair Display', serif;
