@@ -2,6 +2,20 @@ const { validationResult } = require('express-validator');
 const db = require('../config/database');
 const nodemailer = require('nodemailer');
 
+// Auto-migrate: add payment columns to bookings if they don't exist yet
+(async () => {
+  try {
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS payment_method VARCHAR(50) DEFAULT 'pay_after_service'`);
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'unpaid'`);
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS payment_reference VARCHAR(255)`);
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS offer_id INTEGER REFERENCES offers(id)`);
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS discount_amount DECIMAL(10,2) DEFAULT 0`);
+    await db.query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS final_amount DECIMAL(10,2)`);
+  } catch (e) {
+    console.error('bookings migration error:', e.message);
+  }
+})();
+
 // ── Email transport (created once, reused) ────────────────────────────────────
 function createTransporter() {
   return nodemailer.createTransport({
@@ -451,7 +465,7 @@ exports.createBooking = async (req, res) => {
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const client = await db.connect();
+  const client = await db.getClient();
   try {
     await client.query('BEGIN');
 
