@@ -69,7 +69,8 @@ const register = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, message: 'Validation failed', errors: errors.array() });
+      const first = errors.array()[0];
+      return res.status(400).json({ success: false, message: first?.msg || 'Validation failed', errors: errors.array() });
     }
 
     const { name, email, mobile, password, otp } = req.body;

@@ -184,7 +184,10 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
       toast.success(`Account created! Welcome, ${user?.name?.split(' ')[0] || 'there'}!`);
       onSuccess();
     } catch (err) {
-      const msg = err?.response?.data?.message || 'Verification failed. Please try again.';
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.errors?.[0]?.msg ||
+        'Verification failed. Please try again.';
       toast.error(msg);
       if (msg.includes('expired') || msg.includes('Invalid')) {
         setOtp(['', '', '', '', '', '']);
