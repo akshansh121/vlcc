@@ -6,9 +6,9 @@ require('dotenv').config();
 // ---------------------------------------------------------------------------
 
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.EMAIL_PORT || '587', 10),
-  secure: false, // STARTTLS
+  host: process.env.EMAIL_HOST || 'mail.spacemail.com',
+  port: parseInt(process.env.EMAIL_PORT || '465', 10),
+  secure: process.env.EMAIL_SECURE === 'true' || parseInt(process.env.EMAIL_PORT || '465', 10) === 465,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -69,7 +69,7 @@ const emailWrapper = (content) => `
     </div>
     <div class="footer">
       <p>Beauty World Salon | Premium Beauty & Wellness Services</p>
-      <p>If you have questions, contact us at support@beautyworld.com</p>
+      <p>If you have questions, contact us at support@sunderdikho.com</p>
       <p style="margin-top:10px; color:#444;">© ${new Date().getFullYear()} Beauty World. All rights reserved.</p>
     </div>
   </div>
@@ -102,7 +102,7 @@ const sendWelcomeEmail = async (user) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: user.email,
     subject: 'Welcome to Beauty World!',
     html,
@@ -131,7 +131,7 @@ const sendBookingConfirmation = async (user, booking) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: user.email,
     subject: `Booking Confirmed – ${booking.order_id || booking.id}`,
     html,
@@ -156,11 +156,11 @@ const sendBookingCancellation = async (user, booking) => {
     <p>We're sorry to see your appointment cancelled. If you'd like to rebook, we'd love to welcome you back.</p>
     <a href="${process.env.CORS_ORIGIN || 'http://localhost:3000'}/services" class="cta-button">Book Again</a>
     <div class="divider"></div>
-    <p style="font-size:13px; color:#999;">If you did not request this cancellation, please contact us immediately at support@beautyworld.com</p>
+    <p style="font-size:13px; color:#999;">If you did not request this cancellation, please contact us immediately at support@sunderdikho.com</p>
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: user.email,
     subject: `Booking Cancelled – ${booking.order_id || booking.id}`,
     html,
@@ -190,7 +190,7 @@ const sendBookingCompletion = async (user, booking) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: user.email,
     subject: 'Thank You for Your Visit – Beauty World',
     html,
@@ -219,7 +219,7 @@ const sendContactQueryNotification = async (query) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: process.env.ADMIN_EMAIL || 'support@sunderdikho.com',
     replyTo: query.email,
     subject: `New Query: ${query.subject || query.name} – Beauty World`,
@@ -252,7 +252,7 @@ const sendContactAutoReply = async (query) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: query.email,
     subject: `We received your message – Beauty World`,
     html,
@@ -278,7 +278,7 @@ const sendOtpEmail = async (user, otp) => {
   `);
 
   await transporter.sendMail({
-    from: process.env.EMAIL_FROM || 'Beauty World <noreply@beautyworld.com>',
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: user.email,
     subject: `${otp} – Your Beauty World Password Reset OTP`,
     html,
@@ -306,7 +306,7 @@ const sendAdminReply = async (query, replyMessage) => {
   `);
 
   await transporter.sendMail({
-    from: `Beauty World <${process.env.EMAIL_FROM || 'akshanshkr085@gmail.com'}>`,
+    from: `Beauty World <${process.env.EMAIL_FROM || 'support@sunderdikho.com'}>`,
     to: query.email,
     subject: `Re: ${query.subject || 'Your Query'} – Beauty World`,
     html,

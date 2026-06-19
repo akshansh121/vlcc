@@ -31,11 +31,12 @@ services:
       JWT_EXPIRES_IN: 7d
       PORT: 5000
       CORS_ORIGIN: https://sunderdikho.com,https://www.sunderdikho.com
-      EMAIL_HOST: smtp.gmail.com
-      EMAIL_PORT: 587
-      EMAIL_USER: akshanshkr085@gmail.com
-      EMAIL_PASS: slvneddqqyhycjxg
-      EMAIL_FROM: akshanshkr085@gmail.com
+      EMAIL_HOST: mail.spacemail.com
+      EMAIL_PORT: 465
+      EMAIL_SECURE: "true"
+      EMAIL_USER: support@sunderdikho.com
+      EMAIL_PASS: "your Kumar123##"
+      EMAIL_FROM: support@sunderdikho.com
       ADMIN_EMAIL: support@sunderdikho.com
       GOOGLE_CLIENT_ID: 964449766103-lt4id9t6df27jfdpab1em0r7tnokj3vs.apps.googleusercontent.com
       GOOGLE_CLIENT_SECRET: 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E
