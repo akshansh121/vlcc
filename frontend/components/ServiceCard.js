@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { ShoppingCart, Clock, Edit, Trash2, Eye } from 'lucide-react';
+import { ShoppingCart, Clock, Edit, Trash2, Eye, Sparkles } from 'lucide-react';
 
 export default function ServiceCard({
   service,
@@ -34,10 +34,10 @@ export default function ServiceCard({
   return (
     <div
       onClick={() => onCardClick && onCardClick(service)}
-      className={`group relative bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 hover:border-yellow-500/50 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/10 flex flex-col ${onCardClick ? 'cursor-pointer' : ''}`}
+      className={`group relative bg-dark-800 rounded-2xl overflow-hidden border border-dark-600 hover:border-gold-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold-500/10 flex flex-col ${onCardClick ? 'cursor-pointer' : ''}`}
     >
       {/* Image */}
-      <div className="relative h-48 w-full bg-gradient-to-br from-yellow-900/40 to-gray-800 flex-shrink-0">
+      <div className="relative h-48 w-full bg-gradient-to-br from-dark-700 to-dark-800 flex-shrink-0">
         {service.image_url && !imgError ? (
           <Image
             src={service.image_url}
@@ -48,14 +48,17 @@ export default function ServiceCard({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-yellow-900/30 to-gray-800">
-            <span className="text-5xl select-none">✨</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-dark-700 to-dark-800">
+            <Sparkles className="w-12 h-12 text-gold-500/40" />
           </div>
         )}
 
+        {/* Legibility overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent z-[1] pointer-events-none" />
+
         {/* Category badge */}
         {service.category_name && (
-          <span className="absolute top-3 left-3 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full z-10">
+          <span className="absolute top-3 left-3 bg-dark-900/80 backdrop-blur-sm text-gold-500 border border-gold-500/30 text-xs font-bold px-2 py-1 rounded-full z-10">
             {service.category_name}
           </span>
         )}
@@ -85,7 +88,7 @@ export default function ServiceCard({
 
         {/* Duration */}
         {service.duration && (
-          <div className="flex items-center gap-1 text-yellow-500 text-sm mb-3">
+          <div className="flex items-center gap-1 text-gold-500 text-sm mb-3">
             <Clock size={14} />
             <span>{service.duration} min</span>
           </div>
@@ -93,7 +96,7 @@ export default function ServiceCard({
 
         {/* Price */}
         <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-yellow-400 font-bold text-xl">
+          <span className="text-gold-500 font-bold text-xl">
             ₹{parseFloat(displayPrice).toLocaleString('en-IN')}
           </span>
           {hasDiscount && (
@@ -107,10 +110,10 @@ export default function ServiceCard({
         <button
           onClick={handleAddToCart}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-400 disabled:bg-yellow-700 disabled:cursor-not-allowed text-black font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm"
+          className="w-full flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 disabled:bg-gold-700 disabled:cursor-not-allowed text-dark-900 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm"
         >
           {loading ? (
-            <span className="inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
           ) : (
             <ShoppingCart size={16} />
           )}

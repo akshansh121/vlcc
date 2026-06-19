@@ -36,8 +36,8 @@ const TABS = [
 const STATUS_CONFIG = {
   pending: {
     label: 'Pending',
-    badgeClass: 'bg-yellow-900/40 text-yellow-400 border-yellow-700/50',
-    dot: 'bg-yellow-400',
+    badgeClass: 'bg-gold-500/10 text-gold-400 border-gold-500/30',
+    dot: 'bg-gold-400',
   },
   confirmed: {
     label: 'Confirmed',
@@ -188,7 +188,7 @@ function BookingCard({ booking, onCancelClick }) {
       {/* Services / Package */}
       <div className="mb-4">
         {isPackage ? (
-          <div className="flex items-center gap-2 bg-dark-700/60 rounded-sm px-3 py-2">
+          <div className="flex items-center gap-2 bg-dark-700/60 rounded-lg px-3 py-2">
             <Package className="w-4 h-4 text-gold-500/70 flex-shrink-0" />
             <span className="text-gray-300 text-sm">{packageName}</span>
           </div>
@@ -223,7 +223,7 @@ function BookingCard({ booking, onCancelClick }) {
 
       {/* Note */}
       {(booking.notes || booking.note) && (
-        <p className="text-gray-600 text-xs bg-dark-700/40 border border-dark-600 rounded-sm px-3 py-2 mb-4 line-clamp-2">
+        <p className="text-gray-600 text-xs bg-dark-700/40 border border-dark-600 rounded-lg px-3 py-2 mb-4 line-clamp-2">
           Note: {booking.notes || booking.note}
         </p>
       )}
@@ -233,7 +233,7 @@ function BookingCard({ booking, onCancelClick }) {
         <div className="flex justify-end border-t border-dark-600 pt-4">
           <button
             onClick={() => onCancelClick(booking)}
-            className="flex items-center gap-1.5 text-red-400 hover:text-red-300 text-sm font-medium transition-colors border border-red-900/40 hover:border-red-700/60 px-3 py-1.5 rounded-sm"
+            className="flex items-center gap-1.5 text-red-400 hover:text-red-300 text-sm font-medium transition-colors border border-red-900/40 hover:border-red-700/60 px-3 py-1.5 rounded-lg"
           >
             <Ban className="w-3.5 h-3.5" />
             Cancel Booking
@@ -369,7 +369,7 @@ export default function BookingsPage() {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-sm text-sm font-medium whitespace-nowrap transition-all duration-200 border flex-shrink-0 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 border flex-shrink-0 ${
                 activeTab === tab.key
                   ? 'bg-gold-500 border-gold-500 text-dark-900 font-semibold'
                   : 'border-dark-600 text-gray-400 hover:border-dark-500 hover:text-gray-200'

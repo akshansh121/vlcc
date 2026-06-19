@@ -29,7 +29,7 @@ const CATEGORIES = [
 // ── Skeleton card ─────────────────────────────────────────────────────────────
 function SkeletonCard() {
   return (
-    <div className="bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 flex flex-col animate-pulse">
+    <div className="bg-dark-800 rounded-2xl overflow-hidden border border-dark-600 flex flex-col animate-pulse">
       <div className="h-48 bg-dark-600" />
       <div className="p-4 space-y-3 flex-1">
         <div className="h-5 bg-dark-600 rounded w-3/4" />
@@ -114,7 +114,7 @@ function CartSidebar({ open, onClose }) {
                         {svc.image_url ? (
                           <img src={svc.image_url} alt={svc.name} className="w-full h-full object-cover" />
                         ) : (
-                          <span className="text-xl">✨</span>
+                          <Sparkles className="w-5 h-5 text-gold-500/50" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -263,8 +263,8 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
                 sizes="(max-width: 768px) 100vw, 672px"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-yellow-900/40 to-dark-800">
-                <span className="text-7xl">✨</span>
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-dark-700 to-dark-800">
+                <Sparkles className="w-16 h-16 text-gold-500/40" />
               </div>
             )}
             {/* Gradient overlay */}
@@ -273,7 +273,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
             {/* Badges */}
             <div className="absolute top-4 left-4 flex gap-2 z-10">
               {service.category_name && (
-                <span className="bg-yellow-500 text-black text-xs font-bold px-2.5 py-1 rounded-full">
+                <span className="bg-gold-500 text-dark-900 text-xs font-bold px-2.5 py-1 rounded-full">
                   {service.category_name}
                 </span>
               )}
@@ -299,12 +299,12 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
               </h2>
               <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                 {service.duration && (
-                  <span className="flex items-center gap-1 text-yellow-400 text-sm">
+                  <span className="flex items-center gap-1 text-gold-400 text-sm">
                     <Clock size={13} /> {service.duration} min
                   </span>
                 )}
-                <span className="flex items-center gap-1 text-yellow-400 text-sm">
-                  <Star size={13} className="fill-yellow-400" /> 4.8 (120+ reviews)
+                <span className="flex items-center gap-1 text-gold-400 text-sm">
+                  <Star size={13} className="fill-gold-400" /> 4.8 (120+ reviews)
                 </span>
               </div>
             </div>
@@ -316,7 +316,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
             {/* Price row */}
             <div className="flex items-center justify-between bg-dark-700 rounded-xl px-4 py-3">
               <div className="flex items-baseline gap-2">
-                <span className="text-yellow-400 font-bold text-2xl">
+                <span className="text-gold-400 font-bold text-2xl">
                   ₹{parseFloat(displayPrice).toLocaleString('en-IN')}
                 </span>
                 {hasDiscount && (
@@ -352,7 +352,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
               {[
                 { icon: Shield, label: 'Safe & Certified', color: 'text-blue-400' },
                 { icon: Leaf, label: 'Natural Products', color: 'text-green-400' },
-                { icon: Award, label: 'Expert Staff', color: 'text-yellow-400' },
+                { icon: Award, label: 'Expert Staff', color: 'text-gold-400' },
               ].map(({ icon: Icon, label, color }) => (
                 <div key={label} className="flex flex-col items-center gap-1.5 bg-dark-700 rounded-xl p-3 text-center">
                   <Icon size={20} className={color} />
@@ -369,7 +369,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
               <ul className="space-y-2">
                 {DUMMY_DETAILS.whatsIncluded.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-gray-300 text-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 flex-shrink-0 mt-1.5" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold-500 flex-shrink-0 mt-1.5" />
                     {item}
                   </li>
                 ))}
@@ -412,7 +412,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
             <button
               onClick={handleCart}
               disabled={cartLoading}
-              className="flex-1 flex items-center justify-center gap-2 bg-dark-700 hover:bg-dark-600 border border-dark-500 hover:border-yellow-500/40 text-white font-semibold py-3 rounded-xl transition-all text-sm disabled:opacity-60"
+              className="flex-1 flex items-center justify-center gap-2 bg-dark-700 hover:bg-dark-600 border border-dark-500 hover:border-gold-500/40 text-white font-semibold py-3 rounded-xl transition-all text-sm disabled:opacity-60"
             >
               {cartLoading ? (
                 <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -424,7 +424,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
             <Link
               href="/booking"
               onClick={onClose}
-              className="flex-1 flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 rounded-xl transition-colors text-sm"
+              className="flex-1 flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-dark-900 font-semibold py-3 rounded-xl transition-colors text-sm"
             >
               <CalendarCheck size={16} />
               Book Now

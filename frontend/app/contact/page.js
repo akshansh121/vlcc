@@ -30,24 +30,24 @@ const CONTACT_INFO = [
     label: 'Address',
     value: 'Warisaliganj, Nawada',
     href: 'https://maps.google.com/?q=Warisaliganj+Nawada',
-    color: 'text-rose-400',
-    bg: 'bg-rose-500/10 border-rose-500/20',
+    color: 'text-gold-400',
+    bg: 'bg-gold-500/10 border-gold-500/20',
   },
   {
     icon: Phone,
     label: 'Phone',
     value: '+91 83404 33268',
     href: 'tel:+918340433268',
-    color: 'text-green-400',
-    bg: 'bg-green-500/10 border-green-500/20',
+    color: 'text-gold-400',
+    bg: 'bg-gold-500/10 border-gold-500/20',
   },
   {
     icon: Mail,
     label: 'Email',
     value: 'support@sunderdikho.com',
     href: 'mailto:support@sunderdikho.com',
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10 border-blue-500/20',
+    color: 'text-gold-400',
+    bg: 'bg-gold-500/10 border-gold-500/20',
   },
   {
     icon: Clock,
@@ -60,10 +60,10 @@ const CONTACT_INFO = [
 ];
 
 const SOCIAL_LINKS = [
-  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com', color: 'hover:text-pink-400 hover:border-pink-400' },
-  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com', color: 'hover:text-blue-400 hover:border-blue-400' },
-  { icon: Twitter, label: 'Twitter/X', href: 'https://twitter.com', color: 'hover:text-sky-400 hover:border-sky-400' },
-  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com', color: 'hover:text-red-400 hover:border-red-400' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com', color: 'hover:text-gold-500 hover:border-gold-500' },
+  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com', color: 'hover:text-gold-500 hover:border-gold-500' },
+  { icon: Twitter, label: 'Twitter/X', href: 'https://twitter.com', color: 'hover:text-gold-500 hover:border-gold-500' },
+  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com', color: 'hover:text-gold-500 hover:border-gold-500' },
 ];
 
 const BUSINESS_HOURS = [
@@ -436,7 +436,7 @@ export default function ContactPage() {
                   {CONTACT_INFO.map(({ icon: Icon, label, value, href, color, bg }) => (
                     <div
                       key={label}
-                      className="bg-dark-800 border border-dark-600 hover:border-dark-500 rounded-xl p-4 transition-colors duration-200"
+                      className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold-500/10"
                     >
                       <div className="flex items-start gap-3">
                         <div
@@ -491,7 +491,7 @@ export default function ContactPage() {
               </motion.div>
 
               {/* Google Maps Embed */}
-              <motion.div variants={fadeUp} className="rounded-xl overflow-hidden border border-dark-600 relative">
+              <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden border border-dark-600 hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10 relative">
                 <iframe
                   title="Beauty World Location"
                   src="https://www.google.com/maps?q=Warisaliganj%20Nawada&output=embed"
@@ -602,7 +602,7 @@ export default function ContactPage() {
             {/* Still have questions CTA */}
             <motion.div
               variants={fadeUp}
-              className="mt-10 text-center bg-dark-800 border border-dark-600 rounded-2xl p-8"
+              className="mt-10 text-center bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-2xl p-8 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10"
             >
               <p className="text-gray-400 text-sm mb-1">Still have questions?</p>
               <h3 className="font-display text-xl font-bold text-white mb-4">

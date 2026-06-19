@@ -1,19 +1,19 @@
-import { Check, Scissors } from 'lucide-react';
+import { Check, Scissors, Crown, Gem } from 'lucide-react';
 
 const PACKAGE_META = {
-  silver: { icon: '⚪', label: 'Silver', color: 'text-gray-300', border: 'border-gray-500/40', glow: '' },
+  silver: { icon: Gem, label: 'Silver', color: 'text-gray-300', border: 'border-dark-600', glow: '' },
   gold: {
-    icon: '⭐',
+    icon: Crown,
     label: 'Gold',
-    color: 'text-yellow-400',
-    border: 'border-yellow-500/60',
-    glow: 'shadow-2xl shadow-yellow-500/25',
+    color: 'text-gold-400',
+    border: 'border-gold-500/60',
+    glow: 'shadow-xl shadow-gold-500/20',
   },
   platinum: {
-    icon: '👑',
+    icon: Crown,
     label: 'Platinum',
-    color: 'text-purple-400',
-    border: 'border-purple-500/50',
+    color: 'text-gold-300',
+    border: 'border-dark-500',
     glow: '',
   },
 };
@@ -43,21 +43,23 @@ export default function PackageCard({ pkg, isHighlighted = false }) {
 
   return (
     <div
-      className={`relative bg-gray-900 rounded-2xl border ${meta.border} ${
+      className={`relative bg-dark-800 rounded-2xl border ${meta.border} ${
         isHighlighted ? meta.glow : ''
-      } p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
+      } p-6 flex flex-col gap-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold-500/10`}
     >
       {isHighlighted && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-500 text-black text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-500 text-dark-900 text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap uppercase tracking-wide">
           Most Popular
         </span>
       )}
 
       {/* Header */}
       <div className="flex items-center gap-3">
-        <span className="text-3xl">{meta.icon}</span>
+        <div className="w-10 h-10 rounded-lg bg-gold-500/15 flex items-center justify-center flex-shrink-0">
+          <meta.icon className="w-5 h-5 text-gold-500" />
+        </div>
         <div>
-          <h3 className={`font-bold text-xl ${meta.color}`}>{pkg.name}</h3>
+          <h3 className={`font-display font-bold text-xl ${meta.color}`}>{pkg.name}</h3>
           {pkg.description && (
             <p className="text-gray-400 text-sm mt-0.5 line-clamp-2">{pkg.description}</p>
           )}
@@ -100,7 +102,7 @@ export default function PackageCard({ pkg, isHighlighted = false }) {
               return (
                 <span
                   key={idx}
-                  className="flex items-center gap-1 bg-gray-800 border border-gray-700 text-gray-300 text-xs px-2.5 py-1 rounded-full"
+                  className="flex items-center gap-1 bg-dark-700 border border-dark-600 text-gray-400 text-xs px-2.5 py-1 rounded-full"
                 >
                   <Scissors size={10} className="flex-shrink-0" />
                   {name}
@@ -115,8 +117,8 @@ export default function PackageCard({ pkg, isHighlighted = false }) {
       <button
         className={`mt-auto w-full py-3 rounded-xl font-semibold text-sm transition-colors duration-200 ${
           isHighlighted
-            ? 'bg-yellow-500 hover:bg-yellow-400 text-black'
-            : 'border border-gray-600 hover:border-yellow-500 text-gray-200 hover:text-yellow-400'
+            ? 'bg-gold-500 hover:bg-gold-400 text-dark-900'
+            : 'border border-dark-600 hover:border-gold-500 text-gray-200 hover:text-gold-400'
         }`}
       >
         Book This Package

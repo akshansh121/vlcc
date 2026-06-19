@@ -197,10 +197,11 @@ export default function CartPage() {
                       animate={{ opacity: isRemoving ? 0.4 : 1, y: 0 }}
                       exit={{ opacity: 0, x: -40, height: 0, marginBottom: 0 }}
                       transition={{ duration: 0.25 }}
-                      className="card-dark p-4 sm:p-5 flex gap-3 sm:gap-4 items-start"
+                      whileHover={{ y: -4 }}
+                      className="card-dark p-4 sm:p-5 flex gap-3 sm:gap-4 items-start rounded-2xl border border-dark-600 hover:border-gold-500/50 hover:shadow-lg hover:shadow-gold-500/10 transition-all duration-300"
                     >
                       {/* Service Image */}
-                      <div className="relative w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-md overflow-hidden bg-dark-700">
+                      <div className="relative w-16 h-16 sm:w-24 sm:h-24 flex-shrink-0 rounded-lg overflow-hidden bg-dark-700">
                         {item.image_url ? (
                           <Image
                             src={item.image_url}
@@ -263,7 +264,7 @@ export default function CartPage() {
                           </div>
 
                           {/* Quantity Stepper */}
-                          <div className="flex items-center gap-1 bg-dark-700 border border-dark-500 rounded-sm">
+                          <div className="flex items-center gap-1 bg-dark-700 border border-dark-500 rounded-lg">
                             <button
                               onClick={() => handleQuantityChange(serviceId, qty - 1)}
                               disabled={!serviceId || isUpdating || isRemoving}
@@ -309,7 +310,7 @@ export default function CartPage() {
 
             {/* Order Summary — right 1/3 */}
             <div className="lg:col-span-1">
-              <div className="card-dark p-6 sticky top-28 space-y-6">
+              <div className="card-dark p-6 sticky top-28 space-y-6 rounded-2xl border border-dark-600 shadow-lg shadow-gold-500/10">
                 <h2 className="text-lg font-display font-semibold text-white border-b border-dark-600 pb-4">
                   Order Summary
                 </h2>
@@ -333,7 +334,7 @@ export default function CartPage() {
                       <button
                         onClick={handleApplyOffer}
                         disabled={applyingOffer || !couponCode.trim()}
-                        className="px-4 py-2 bg-dark-600 border border-dark-500 text-gold-500 hover:border-gold-500 text-sm font-semibold rounded-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap"
+                        className="px-4 py-2 bg-dark-600 border border-dark-500 text-gold-500 hover:border-gold-500 text-sm font-semibold rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap"
                       >
                         {applyingOffer ? (
                           <span className="inline-block w-3.5 h-3.5 border border-gold-500 border-t-transparent rounded-full animate-spin" />
@@ -346,7 +347,7 @@ export default function CartPage() {
                   </div>
                 ) : (
                   /* Applied Offer Badge */
-                  <div className="flex items-center justify-between bg-green-900/30 border border-green-700/50 rounded-sm px-3 py-2.5">
+                  <div className="flex items-center justify-between bg-green-900/30 border border-green-700/50 rounded-lg px-3 py-2.5">
                     <div className="flex items-center gap-2">
                       <Tag className="w-4 h-4 text-green-400" />
                       <div>

@@ -127,7 +127,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
       <div className="flex gap-3 mb-8">
         <button
           onClick={() => setMode('services')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-sm border text-sm font-semibold transition-all duration-200 ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all duration-200 ${
             mode === 'services'
               ? 'bg-gold-500 border-gold-500 text-dark-900'
               : 'border-dark-500 text-gray-400 hover:border-gold-500/50 hover:text-gray-200'
@@ -138,7 +138,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
         </button>
         <button
           onClick={() => setMode('package')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-sm border text-sm font-semibold transition-all duration-200 ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-semibold transition-all duration-200 ${
             mode === 'package'
               ? 'bg-gold-500 border-gold-500 text-dark-900'
               : 'border-dark-500 text-gray-400 hover:border-gold-500/50 hover:text-gray-200'
@@ -171,7 +171,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
                 );
                 return (
                   <div key={serviceId} className="card-dark p-4 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-sm bg-dark-700 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-dark-700 flex items-center justify-center flex-shrink-0">
                       <Sparkles className="w-5 h-5 text-gold-500/60" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -268,7 +268,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
 
       {/* Summary */}
       {canProceed && (
-        <div className="mt-6 bg-dark-700/60 border border-dark-500 rounded-sm px-4 py-3 flex items-center justify-between gap-3">
+        <div className="mt-6 bg-dark-700/60 border border-dark-500 rounded-lg px-4 py-3 flex items-center justify-between gap-3">
           <div className="text-sm text-gray-400">
             {mode === 'services' ? (
               <>
@@ -393,7 +393,7 @@ function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, o
                     key={slotTime}
                     onClick={() => !isBooked && setSelectedTime(slotTime)}
                     disabled={isBooked}
-                    className={`py-2.5 px-2 rounded-sm text-sm font-medium border text-center transition-all duration-150 ${
+                    className={`py-2.5 px-2 rounded-lg text-sm font-medium border text-center transition-all duration-150 ${
                       isBooked
                         ? 'border-dark-600 text-dark-500 bg-dark-800/40 cursor-not-allowed line-through'
                         : isSelected
@@ -415,7 +415,7 @@ function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, o
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-6 bg-dark-700/60 border border-gold-500/30 rounded-sm px-4 py-3 flex items-center gap-3"
+          className="mt-6 bg-dark-700/60 border border-gold-500/30 rounded-lg px-4 py-3 flex items-center gap-3"
         >
           <Calendar className="w-4 h-4 text-gold-500 flex-shrink-0" />
           <span className="text-gray-300 text-sm">
@@ -546,7 +546,7 @@ function Step3({
               <button
                 type="button"
                 onClick={() => setPaymentMethod('pay_after_service')}
-                className={`text-left rounded-sm border p-4 transition-all ${
+                className={`text-left rounded-lg border p-4 transition-all ${
                   paymentMethod === 'pay_after_service'
                     ? 'border-gold-500 bg-gold-500/10'
                     : 'border-dark-500 hover:border-gold-500/50 bg-dark-800'
@@ -563,7 +563,7 @@ function Step3({
               <button
                 type="button"
                 onClick={() => setPaymentMethod('online')}
-                className={`text-left rounded-sm border p-4 transition-all ${
+                className={`text-left rounded-lg border p-4 transition-all ${
                   paymentMethod === 'online'
                     ? 'border-gold-500 bg-gold-500/10'
                     : 'border-dark-500 hover:border-gold-500/50 bg-dark-800'
@@ -684,7 +684,7 @@ function BookingConfirmation({ bookingId, onViewBookings }) {
         Your appointment has been successfully booked.
       </p>
       {bookingId && (
-        <div className="inline-flex items-center gap-2 bg-dark-700 border border-dark-500 rounded-sm px-4 py-2 mb-8">
+        <div className="inline-flex items-center gap-2 bg-dark-700 border border-dark-500 rounded-lg px-4 py-2 mb-8">
           <span className="text-gray-500 text-xs">Booking ID:</span>
           <span className="text-gold-400 font-mono font-semibold text-sm">{bookingId}</span>
         </div>

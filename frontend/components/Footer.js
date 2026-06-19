@@ -76,7 +76,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-full border border-dark-500 flex items-center justify-center text-gray-400 hover:border-gold-500 hover:text-gold-500 transition-all duration-300 hover:scale-110"
+                  className="w-9 h-9 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-gray-400 hover:border-gold-500/50 hover:text-gold-500 hover:shadow-lg hover:shadow-gold-500/10 transition-all duration-300 hover:-translate-y-1"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -160,7 +160,7 @@ export default function Footer() {
             </ul>
 
             {/* Hours */}
-            <div className="mt-6 p-3 border border-dark-600 rounded-lg bg-dark-800">
+            <div className="mt-6 p-4 border border-dark-600 rounded-xl bg-dark-800 transition-all duration-300 hover:border-gold-500/50">
               <p className="text-gold-500 text-xs font-semibold uppercase tracking-wide mb-2">Working Hours</p>
               <p className="text-gray-400 text-xs">Mon – Sat: 9:00 AM – 8:00 PM</p>
               <p className="text-gray-400 text-xs">Sunday: 10:00 AM – 6:00 PM</p>
@@ -174,7 +174,7 @@ export default function Footer() {
         {/* Copyright bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-gray-500 text-xs">
-            © 2024 Beauty World. All rights reserved.
+            © 2025 Beauty World. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="text-gray-500 hover:text-gold-500 text-xs transition-colors">
