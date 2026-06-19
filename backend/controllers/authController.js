@@ -365,9 +365,8 @@ const forgotPassword = async (req, res) => {
       [email.toLowerCase().trim()]
     );
 
-    // Always respond with success to prevent email enumeration
     if (userResult.rows.length === 0) {
-      return res.json({ success: true, message: 'If this email is registered, an OTP has been sent.' });
+      return res.status(404).json({ success: false, message: 'No account found with this email. Please check and try again.' });
     }
 
     const user = userResult.rows[0];

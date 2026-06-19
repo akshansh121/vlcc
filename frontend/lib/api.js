@@ -24,11 +24,15 @@ api.interceptors.request.use(
 );
 
 // Response interceptor — handle 401 by clearing token and redirecting to /login
+// Skip redirect for auth endpoints (login, admin login) — they return 401 on bad credentials
+const AUTH_SKIP_REDIRECT = ['/auth/login', '/auth/admin/login', '/auth/google'];
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      if (typeof window !== 'undefined') {
+      const url = error.config?.url || '';
+      const isAuthEndpoint = AUTH_SKIP_REDIRECT.some((path) => url.includes(path));
+      if (!isAuthEndpoint && typeof window !== 'undefined') {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         window.location.href = '/login';
