@@ -814,12 +814,26 @@ export default function BookingPage() {
             email: user?.email || '',
             contact: user?.mobile || '',
           },
-          method: {
-            upi: true,
-            card: true,
-            netbanking: true,
-            wallet: true,
-            paylater: true,
+          config: {
+            display: {
+              blocks: {
+                upi: {
+                  name: 'Pay via UPI',
+                  instruments: [{ method: 'upi' }],
+                },
+                other: {
+                  name: 'Other Payment Methods',
+                  instruments: [
+                    { method: 'card' },
+                    { method: 'netbanking' },
+                    { method: 'wallet' },
+                    { method: 'paylater' },
+                  ],
+                },
+              },
+              sequence: ['block.upi', 'block.other'],
+              preferences: { show_default_blocks: false },
+            },
           },
           theme: { color: '#D4AF37' },
           modal: {
