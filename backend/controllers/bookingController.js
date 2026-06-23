@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const db = require('../config/database');
 const nodemailer = require('nodemailer');
+const { verifySignature } = require('./paymentController');
 
 // Auto-migrate: add payment columns to bookings if they don't exist yet
 (async () => {
@@ -477,8 +478,23 @@ exports.createBooking = async (req, res) => {
       notes,
       offer_id,
       payment_method = 'pay_after_service',
+      razorpay_payment_id,
+      razorpay_order_id,
+      razorpay_signature,
     } = req.body;
     const normalizedPaymentMethod = payment_method === 'online' ? 'online' : 'pay_after_service';
+
+    // Verify Razorpay signature before proceeding with online payment
+    if (normalizedPaymentMethod === 'online') {
+      if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({ success: false, message: 'Payment verification fields are required for online payment' });
+      }
+      if (!verifySignature(razorpay_order_id, razorpay_payment_id, razorpay_signature)) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({ success: false, message: 'Payment verification failed. Please contact support.' });
+      }
+    }
 
     // Validate booking date is in the future
     const today = new Date();
@@ -559,10 +575,7 @@ exports.createBooking = async (req, res) => {
 
     const finalAmount = Math.max(0, totalAmount - discountAmount);
     const paymentStatus = normalizedPaymentMethod === 'online' ? 'paid' : 'unpaid';
-    const paymentReference =
-      normalizedPaymentMethod === 'online'
-        ? `ONLINE-${Date.now()}-${Math.floor(Math.random() * 10000)}`
-        : null;
+    const paymentReference = normalizedPaymentMethod === 'online' ? razorpay_payment_id : null;
 
     // Insert booking
     const bookingResult = await client.query(

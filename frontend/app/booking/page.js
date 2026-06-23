@@ -629,7 +629,7 @@ function Step3({
             </div>
 
             <button
-              onClick={() => onConfirm(note, paymentMethod)}
+              onClick={() => onConfirm(note, paymentMethod, finalTotal)}
               disabled={submitting}
               className="btn-gold w-full justify-center mt-6 py-3.5 text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -707,7 +707,7 @@ function BookingConfirmation({ bookingId, onViewBookings }) {
 
 export default function BookingPage() {
   const router = useRouter();
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { user, isAuthenticated, loading: authLoading } = useAuth();
   const { items: cartItems, appliedOffer, clearCart } = useCart();
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -725,56 +725,126 @@ export default function BookingPage() {
     }
   }, [authLoading, isAuthenticated, router]);
 
-  const handleConfirm = async (note, paymentMethod) => {
+  // Build the common booking payload (items, dates, offer)
+  const buildPayload = (note, paymentMethod) => {
+    const payload = {
+      booking_date: selectedDate,
+      booking_time: selectedTime,
+      notes: note || '',
+      payment_method: paymentMethod,
+    };
+    if (mode === 'services') {
+      payload.items = cartItems.map((item) => ({
+        service_id: item.service_id || item.service?.id || item.id,
+        quantity: item.quantity || 1,
+      }));
+    } else {
+      const pkgServices = selectedPackage.services || [];
+      payload.items = pkgServices.length > 0
+        ? pkgServices.map((s) => ({ service_id: s.id, quantity: 1 }))
+        : [{ service_id: selectedPackage.id, quantity: 1 }];
+    }
+    if (appliedOffer) payload.offer_id = appliedOffer.offer_id || appliedOffer.id;
+    return payload;
+  };
+
+  // Finish booking after payment (or directly for pay-after-service)
+  const finishBooking = async (payload) => {
+    const { data } = await api.createBooking(payload);
+    const booking = data.booking || data.data || data;
+    const bookingId = booking.bookingId || booking._id || booking.id || 'BW-' + Date.now();
+    setConfirmedBookingId(bookingId);
+    if (mode === 'services') {
+      try { await clearCart(); } catch { /* non-critical */ }
+    }
+  };
+
+  // Load Razorpay checkout.js once
+  const loadRazorpay = () =>
+    new Promise((resolve) => {
+      if (window.Razorpay) return resolve(true);
+      const s = document.createElement('script');
+      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      s.onload = () => resolve(true);
+      s.onerror = () => resolve(false);
+      document.body.appendChild(s);
+    });
+
+  const handleConfirm = async (note, paymentMethod, finalAmount) => {
+    // If online payment but amount is 0 (full discount), skip gateway
+    if (paymentMethod === 'online' && finalAmount > 0) {
+      setSubmitting(true);
+      try {
+        const loaded = await loadRazorpay();
+        if (!loaded) {
+          toast.error('Payment gateway failed to load. Check your connection and try again.');
+          setSubmitting(false);
+          return;
+        }
+
+        const { data: orderData } = await api.createPaymentOrder({ amount: finalAmount });
+
+        const options = {
+          key: orderData.key_id,
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: 'Beauty World',
+          description: 'Salon Appointment',
+          image: '/logo.png',
+          order_id: orderData.order_id,
+          handler: async (response) => {
+            try {
+              const payload = {
+                ...buildPayload(note, 'online'),
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+              };
+              await finishBooking(payload);
+              toast.success('Payment successful! Booking confirmed.');
+            } catch (err) {
+              const msg = err?.response?.data?.message || 'Booking failed after payment.';
+              toast.error(`${msg} Save your Payment ID: ${response.razorpay_payment_id} and contact support.`);
+            } finally {
+              setSubmitting(false);
+            }
+          },
+          prefill: {
+            name: user?.name || '',
+            email: user?.email || '',
+            contact: user?.mobile || '',
+          },
+          theme: { color: '#D4AF37' },
+          modal: {
+            ondismiss: () => {
+              setSubmitting(false);
+              toast('Payment cancelled.', { icon: 'ℹ️' });
+            },
+          },
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', () => {
+          setSubmitting(false);
+          toast.error('Payment failed. Please try again.');
+        });
+        rzp.open();
+      } catch (err) {
+        const msg = err?.response?.data?.message || 'Failed to initiate payment. Please try again.';
+        toast.error(msg);
+        setSubmitting(false);
+      }
+      return; // Razorpay callbacks handle state
+    }
+
+    // Pay after service (or free booking)
     setSubmitting(true);
     try {
-      let payload = {
-        booking_date: selectedDate,
-        booking_time: selectedTime,
-        notes: note || '',
-        payment_method: paymentMethod,
-      };
-
-      if (mode === 'services') {
-        payload.items = cartItems.map((item) => ({
-          service_id: item.service_id || item.service?.id || item.id,
-          quantity: item.quantity || 1,
-        }));
-      } else {
-        // Expand package services into booking items
-        const pkgServices = selectedPackage.services || [];
-        payload.items = pkgServices.length > 0
-          ? pkgServices.map((s) => ({ service_id: s.id, quantity: 1 }))
-          : [{ service_id: selectedPackage.id, quantity: 1 }];
-      }
-
-      if (appliedOffer) {
-        payload.offer_id = appliedOffer.offer_id || appliedOffer.id;
-      }
-
-      const { data } = await api.createBooking(payload);
-      const booking = data.booking || data.data || data;
-      const bookingId =
-        booking.bookingId || booking._id || booking.id || 'BW-' + Date.now();
-
-      setConfirmedBookingId(bookingId);
-      toast.success(
-        paymentMethod === 'online'
-          ? 'Online payment recorded and booking confirmed!'
-          : 'Booking confirmed. You can pay after service.'
-      );
-
-      // Clear cart if service booking
-      if (mode === 'services') {
-        try {
-          await clearCart();
-        } catch {
-          // Non-critical
-        }
-      }
+      const method = paymentMethod === 'online' ? 'pay_after_service' : paymentMethod;
+      await finishBooking(buildPayload(note, method));
+      toast.success('Booking confirmed. You can pay after service.');
     } catch (err) {
-      const msg =
-        err?.response?.data?.message || err?.response?.data?.error || 'Failed to create booking. Please try again.';
+      const msg = err?.response?.data?.message || err?.response?.data?.error || 'Failed to create booking. Please try again.';
       toast.error(msg);
     } finally {
       setSubmitting(false);

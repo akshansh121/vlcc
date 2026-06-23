@@ -37,6 +37,7 @@ const offersRoutes      = safeRequire('./routes/offers');
 const testimonialsRoutes = safeRequire('./routes/testimonials');
 const contactRoutes     = safeRequire('./routes/contact');
 const adminRoutes       = safeRequire('./routes/admin');
+const paymentRoutes     = safeRequire('./routes/payments');
 
 // ---------------------------------------------------------------------------
 // App initialisation
@@ -187,6 +188,7 @@ app.use('/api/offers',       publicCache(['/all']), offersRoutes);
 app.use('/api/testimonials', publicCache(), testimonialsRoutes);
 app.use('/api/contact',      contactRoutes);
 app.use('/api/admin',        adminRoutes);
+app.use('/api/payments',     paymentRoutes);
 
 // ---------------------------------------------------------------------------
 // 404 & global error handler

@@ -32,6 +32,9 @@ router.post(
       .optional()
       .isIn(['pay_after_service', 'online'])
       .withMessage('Invalid payment method'),
+    body('razorpay_payment_id').optional().isString(),
+    body('razorpay_order_id').optional().isString(),
+    body('razorpay_signature').optional().isString(),
   ],
   bookingController.createBooking
 );

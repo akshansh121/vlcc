@@ -134,6 +134,10 @@ export const markQueryRead = (id) => api.put(`/contact/${id}/read`);
 export const deleteQuery = (id) => api.delete(`/contact/${id}`);
 export const replyToQuery = (id, data) => api.post(`/contact/${id}/reply`, data);
 
+// ─── Payments ────────────────────────────────────────────────────────────────
+
+export const createPaymentOrder = (data) => api.post('/payments/create-order', data);
+
 // ─── Admin ───────────────────────────────────────────────────────────────────
 
 export const getDashboard = () => api.get('/admin/dashboard');
