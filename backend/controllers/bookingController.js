@@ -86,13 +86,33 @@ function bookingConfirmationHtml(userName, booking, items, paymentMethod, finalA
      </tr>`
   ).join('');
 
-  const payLabel = paymentMethod === 'online'
+  const isPaid = paymentMethod === 'online';
+
+  const paymentBanner = isPaid ? `
+    <div style="background:linear-gradient(135deg,#0d2b1a,#1a4731);border:1px solid #2d6a4f;border-radius:10px;padding:18px 20px;margin-bottom:20px;text-align:center;">
+      <p style="margin:0 0 4px;font-size:22px;">✅</p>
+      <p style="margin:0;color:#4ade80;font-size:17px;font-weight:bold;letter-spacing:0.3px;">Payment Successful</p>
+      <p style="margin:6px 0 0;color:#86efac;font-size:13px;">₹${parseFloat(finalAmount).toLocaleString('en-IN')} paid via Razorpay</p>
+      ${booking.payment_reference ? `
+      <div style="margin-top:12px;background:#0a1f13;border:1px solid #2d6a4f;border-radius:6px;padding:8px 14px;display:inline-block;">
+        <p style="margin:0;color:#6b7280;font-size:10px;text-transform:uppercase;letter-spacing:1px;">Transaction ID</p>
+        <p style="margin:2px 0 0;color:#d4a017;font-size:12px;font-family:monospace;font-weight:bold;word-break:break-all;">${booking.payment_reference}</p>
+      </div>` : ''}
+    </div>` : '';
+
+  const payLabel = isPaid
     ? '<span style="background:#1a4731;color:#4ade80;padding:2px 10px;border-radius:20px;font-size:12px;">✓ Paid Online</span>'
     : '<span style="background:#2a2000;color:#facc15;padding:2px 10px;border-radius:20px;font-size:12px;">Pay After Service</span>';
 
+  const footerNote = isPaid
+    ? 'Your payment has been confirmed. Please arrive 5 minutes early. Keep this email as your payment receipt.'
+    : "We'll confirm your booking shortly. Please arrive 5 minutes early and pay at the salon after your service.";
+
   return emailWrapper(`
     <h2 style="margin:0 0 6px;color:#fff;font-size:20px;">Booking Confirmed! 🎉</h2>
-    <p style="margin:0 0 24px;color:#888;font-size:14px;">Hi <strong style="color:#d4a017;">${userName}</strong>, your appointment has been received.</p>
+    <p style="margin:0 0 20px;color:#888;font-size:14px;">Hi <strong style="color:#d4a017;">${userName}</strong>, your appointment has been booked.</p>
+
+    ${paymentBanner}
 
     <div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:20px;margin-bottom:20px;">
       <table width="100%" cellpadding="0" cellspacing="0">
@@ -120,13 +140,13 @@ function bookingConfirmationHtml(userName, booking, items, paymentMethod, finalA
       <table width="100%" cellpadding="0" cellspacing="0">${itemRows}</table>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">
         <tr>
-          <td style="color:#fff;font-size:16px;font-weight:bold;">Total Payable</td>
+          <td style="color:#fff;font-size:16px;font-weight:bold;">${isPaid ? 'Amount Paid' : 'Total Payable'}</td>
           <td style="color:#d4a017;font-size:20px;font-weight:bold;text-align:right;">₹${parseFloat(finalAmount).toLocaleString('en-IN')}</td>
         </tr>
       </table>
     </div>
 
-    <p style="margin:0;color:#888;font-size:13px;line-height:1.6;">We'll confirm your booking shortly. Please arrive 5 minutes early. If you need to reschedule, contact us at least 2 hours before your appointment.</p>
+    <p style="margin:0;color:#888;font-size:13px;line-height:1.6;">${footerNote}</p>
     <p style="margin:16px 0 0;text-align:center;">
       <a href="${process.env.FRONTEND_URL || 'https://sunderdikho.com'}/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View My Bookings →</a>
     </p>
@@ -621,9 +641,12 @@ exports.createBooking = async (req, res) => {
         if (userResult.rows.length > 0) {
           const user = userResult.rows[0];
           // Customer confirmation
+          const subject = normalizedPaymentMethod === 'online'
+            ? `Payment Successful & Booking Confirmed — Beauty World #${String(booking.id).padStart(6, '0')}`
+            : `Booking Confirmed — Beauty World #${String(booking.id).padStart(6, '0')}`;
           await sendBookingEmail(
             user.email,
-            `Booking Confirmed — Beauty World #${String(booking.id).padStart(6, '0')}`,
+            subject,
             bookingConfirmationHtml(user.name, booking, enrichedItems, normalizedPaymentMethod, finalAmount)
           );
           // Admin notification

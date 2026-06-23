@@ -814,6 +814,13 @@ export default function BookingPage() {
             email: user?.email || '',
             contact: user?.mobile || '',
           },
+          method: {
+            upi: true,
+            card: true,
+            netbanking: true,
+            wallet: true,
+            paylater: true,
+          },
           theme: { color: '#D4AF37' },
           modal: {
             ondismiss: () => {
