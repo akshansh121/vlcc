@@ -4,7 +4,6 @@ import { AuthProvider } from '../contexts/AuthContext';
 import { CartProvider } from '../contexts/CartContext';
 import { Toaster } from 'react-hot-toast';
 import GoogleAuthWrapper from '../components/GoogleAuthWrapper';
-import { ThemeProvider } from '../contexts/ThemeContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,29 +26,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`dark ${inter.variable}`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function () {
-                try {
-                  var t = localStorage.getItem('theme') || 'dark';
-                  document.documentElement.className = t + ' ${inter.variable}';
-                } catch (e) {
-                  document.documentElement.className = 'dark ${inter.variable}';
-                }
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={`dark ${inter.variable}`}>
       <body className={inter.className}>
         <GoogleAuthWrapper>
         <AuthProvider>
           <CartProvider>
-            <ThemeProvider>
-            {children}
+                {children}
 
             <Toaster
               position="top-right"
@@ -95,7 +77,6 @@ export default function RootLayout({ children }) {
                 },
               }}
             />
-            </ThemeProvider>
           </CartProvider>
         </AuthProvider>
         </GoogleAuthWrapper>

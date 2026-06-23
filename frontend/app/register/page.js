@@ -290,6 +290,17 @@ export default function RegisterPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
 
+  // Make browser back button step back within the page instead of leaving the app.
+  useEffect(() => {
+    window.history.replaceState({ regStep: 'form' }, '');
+    const handlePop = (e) => {
+      const s = e.state?.regStep;
+      if (s === 'form' || s === 'otp') setStep(s);
+    };
+    window.addEventListener('popstate', handlePop);
+    return () => window.removeEventListener('popstate', handlePop);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -310,6 +321,7 @@ export default function RegisterPage() {
       await api.sendRegistrationOtp({ email: payload.email });
       toast.success('OTP sent! Check your inbox.');
       setPendingData(payload);
+      window.history.pushState({ regStep: 'otp' }, '');
       setStep('otp');
     } catch (err) {
       const msg =
@@ -361,7 +373,7 @@ export default function RegisterPage() {
                   key="otp"
                   email={pendingData?.email}
                   formData={pendingData}
-                  onBack={() => setStep('form')}
+                  onBack={() => window.history.back()}
                   onSuccess={() => router.push('/')}
                 />
               ) : (
