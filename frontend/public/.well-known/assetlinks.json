@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.beautyworld.sunderdikho",
+    "sha256_cert_fingerprints": [
+      "89:A4:04:9B:57:08:FC:6F:3A:0A:6D:53:EC:B8:CB:66:44:DA:E8:D6:BD:B0:39:CD:C5:6D:BA:A2:CA:B5:29:BB"
+    ]
+  }
+}]

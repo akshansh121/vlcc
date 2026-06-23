@@ -17,6 +17,12 @@ export const metadata = {
     'Premium beauty parlour booking — discover world-class hair, skin, and wellness treatments tailored just for you.',
   keywords: ['beauty parlour', 'luxury salon', 'booking', 'hair care', 'skin care', 'Beauty World'],
   authors: [{ name: 'Beauty World' }],
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Beauty World',
+  },
   openGraph: {
     title: 'Beauty World | Luxury Salon',
     description: 'Premium beauty parlour booking',
