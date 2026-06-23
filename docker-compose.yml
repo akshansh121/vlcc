@@ -3,9 +3,9 @@ services:
     image: postgres:15-alpine
     container_name: beauty-world-db
     environment:
-      POSTGRES_DB: beauty_world
-      POSTGRES_USER: beauty_admin
-      POSTGRES_PASSWORD: beauty_password_2024
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -14,7 +14,7 @@ services:
     networks:
       - beauty-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U beauty_admin -d beauty_world"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,23 +25,23 @@ services:
       dockerfile: Dockerfile
     container_name: beauty-world-backend
     environment:
-      NODE_ENV: production
-      DATABASE_URL: postgresql://beauty_admin:beauty_password_2024@postgres:5432/beauty_world
-      JWT_SECRET: beauty_world_jwt_secret_key_2024_very_secure_string
-      JWT_EXPIRES_IN: 7d
-      PORT: 5000
-      CORS_ORIGIN: https://sunderdikho.com,https://www.sunderdikho.com
-      EMAIL_HOST: mail.spacemail.com
-      EMAIL_PORT: 465
-      EMAIL_SECURE: "true"
-      EMAIL_USER: support@sunderdikho.com
-      EMAIL_PASS: "Kumar123##"
-      EMAIL_FROM: support@sunderdikho.com
-      ADMIN_EMAIL: support@sunderdikho.com
-      GOOGLE_CLIENT_ID: 964449766103-lt4id9t6df27jfdpab1em0r7tnokj3vs.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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E
-      FRONTEND_URL: https://sunderdikho.com
-      UPLOAD_DIR: /app/uploads
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      PORT: ${PORT}
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_SECURE: ${EMAIL_SECURE}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      EMAIL_FROM: ${EMAIL_FROM}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      FRONTEND_URL: ${FRONTEND_URL}
+      UPLOAD_DIR: ${UPLOAD_DIR}
     volumes:
       - uploads_data:/app/uploads
     ports:
@@ -58,8 +58,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: https://api.sunderdikho.com/api
-        NEXT_PUBLIC_GOOGLE_CLIENT_ID: 964449766103-lt4id9t6df27jfdpab1em0r7tnokj3vs.apps.googleusercontent.com
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     container_name: beauty-world-frontend
     ports:
       - "3000:3000"

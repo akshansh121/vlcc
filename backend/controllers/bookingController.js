@@ -127,7 +127,7 @@ function bookingConfirmationHtml(userName, booking, items, paymentMethod, finalA
 
     <p style="margin:0;color:#888;font-size:13px;line-height:1.6;">We'll confirm your booking shortly. Please arrive 5 minutes early. If you need to reschedule, contact us at least 2 hours before your appointment.</p>
     <p style="margin:16px 0 0;text-align:center;">
-      <a href="https://sunderdikho.com/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View My Bookings →</a>
+      <a href="${process.env.FRONTEND_URL || 'https://sunderdikho.com'}/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View My Bookings →</a>
     </p>
   `);
 }
@@ -164,7 +164,7 @@ function adminNewBookingHtml(user, booking, items, paymentMethod, finalAmount) {
     ${booking.notes ? `<div style="background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:16px;margin-bottom:16px;"><p style="margin:0 0 6px;color:#888;font-size:12px;text-transform:uppercase;letter-spacing:1px;">Customer Notes</p><p style="margin:0;color:#ccc;font-size:13px;">${booking.notes}</p></div>` : ''}
 
     <p style="text-align:center;margin:0;">
-      <a href="https://sunderdikho.com/admin/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View in Admin Panel →</a>
+      <a href="${process.env.FRONTEND_URL || 'https://sunderdikho.com'}/admin/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View in Admin Panel →</a>
     </p>
   `);
 }
@@ -203,7 +203,7 @@ function statusUpdateHtml(userName, booking, newStatus) {
 
     <p style="color:#888;font-size:14px;line-height:1.7;margin:0 0 20px;">${cfg.msg}</p>
     <p style="text-align:center;margin:0;">
-      <a href="https://sunderdikho.com/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View My Bookings →</a>
+      <a href="${process.env.FRONTEND_URL || 'https://sunderdikho.com'}/bookings" style="display:inline-block;background:#d4a017;color:#000;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:bold;font-size:14px;">View My Bookings →</a>
     </p>
   `);
 }
