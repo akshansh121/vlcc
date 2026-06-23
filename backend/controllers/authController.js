@@ -350,18 +350,32 @@ const changePassword = async (req, res) => {
 // POST /api/auth/google
 const googleAuth = async (req, res) => {
   try {
-    const { credential } = req.body;
-    if (!credential) {
+    const { credential, access_token } = req.body;
+    if (!credential && !access_token) {
       return res.status(400).json({ success: false, message: 'Google credential is required' });
     }
 
-    // Verify the Google ID token
-    const ticket = await googleClient.verifyIdToken({
-      idToken: credential,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    const { email, name } = payload;
+    let email, name;
+
+    if (credential) {
+      // Standard flow: verify ID token (from GoogleLogin component)
+      const ticket = await googleClient.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      email = payload.email;
+      name = payload.name;
+    } else {
+      // Custom button flow: verify access token via Google userinfo endpoint
+      const resp = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      if (!resp.ok) throw new Error('Invalid Google access token');
+      const info = await resp.json();
+      email = info.email;
+      name = info.name;
+    }
 
     if (!email) {
       return res.status(400).json({ success: false, message: 'Google account has no email' });

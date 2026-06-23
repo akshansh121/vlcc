@@ -6,15 +6,61 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, Sparkles, Mail, Lock, ShieldCheck } from 'lucide-react';
-import { GoogleLogin } from '@react-oauth/google';
+import { Eye, EyeOff, Sparkles, Mail, Lock } from 'lucide-react';
+import { useGoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../../contexts/AuthContext';
 
-// ── Tab definitions ──────────────────────────────────────────────────────────
-const TABS = [
-  { id: 'user', label: 'Customer Login', icon: Mail },
-  { id: 'admin', label: 'Admin Login', icon: ShieldCheck },
-];
+// ── Google Icon SVG ───────────────────────────────────────────────────────────
+function GoogleIcon() {
+  return (
+    <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+  );
+}
+
+// ── Custom Google Login Button ────────────────────────────────────────────────
+function GoogleLoginButton({ onSuccess, onError }) {
+  const [loading, setLoading] = useState(false);
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setLoading(true);
+      try {
+        await onSuccess({ access_token: tokenResponse.access_token });
+      } catch (err) {
+        onError(err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    onError: () => {
+      setLoading(false);
+      onError(new Error('Google sign-in was cancelled'));
+    },
+  });
+
+  return (
+    <button
+      type="button"
+      disabled={loading}
+      onClick={() => { setLoading(true); login(); }}
+      className="w-full flex items-center justify-center gap-3 bg-dark-800 hover:bg-dark-700 border border-dark-500 hover:border-gold-500/60 text-white rounded-lg py-3 px-4 text-sm font-medium transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed group"
+    >
+      {loading ? (
+        <span className="inline-block w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+      ) : (
+        <GoogleIcon />
+      )}
+      <span className="group-hover:text-white transition-colors">
+        {loading ? 'Signing in...' : 'Continue with Google'}
+      </span>
+    </button>
+  );
+}
 
 // ── Reusable input wrapper ────────────────────────────────────────────────────
 function FormField({ label, error, children }) {
@@ -64,8 +110,8 @@ function PasswordInput({ registration, error, placeholder = 'Enter your password
   );
 }
 
-// ── User Login Form ───────────────────────────────────────────────────────────
-function UserLoginForm({ onSuccess }) {
+// ── Login Form ────────────────────────────────────────────────────────────────
+function LoginForm({ onSuccess }) {
   const {
     register,
     handleSubmit,
@@ -87,9 +133,9 @@ function UserLoginForm({ onSuccess }) {
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
+  const handleGoogleSuccess = async ({ access_token }) => {
     try {
-      const user = await googleLogin(credentialResponse.credential);
+      const user = await googleLogin({ access_token });
       toast.success(`Welcome, ${user?.name?.split(' ')[0] || 'there'}!`);
       onSuccess(user);
     } catch (err) {
@@ -104,22 +150,10 @@ function UserLoginForm({ onSuccess }) {
   return (
     <div className="space-y-5">
       {/* Google Sign-In */}
-      <div>
-        <p className="text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
-          Quick Sign In
-        </p>
-        <div className="flex justify-center w-full [&>div]:w-full [&>div>div]:w-full [&>div>div>iframe]:w-full">
-          <GoogleLogin
-            onSuccess={handleGoogleSuccess}
-            onError={() => toast.error('Google sign-in failed. Please try again.')}
-            theme="filled_black"
-            shape="rectangular"
-            size="large"
-            text="signin_with"
-            width="400"
-          />
-        </div>
-      </div>
+      <GoogleLoginButton
+        onSuccess={handleGoogleSuccess}
+        onError={() => toast.error('Google sign-in failed. Please try again.')}
+      />
 
       {/* Divider */}
       <div className="relative">
@@ -192,100 +226,12 @@ function UserLoginForm({ onSuccess }) {
   );
 }
 
-// ── Admin Login Form ──────────────────────────────────────────────────────────
-function AdminLoginForm({ onSuccess }) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
-  const { adminLogin } = useAuth();
-
-  const onSubmit = async (data) => {
-    try {
-      const user = await adminLogin({ email: data.email, password: data.password });
-      toast.success(`Welcome, Admin ${user?.name?.split(' ')[0] || ''}!`);
-      onSuccess(user, true);
-    } catch (err) {
-      const msg =
-        err?.response?.data?.message ||
-        err?.response?.data?.error ||
-        'Admin credentials are invalid. Please try again.';
-      toast.error(msg);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
-      {/* Admin notice */}
-      <div className="flex items-start gap-3 bg-gold-500/5 border border-gold-500/20 rounded-lg p-3">
-        <ShieldCheck className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" />
-        <p className="text-gold-400 text-xs leading-relaxed">
-          This area is restricted to authorized administrators only. Unauthorized access attempts
-          are logged.
-        </p>
-      </div>
-
-      {/* Email */}
-      <FormField label="Admin Email" error={errors.email?.message}>
-        <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
-          <input
-            type="email"
-            placeholder="abc@gmail.com"
-            className={`input-dark pl-10 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
-            {...register('email', {
-              required: 'Email is required',
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: 'Enter a valid email address',
-              },
-            })}
-          />
-        </div>
-      </FormField>
-
-      {/* Password */}
-      <FormField label="Admin Password" error={errors.password?.message}>
-        <PasswordInput
-          registration={register('password', {
-            required: 'Password is required',
-            minLength: { value: 6, message: 'Password must be at least 6 characters' },
-          })}
-          error={errors.password}
-          placeholder="Enter admin password"
-        />
-      </FormField>
-
-      {/* Submit */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full justify-center inline-flex items-center gap-2 bg-dark-700 hover:bg-dark-600 border border-gold-500/40 hover:border-gold-500 text-gold-400 hover:text-gold-300 font-semibold px-6 py-3 rounded-sm transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? (
-          <>
-            <span className="inline-block w-4 h-4 border-2 border-gold-500 border-t-transparent rounded-full animate-spin" />
-            Authenticating...
-          </>
-        ) : (
-          <>
-            <ShieldCheck className="w-4 h-4" />
-            Admin Sign In
-          </>
-        )}
-      </button>
-    </form>
-  );
-}
-
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function LoginPage() {
-  const [activeTab, setActiveTab] = useState('user');
   const router = useRouter();
 
-  const handleSuccess = (user, isAdmin = false) => {
-    if (isAdmin || ['admin', 'super_admin'].includes(user?.role)) {
+  const handleSuccess = (user) => {
+    if (['admin', 'super_admin'].includes(user?.role)) {
       router.replace('/admin/customers');
     } else {
       const params = new URLSearchParams(window.location.search);
@@ -303,7 +249,6 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-gold-500/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
       </div>
 
-      {/* Card */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -318,92 +263,36 @@ export default function LoginPage() {
               Beauty World
             </span>
           </Link>
-          <h1 className="font-display text-3xl font-bold text-white text-center">
-            Welcome Back
-          </h1>
-          <p className="text-gray-400 text-sm mt-1 text-center">
-            Sign in to access your account
-          </p>
+          <h1 className="font-display text-3xl font-bold text-white text-center">Welcome Back</h1>
+          <p className="text-gray-400 text-sm mt-1 text-center">Sign in to access your account</p>
         </div>
 
-        {/* Panel */}
-        <div className="bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden shadow-2xl">
+        {/* Card */}
+        <div className="bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden shadow-2xl p-7">
+          <LoginForm onSuccess={handleSuccess} />
 
-          {/* Tab switcher */}
-          <div className="flex border-b border-dark-600">
-            {TABS.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-4 text-sm font-medium transition-all duration-200 relative ${
-                    activeTab === tab.id
-                      ? 'text-gold-500 bg-dark-700'
-                      : 'text-gray-400 hover:text-gray-200 hover:bg-dark-700/50'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                  {activeTab === tab.id && (
-                    <motion.span
-                      layoutId="tab-underline"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold-500"
-                    />
-                  )}
-                </button>
-              );
-            })}
+          {/* Divider */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-dark-600" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-dark-800 px-3 text-gray-500 text-xs">New to Beauty World?</span>
+            </div>
           </div>
 
-          {/* Form area */}
-          <div className="p-7">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, x: activeTab === 'user' ? -20 : 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: activeTab === 'user' ? 20 : -20 }}
-                transition={{ duration: 0.25, ease: 'easeInOut' }}
-              >
-                {activeTab === 'user' ? (
-                  <UserLoginForm onSuccess={handleSuccess} />
-                ) : (
-                  <AdminLoginForm onSuccess={handleSuccess} />
-                )}
-              </motion.div>
-            </AnimatePresence>
-
-            {activeTab === 'user' && (
-              <>
-                {/* Divider */}
-                <div className="relative my-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-dark-600" />
-                  </div>
-                  <div className="relative flex justify-center">
-                    <span className="bg-dark-800 px-3 text-gray-500 text-xs">
-                      New to Beauty World?
-                    </span>
-                  </div>
-                </div>
-
-                {/* Register link */}
-                <Link
-                  href="/register"
-                  className="flex items-center justify-center w-full border border-dark-500 hover:border-gold-500/50 text-gray-300 hover:text-white rounded-sm py-2.5 text-sm font-medium transition-all duration-200 hover:bg-dark-700"
-                >
-                  Create an Account
-                </Link>
-              </>
-            )}
-          </div>
+          {/* Register link */}
+          <Link
+            href="/register"
+            className="flex items-center justify-center w-full border border-dark-500 hover:border-gold-500/50 text-gray-300 hover:text-white rounded-lg py-2.5 text-sm font-medium transition-all duration-200 hover:bg-dark-700"
+          >
+            Create an Account
+          </Link>
         </div>
 
-        {/* Back to home */}
         <p className="text-center mt-6 text-gray-500 text-xs">
           <Link href="/" className="hover:text-gold-500 transition-colors">
-            Back to home
+            ← Back to home
           </Link>
         </p>
       </motion.div>

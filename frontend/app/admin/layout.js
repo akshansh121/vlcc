@@ -42,14 +42,14 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) {
-        router.replace('/login');
+        if (pathname !== '/admin/login') router.replace('/admin/login');
         return;
       }
       if (user && !['admin', 'super_admin'].includes(user.role)) {
         router.push('/');
       }
     }
-  }, [loading, isAuthenticated, user, router]);
+  }, [loading, isAuthenticated, user, router, pathname]);
 
   useEffect(() => {
     const fetchUnread = async () => {
@@ -76,6 +76,8 @@ export default function AdminLayout({ children }) {
       </div>
     );
   }
+
+  if (pathname === '/admin/login') return <>{children}</>;
 
   if (!isAuthenticated || !['admin', 'super_admin'].includes(user?.role)) return null;
 

@@ -74,8 +74,8 @@ export function AuthProvider({ children }) {
     return authUser;
   };
 
-  const googleLogin = async (credential) => {
-    const { data } = await api.googleLogin({ credential });
+  const googleLogin = async (payload) => {
+    const { data } = await api.googleLogin(payload);
     const { token: authToken, user: authUser } = data.data;
     persistSession(authToken, authUser);
     return authUser;
