@@ -260,7 +260,7 @@ export default function BookingsPage() {
   // Auth guard
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      router.push('/login?redirect=/bookings');
+      router.replace('/login?redirect=/bookings');
     }
   }, [authLoading, isAuthenticated, router]);
 

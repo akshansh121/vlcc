@@ -46,7 +46,7 @@ export default function CartPage() {
   // Auth guard
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      router.push('/login?redirect=/cart');
+      router.replace('/login?redirect=/cart');
     }
   }, [authLoading, isAuthenticated, router]);
 

@@ -286,9 +286,11 @@ export default function LoginPage() {
 
   const handleSuccess = (user, isAdmin = false) => {
     if (isAdmin || ['admin', 'super_admin'].includes(user?.role)) {
-      router.push('/admin/customers');
+      router.replace('/admin/customers');
     } else {
-      router.push('/');
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect');
+      router.replace(redirect && redirect.startsWith('/') ? redirect : '/');
     }
   };
 

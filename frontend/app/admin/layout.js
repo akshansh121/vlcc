@@ -42,7 +42,7 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     if (!loading) {
       if (!isAuthenticated) {
-        router.push('/login');
+        router.replace('/login');
         return;
       }
       if (user && !['admin', 'super_admin'].includes(user.role)) {

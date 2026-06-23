@@ -492,7 +492,7 @@ export default function ServicesPage() {
     async (service) => {
       if (!isAuthenticated) {
         toast.error('Please login to add services to your cart.');
-        router.push('/login');
+        router.replace('/login?redirect=/services');
         return;
       }
       try {
