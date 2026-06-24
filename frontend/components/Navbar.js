@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart, Menu, X, Sparkles, User, LogOut, Calendar, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import ThemeToggle from './ThemeToggle';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -98,6 +99,9 @@ export default function Navbar() {
 
             {/* Desktop Right Actions */}
             <div className="hidden md:flex items-center gap-4">
+              {/* Theme toggle */}
+              <ThemeToggle />
+
               {/* Cart */}
               <Link
                 href="/cart"
@@ -196,6 +200,7 @@ export default function Navbar() {
 
             {/* Mobile Right */}
             <div className="flex md:hidden items-center gap-3">
+              <ThemeToggle />
               <Link href="/cart" className="relative p-2 text-rose-700">
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (

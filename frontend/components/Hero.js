@@ -32,7 +32,7 @@ export default function Hero() {
         <img
           src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80"
           alt="Luxury Salon Interior"
-          className="w-full h-full object-cover object-center opacity-20"
+          className="w-full h-full object-cover object-center opacity-20 dark:opacity-80"
           loading="eager"
           fetchPriority="high"
           decoding="async"

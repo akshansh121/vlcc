@@ -2,7 +2,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '../contexts/AuthContext';
 import { CartProvider } from '../contexts/CartContext';
-import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '../contexts/ThemeContext';
+import ThemedToaster from '../components/ThemedToaster';
 import GoogleAuthWrapper from '../components/GoogleAuthWrapper';
 
 const inter = Inter({
@@ -33,61 +34,23 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        {/* Anti-flash: set dark class before first paint */}
+        <script dangerouslySetInnerHTML={{
+          __html: `try{var t=localStorage.getItem('theme')||'dark';if(t==='dark')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}`
+        }} />
+      </head>
       <body className={inter.className}>
+        <ThemeProvider>
         <GoogleAuthWrapper>
         <AuthProvider>
           <CartProvider>
                 {children}
-
-            <Toaster
-              position="top-right"
-              reverseOrder={false}
-              gutter={8}
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  background: 'rgba(255,255,255,0.9)',
-                  color: '#4c0519',
-                  border: '1px solid rgba(255,255,255,0.6)',
-                  borderRadius: '12px',
-                  fontSize: '14px',
-                  padding: '12px 16px',
-                  backdropFilter: 'blur(12px)',
-                  boxShadow: '0 8px 32px rgba(244,63,94,0.08)',
-                },
-                success: {
-                  iconTheme: {
-                    primary: '#f43f5e',
-                    secondary: '#fff1f2',
-                  },
-                  style: {
-                    background: 'rgba(255,255,255,0.9)',
-                    color: '#4c0519',
-                    border: '1px solid #fecdd3',
-                  },
-                },
-                error: {
-                  iconTheme: {
-                    primary: '#ef4444',
-                    secondary: '#fff1f2',
-                  },
-                  style: {
-                    background: 'rgba(255,255,255,0.9)',
-                    color: '#4c0519',
-                    border: '1px solid #fca5a5',
-                  },
-                },
-                loading: {
-                  iconTheme: {
-                    primary: '#f43f5e',
-                    secondary: '#fff1f2',
-                  },
-                },
-              }}
-            />
+            <ThemedToaster />
           </CartProvider>
         </AuthProvider>
         </GoogleAuthWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
