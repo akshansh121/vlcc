@@ -85,7 +85,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-dark-800 py-24">
+    <section ref={sectionRef} className="py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -98,13 +98,13 @@ export default function ContactSection() {
           <p className="section-subtitle">Get In Touch</p>
           <h2 className="section-title">
             Contact{' '}
-            <span className="text-gold-500 italic">Us</span>
+            <span className="text-rose-500 italic">Us</span>
           </h2>
-          <p className="text-gray-400 text-sm max-w-lg mx-auto mt-3">
+          <p className="text-rose-700 text-sm max-w-lg mx-auto mt-3 font-light">
             Have a question or want to book a consultation? We&apos;d love to hear from you.
           </p>
           <div className="flex justify-center mt-5">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
+            <div className="h-0.5 w-16 bg-rose-500/40 mx-auto" />
           </div>
         </motion.div>
 
@@ -118,7 +118,7 @@ export default function ContactSection() {
           >
             <motion.h3
               variants={fadeUp}
-              className="font-display text-2xl font-bold text-white mb-6"
+              className="font-serif text-2xl font-light text-rose-950 mb-6"
             >
               Send Us a Message
             </motion.h3>
@@ -126,8 +126,8 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
               {/* Name */}
               <motion.div variants={fadeUp}>
-                <label className="block text-gray-400 text-xs font-medium uppercase tracking-wide mb-2">
-                  Full Name <span className="text-gold-500">*</span>
+                <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em] mb-2">
+                  Full Name <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -146,8 +146,8 @@ export default function ContactSection() {
               {/* Email + Mobile (side by side) */}
               <motion.div variants={fadeUp} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-400 text-xs font-medium uppercase tracking-wide mb-2">
-                    Email <span className="text-gold-500">*</span>
+                  <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em] mb-2">
+                    Email <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -167,8 +167,8 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-400 text-xs font-medium uppercase tracking-wide mb-2">
-                    Mobile <span className="text-gold-500">*</span>
+                  <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em] mb-2">
+                    Mobile <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -190,8 +190,8 @@ export default function ContactSection() {
 
               {/* Message */}
               <motion.div variants={fadeUp}>
-                <label className="block text-gray-400 text-xs font-medium uppercase tracking-wide mb-2">
-                  Message <span className="text-gold-500">*</span>
+                <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em] mb-2">
+                  Message <span className="text-rose-500">*</span>
                 </label>
                 <textarea
                   rows={5}
@@ -242,7 +242,7 @@ export default function ContactSection() {
           >
             <motion.h3
               variants={fadeUp}
-              className="font-display text-2xl font-bold text-white"
+              className="font-serif text-2xl font-light text-rose-950"
             >
               Find Us Here
             </motion.h3>
@@ -253,14 +253,14 @@ export default function ContactSection() {
                 <motion.div
                   key={label}
                   variants={fadeUp}
-                  className="bg-dark-900 border border-dark-600 hover:border-gold-500/40 rounded-xl p-4 transition-colors duration-300"
+                  className="glass-panel-interactive rounded-xl p-4"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-4 h-4 text-gold-500" />
+                    <div className="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-200 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-rose-500" />
                     </div>
                     <div>
-                      <p className="text-gold-500 text-xs font-semibold uppercase tracking-wide mb-1">
+                      <p className="text-rose-600 text-xs font-bold uppercase tracking-wide mb-1">
                         {label}
                       </p>
                       {href ? (
@@ -268,12 +268,12 @@ export default function ContactSection() {
                           href={href}
                           target={href.startsWith('http') ? '_blank' : undefined}
                           rel="noopener noreferrer"
-                          className="text-gray-300 text-sm hover:text-white transition-colors leading-relaxed"
+                          className="text-rose-800 text-sm hover:text-rose-950 transition-colors leading-relaxed"
                         >
                           {value}
                         </a>
                       ) : (
-                        <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
+                        <p className="text-rose-800 text-sm leading-relaxed whitespace-pre-line">
                           {value}
                         </p>
                       )}
@@ -285,7 +285,7 @@ export default function ContactSection() {
 
             {/* Social Media */}
             <motion.div variants={fadeUp}>
-              <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-3">
+              <p className="text-rose-600 text-xs font-bold uppercase tracking-wide mb-3">
                 Follow Us
               </p>
               <div className="flex items-center gap-3">
@@ -296,7 +296,7 @@ export default function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className={`w-10 h-10 rounded-full border border-dark-500 flex items-center justify-center text-gray-400 ${color} hover:border-current transition-all duration-300 hover:scale-110`}
+                    className={`w-10 h-10 rounded-full border border-rose-200 bg-white/50 flex items-center justify-center text-rose-500 ${color} hover:border-current hover:bg-white/80 transition-all duration-300 hover:scale-110`}
                   >
                     <Icon className="w-4 h-4" />
                   </a>
@@ -307,22 +307,22 @@ export default function ContactSection() {
             {/* Map Placeholder */}
             <motion.div
               variants={fadeUp}
-              className="rounded-xl overflow-hidden border border-dark-600 relative"
+              className="rounded-xl overflow-hidden border border-rose-200 relative"
             >
               <iframe
                 title="Beauty World Location"
                 src="https://www.google.com/maps?q=Warisaliganj%20Nawada&output=embed"
                 width="100%"
                 height="220"
-                style={{ border: 0, filter: 'grayscale(50%) invert(10%)' }}
+                style={{ border: 0, filter: 'saturate(0.7) hue-rotate(300deg) brightness(0.98)' }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
               {/* Map overlay label */}
-              <div className="absolute top-3 left-3 bg-dark-900/90 backdrop-blur-sm border border-gold-500/30 rounded-lg px-3 py-1.5">
-                <p className="text-gold-500 text-xs font-semibold">Beauty World</p>
-                <p className="text-gray-400 text-[10px]">Warisaliganj, Nawada</p>
+              <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm border border-rose-200 rounded-lg px-3 py-1.5">
+                <p className="text-rose-600 text-xs font-bold">Beauty World</p>
+                <p className="text-rose-800 text-[10px]">Warisaliganj, Nawada</p>
               </div>
             </motion.div>
           </motion.div>

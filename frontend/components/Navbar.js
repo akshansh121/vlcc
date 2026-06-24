@@ -66,8 +66,8 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-dark-800/95 backdrop-blur-md shadow-lg shadow-black/40 border-b border-dark-600'
-            : 'bg-transparent'
+            ? 'bg-white/70 backdrop-blur-md shadow-sm shadow-rose-500/10 border-b border-rose-200/50'
+            : 'bg-white/30 backdrop-blur-sm border-b border-rose-200/30'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,24 +75,23 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="relative">
-                <Sparkles className="w-6 h-6 text-gold-500 group-hover:scale-110 transition-transform duration-300" />
+              <div className="rounded-full bg-rose-500/10 p-1.5 border border-rose-500/20 group-hover:border-rose-400 group-hover:bg-rose-500/20 transition-all duration-300">
+                <Sparkles className="w-5 h-5 text-rose-600 group-hover:scale-110 transition-transform duration-300" />
               </div>
-              <span className="font-display text-xl font-bold text-gold-500 tracking-wide">
+              <span className="font-display text-xl font-bold text-rose-950 tracking-wide group-hover:text-rose-600 transition-colors duration-300">
                 Beauty World
               </span>
             </Link>
 
             {/* Desktop Nav Links */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative text-gray-300 hover:text-gold-500 text-sm font-medium tracking-wide transition-colors duration-200 group"
+                  className="relative px-3.5 py-2 rounded-xl text-sm font-semibold text-rose-800/80 hover:text-rose-950 hover:bg-white/50 border border-transparent hover:border-rose-200/50 tracking-wide transition-all duration-200"
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-gold-500 group-hover:w-full transition-all duration-300" />
                 </Link>
               ))}
             </nav>
@@ -102,7 +101,7 @@ export default function Navbar() {
               {/* Cart */}
               <Link
                 href="/cart"
-                className="relative p-2 text-gray-300 hover:text-gold-500 transition-colors duration-200"
+                className="relative p-2 text-rose-700 hover:text-rose-500 transition-colors duration-200"
               >
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
@@ -110,7 +109,7 @@ export default function Navbar() {
                     key={cartCount}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 bg-gold-500 text-dark-900 text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none"
+                    className="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none"
                   >
                     {cartCount > 9 ? '9+' : cartCount}
                   </motion.span>
@@ -124,14 +123,14 @@ export default function Navbar() {
                     onClick={() => setUserMenuOpen((p) => !p)}
                     className="flex items-center gap-2 group"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-dark-900 text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white text-xs font-bold">
                       {getInitials(user?.name)}
                     </div>
-                    <span className="text-sm text-gray-300 group-hover:text-white transition-colors">
+                    <span className="text-sm text-rose-800 group-hover:text-rose-950 transition-colors">
                       {user?.name?.split(' ')[0]}
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
+                      className={`w-4 h-4 text-rose-500 transition-transform duration-200 ${
                         userMenuOpen ? 'rotate-180' : ''
                       }`}
                     />
@@ -144,31 +143,31 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-2 w-52 bg-dark-800 border border-dark-600 rounded-lg shadow-2xl overflow-hidden"
+                        className="absolute right-0 mt-2 w-52 glass-panel rounded-xl shadow-xl overflow-hidden"
                       >
-                        <div className="px-4 py-3 border-b border-dark-600">
-                          <p className="text-white font-medium text-sm">{user?.name}</p>
-                          <p className="text-gray-500 text-xs truncate">{user?.email}</p>
+                        <div className="px-4 py-3 border-b border-rose-200/50">
+                          <p className="text-rose-950 font-medium text-sm">{user?.name}</p>
+                          <p className="text-rose-600 text-xs truncate">{user?.email}</p>
                         </div>
                         <Link
                           href="/bookings"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-dark-700 hover:text-white transition-colors text-sm"
+                          className="flex items-center gap-3 px-4 py-3 text-rose-800 hover:bg-white/50 hover:text-rose-950 transition-colors text-sm"
                         >
-                          <Calendar className="w-4 h-4" />
+                          <Calendar className="w-4 h-4 text-rose-500" />
                           My Bookings
                         </Link>
                         <Link
                           href="/profile"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-dark-700 hover:text-white transition-colors text-sm"
+                          className="flex items-center gap-3 px-4 py-3 text-rose-800 hover:bg-white/50 hover:text-rose-950 transition-colors text-sm"
                         >
-                          <User className="w-4 h-4" />
+                          <User className="w-4 h-4 text-rose-500" />
                           Profile
                         </Link>
                         <button
                           onClick={() => { logout(); setUserMenuOpen(false); }}
-                          className="flex items-center gap-3 w-full px-4 py-3 text-red-400 hover:bg-dark-700 hover:text-red-300 transition-colors text-sm border-t border-dark-600"
+                          className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50/50 hover:text-red-600 transition-colors text-sm border-t border-rose-200/50"
                         >
                           <LogOut className="w-4 h-4" />
                           Logout
@@ -181,7 +180,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                   <Link
                     href="/login"
-                    className="text-sm text-gray-300 hover:text-white transition-colors font-medium"
+                    className="text-sm text-rose-800 hover:text-rose-950 transition-colors font-medium"
                   >
                     Login
                   </Link>
@@ -197,17 +196,17 @@ export default function Navbar() {
 
             {/* Mobile Right */}
             <div className="flex md:hidden items-center gap-3">
-              <Link href="/cart" className="relative p-2 text-gray-300">
+              <Link href="/cart" className="relative p-2 text-rose-700">
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-gold-500 text-dark-900 text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
                     {cartCount > 9 ? '9+' : cartCount}
                   </span>
                 )}
               </Link>
               <button
                 onClick={() => setMobileOpen(true)}
-                className="p-2 text-gray-300 hover:text-white transition-colors"
+                className="p-2 text-rose-700 hover:text-rose-950 transition-colors"
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6" />
@@ -226,17 +225,17 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween', duration: 0.35, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[60] bg-dark-900 flex flex-col"
+            className="fixed inset-0 z-[60] mesh-bg flex flex-col"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-dark-600">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-rose-200/50">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-gold-500" />
-                <span className="font-display text-lg font-bold text-gold-500">Beauty World</span>
+                <Sparkles className="w-5 h-5 text-rose-600" />
+                <span className="font-display text-lg font-bold text-rose-950">Beauty World</span>
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="p-2 text-gray-400 hover:text-white transition-colors"
+                className="p-2 text-rose-600 hover:text-rose-950 transition-colors"
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6" />
@@ -255,7 +254,7 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-3 text-2xl font-display font-semibold text-white hover:text-gold-500 transition-colors border-b border-dark-700"
+                    className="block py-3 text-2xl font-display font-light text-rose-950 hover:text-rose-600 transition-colors border-b border-rose-200/40"
                   >
                     {link.label}
                   </Link>
@@ -267,25 +266,25 @@ export default function Navbar() {
             <div className="px-8 pb-10">
               {isAuthenticated ? (
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 py-3 border-b border-dark-600">
-                    <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-dark-900 font-bold">
+                  <div className="flex items-center gap-3 py-3 border-b border-rose-200/50">
+                    <div className="w-10 h-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">
                       {getInitials(user?.name)}
                     </div>
                     <div>
-                      <p className="text-white font-medium">{user?.name}</p>
-                      <p className="text-gray-500 text-xs">{user?.email}</p>
+                      <p className="text-rose-950 font-medium">{user?.name}</p>
+                      <p className="text-rose-600 text-xs">{user?.email}</p>
                     </div>
                   </div>
                   <Link
                     href="/bookings"
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 text-gray-300 py-2"
+                    className="flex items-center gap-2 text-rose-800 py-2"
                   >
-                    <Calendar className="w-4 h-4" /> My Bookings
+                    <Calendar className="w-4 h-4 text-rose-500" /> My Bookings
                   </Link>
                   <button
                     onClick={() => { logout(); setMobileOpen(false); }}
-                    className="flex items-center gap-2 text-red-400 py-2"
+                    className="flex items-center gap-2 text-red-500 py-2"
                   >
                     <LogOut className="w-4 h-4" /> Logout
                   </button>

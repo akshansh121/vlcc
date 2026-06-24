@@ -30,8 +30,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        display: ['Playfair Display', 'Georgia', 'serif'],
-        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        serif: ['Cormorant Garamond', 'Georgia', 'Cambria', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {

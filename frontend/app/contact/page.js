@@ -30,40 +30,40 @@ const CONTACT_INFO = [
     label: 'Address',
     value: 'Warisaliganj, Nawada',
     href: 'https://maps.google.com/?q=Warisaliganj+Nawada',
-    color: 'text-gold-400',
-    bg: 'bg-gold-500/10 border-gold-500/20',
+    color: 'text-rose-500',
+    bg: 'bg-rose-50 border-rose-200',
   },
   {
     icon: Phone,
     label: 'Phone',
     value: '+91 83404 33268',
     href: 'tel:+918340433268',
-    color: 'text-gold-400',
-    bg: 'bg-gold-500/10 border-gold-500/20',
+    color: 'text-rose-500',
+    bg: 'bg-rose-50 border-rose-200',
   },
   {
     icon: Mail,
     label: 'Email',
     value: 'support@sunderdikho.com',
     href: 'mailto:support@sunderdikho.com',
-    color: 'text-gold-400',
-    bg: 'bg-gold-500/10 border-gold-500/20',
+    color: 'text-rose-500',
+    bg: 'bg-rose-50 border-rose-200',
   },
   {
     icon: Clock,
     label: 'Business Hours',
     value: 'Mon–Sat: 9:00 AM – 8:00 PM\nSun: 10:00 AM – 6:00 PM',
     href: null,
-    color: 'text-gold-400',
-    bg: 'bg-gold-500/10 border-gold-500/20',
+    color: 'text-rose-500',
+    bg: 'bg-rose-50 border-rose-200',
   },
 ];
 
 const SOCIAL_LINKS = [
-  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com', color: 'hover:text-gold-500 hover:border-gold-500' },
-  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com', color: 'hover:text-gold-500 hover:border-gold-500' },
-  { icon: Twitter, label: 'Twitter/X', href: 'https://twitter.com', color: 'hover:text-gold-500 hover:border-gold-500' },
-  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com', color: 'hover:text-gold-500 hover:border-gold-500' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com', color: 'hover:text-rose-500 hover:border-rose-400' },
+  { icon: Facebook, label: 'Facebook', href: 'https://facebook.com', color: 'hover:text-rose-500 hover:border-rose-400' },
+  { icon: Twitter, label: 'Twitter/X', href: 'https://twitter.com', color: 'hover:text-rose-500 hover:border-rose-400' },
+  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com', color: 'hover:text-rose-500 hover:border-rose-400' },
 ];
 
 const BUSINESS_HOURS = [
@@ -129,18 +129,18 @@ const stagger = {
 function FaqItem({ faq, index }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-dark-600 rounded-xl overflow-hidden">
+    <div className="glass-panel border border-rose-200 rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-dark-700/50 transition-colors duration-200"
+        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-rose-50/50 transition-colors duration-200"
       >
-        <span className="text-white font-medium text-sm leading-snug flex-1">{faq.question}</span>
+        <span className="text-rose-950 font-medium text-sm leading-snug flex-1">{faq.question}</span>
         <motion.div
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.25 }}
           className="flex-shrink-0"
         >
-          <ChevronDown className="w-4 h-4 text-gold-500" />
+          <ChevronDown className="w-4 h-4 text-rose-500" />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>
@@ -153,7 +153,7 @@ function FaqItem({ faq, index }) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-4 text-gray-400 text-sm leading-relaxed border-t border-dark-600 pt-3">
+            <div className="px-5 pb-4 text-rose-700 text-sm leading-relaxed border-t border-rose-200 pt-3">
               {faq.answer}
             </div>
           </motion.div>
@@ -188,8 +188,8 @@ function ContactForm() {
 
       {/* Name */}
       <div>
-        <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
-          Full Name <span className="text-gold-500">*</span>
+        <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest mb-2">
+          Full Name <span className="text-rose-500">*</span>
         </label>
         <input
           type="text"
@@ -206,8 +206,8 @@ function ContactForm() {
       {/* Email + Mobile */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
-            Email <span className="text-gold-500">*</span>
+          <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest mb-2">
+            Email <span className="text-rose-500">*</span>
           </label>
           <input
             type="email"
@@ -224,8 +224,8 @@ function ContactForm() {
           {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
         </div>
         <div>
-          <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
-            Mobile <span className="text-gold-500">*</span>
+          <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest mb-2">
+            Mobile <span className="text-rose-500">*</span>
           </label>
           <input
             type="tel"
@@ -245,7 +245,7 @@ function ContactForm() {
 
       {/* Subject */}
       <div>
-        <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
+        <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest mb-2">
           Subject
         </label>
         <input
@@ -258,8 +258,8 @@ function ContactForm() {
 
       {/* Message */}
       <div>
-        <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest mb-2">
-          Message <span className="text-gold-500">*</span>
+        <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest mb-2">
+          Message <span className="text-rose-500">*</span>
         </label>
         <textarea
           rows={5}
@@ -281,7 +281,7 @@ function ContactForm() {
       >
         {isSubmitting ? (
           <>
-            <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
             Sending...
           </>
         ) : (
@@ -313,16 +313,16 @@ export default function ContactPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-dark-900 pt-20">
+      <main className="min-h-screen mesh-bg pt-20">
 
         {/* ── Hero Header ─────────────────────────────────────────────────── */}
         <section
           ref={heroRef}
-          className="relative bg-dark-800 border-b border-dark-600 py-20 overflow-hidden"
+          className="relative glass-panel border-b border-rose-200/50 py-20 overflow-hidden"
         >
           {/* Glow */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gold-500/5 rounded-full blur-3xl" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-rose-400/10 rounded-full blur-3xl" />
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <motion.div
@@ -331,8 +331,8 @@ export default function ContactPage() {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 mb-4"
             >
-              <Sparkles className="w-5 h-5 text-gold-500" />
-              <span className="text-gold-500 text-sm font-semibold uppercase tracking-widest">
+              <Sparkles className="w-5 h-5 text-rose-500" />
+              <span className="text-rose-500 text-sm font-semibold uppercase tracking-widest">
                 Beauty World
               </span>
             </motion.div>
@@ -340,16 +340,16 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-rose-950 mb-4"
             >
               Get In{' '}
-              <span className="text-gold-500 italic">Touch</span>
+              <span className="text-rose-500 italic">Touch</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-400 text-base max-w-xl mx-auto leading-relaxed"
+              className="text-rose-700 text-base max-w-xl mx-auto leading-relaxed"
             >
               We would love to hear from you. Whether you have a question, want to book a
               consultation, or just say hello — we are here for you.
@@ -360,7 +360,7 @@ export default function ContactPage() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="flex justify-center mt-6"
             >
-              <div className="h-px w-28 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
+              <div className="h-px w-28 bg-gradient-to-r from-transparent via-rose-400 to-transparent" />
             </motion.div>
 
             {/* Quick info pills */}
@@ -379,17 +379,17 @@ export default function ContactPage() {
                   <a
                     key={text}
                     href={href}
-                    className="flex items-center gap-2 bg-dark-700 hover:bg-dark-600 border border-dark-500 hover:border-gold-500/40 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-gray-300 hover:text-white transition-all duration-200"
+                    className="flex items-center gap-2 glass-panel hover:bg-white/80 border border-rose-200 hover:border-rose-400 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-rose-700 hover:text-rose-950 transition-all duration-200"
                   >
-                    <Icon className="w-3.5 h-3.5 text-gold-500" />
+                    <Icon className="w-3.5 h-3.5 text-rose-500" />
                     {text}
                   </a>
                 ) : (
                   <span
                     key={text}
-                    className="flex items-center gap-2 bg-dark-700 border border-dark-500 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-gray-400"
+                    className="flex items-center gap-2 glass-panel border border-rose-200 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-rose-600"
                   >
-                    <Icon className="w-3.5 h-3.5 text-gold-500" />
+                    <Icon className="w-3.5 h-3.5 text-rose-500" />
                     {text}
                   </span>
                 )
@@ -409,10 +409,10 @@ export default function ContactPage() {
               variants={stagger}
             >
               <motion.div variants={fadeUp} className="mb-7">
-                <h2 className="font-display text-3xl font-bold text-white mb-2">
+                <h2 className="font-serif text-3xl font-bold text-rose-950 mb-2">
                   Send Us a Message
                 </h2>
-                <p className="text-gray-500 text-sm">
+                <p className="text-rose-600 text-sm">
                   Fill out the form and we will get back to you within 24 hours.
                 </p>
               </motion.div>
@@ -431,12 +431,12 @@ export default function ContactPage() {
 
               {/* Contact Info Cards */}
               <motion.div variants={fadeUp}>
-                <h2 className="font-display text-3xl font-bold text-white mb-5">Find Us Here</h2>
+                <h2 className="font-serif text-3xl font-bold text-rose-950 mb-5">Find Us Here</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {CONTACT_INFO.map(({ icon: Icon, label, value, href, color, bg }) => (
                     <div
                       key={label}
-                      className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold-500/10"
+                      className="glass-panel border border-rose-200 hover:border-rose-400 rounded-xl p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-rose-200/30"
                     >
                       <div className="flex items-start gap-3">
                         <div
@@ -445,7 +445,7 @@ export default function ContactPage() {
                           <Icon className={`w-4 h-4 ${color}`} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-gold-500 text-[10px] font-semibold uppercase tracking-widest mb-1">
+                          <p className="text-rose-500 text-[10px] font-semibold uppercase tracking-widest mb-1">
                             {label}
                           </p>
                           {href ? (
@@ -453,12 +453,12 @@ export default function ContactPage() {
                               href={href}
                               target={href.startsWith('http') ? '_blank' : undefined}
                               rel="noopener noreferrer"
-                              className="text-gray-300 text-sm hover:text-white transition-colors leading-relaxed break-words"
+                              className="text-rose-700 text-sm hover:text-rose-950 transition-colors leading-relaxed break-words"
                             >
                               {value}
                             </a>
                           ) : (
-                            <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
+                            <p className="text-rose-700 text-sm leading-relaxed whitespace-pre-line">
                               {value}
                             </p>
                           )}
@@ -471,7 +471,7 @@ export default function ContactPage() {
 
               {/* Social Media */}
               <motion.div variants={fadeUp}>
-                <p className="text-gray-400 text-xs font-semibold uppercase tracking-widest mb-3">
+                <p className="text-rose-600 text-xs font-semibold uppercase tracking-widest mb-3">
                   Follow Us
                 </p>
                 <div className="flex items-center gap-3">
@@ -482,7 +482,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className={`w-10 h-10 rounded-full border border-dark-500 flex items-center justify-center text-gray-400 ${color} transition-all duration-300 hover:scale-110`}
+                      className={`w-10 h-10 rounded-full border border-rose-200 flex items-center justify-center text-rose-600 ${color} transition-all duration-300 hover:scale-110`}
                     >
                       <Icon className="w-4 h-4" />
                     </a>
@@ -491,7 +491,7 @@ export default function ContactPage() {
               </motion.div>
 
               {/* Google Maps Embed */}
-              <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden border border-dark-600 hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10 relative">
+              <motion.div variants={fadeUp} className="rounded-2xl overflow-hidden border border-rose-200 hover:border-rose-400 transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/30 relative">
                 <iframe
                   title="Beauty World Location"
                   src="https://www.google.com/maps?q=Warisaliganj%20Nawada&output=embed"
@@ -502,9 +502,9 @@ export default function ContactPage() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
-                <div className="absolute top-3 left-3 bg-dark-900/90 backdrop-blur-sm border border-gold-500/30 rounded-lg px-3 py-2">
-                  <p className="text-gold-500 text-xs font-bold">Beauty World</p>
-                  <p className="text-gray-400 text-[10px]">Warisaliganj, Nawada</p>
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm border border-rose-200 rounded-lg px-3 py-2">
+                  <p className="text-rose-500 text-xs font-bold">Beauty World</p>
+                  <p className="text-rose-600 text-[10px]">Warisaliganj, Nawada</p>
                 </div>
               </motion.div>
             </motion.div>
@@ -512,7 +512,7 @@ export default function ContactPage() {
         </section>
 
         {/* ── Business Hours ───────────────────────────────────────────────── */}
-        <section ref={hoursRef} className="bg-dark-800 border-y border-dark-600 py-14">
+        <section ref={hoursRef} className="bg-white/40 backdrop-blur-sm border-y border-rose-200/50 py-14">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -522,14 +522,14 @@ export default function ContactPage() {
               <motion.div variants={fadeUp} className="text-center mb-8">
                 <p className="section-subtitle">We Are Open</p>
                 <h2 className="section-title text-3xl">Business Hours</h2>
-                <p className="text-gray-500 text-sm max-w-sm mx-auto">
+                <p className="text-rose-600 text-sm max-w-sm mx-auto">
                   Drop in or book ahead. We are happy to see you any day of the week.
                 </p>
               </motion.div>
 
               <motion.div
                 variants={fadeUp}
-                className="bg-dark-900 border border-dark-600 rounded-2xl overflow-hidden"
+                className="glass-panel border border-rose-200 rounded-2xl overflow-hidden"
               >
                 {BUSINESS_HOURS.map((item, idx) => {
                   const isToday = item.day === today;
@@ -537,21 +537,21 @@ export default function ContactPage() {
                     <div
                       key={item.day}
                       className={`flex items-center justify-between px-4 sm:px-6 py-3 sm:py-3.5 ${
-                        idx < BUSINESS_HOURS.length - 1 ? 'border-b border-dark-700' : ''
-                      } ${isToday ? 'bg-gold-500/5' : 'hover:bg-dark-800/50'} transition-colors duration-200`}
+                        idx < BUSINESS_HOURS.length - 1 ? 'border-b border-rose-100' : ''
+                      } ${isToday ? 'bg-rose-50' : 'hover:bg-white/40'} transition-colors duration-200`}
                     >
                       <div className="flex items-center gap-3">
                         {isToday && (
-                          <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
+                          <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
                         )}
                         <span
                           className={`text-sm font-medium ${
-                            isToday ? 'text-gold-400' : 'text-gray-300'
+                            isToday ? 'text-rose-500' : 'text-rose-800'
                           }`}
                         >
                           {item.day}
                           {isToday && (
-                            <span className="ml-2 text-[10px] bg-gold-500/20 text-gold-400 px-1.5 py-0.5 rounded-full uppercase tracking-wide font-semibold">
+                            <span className="ml-2 text-[10px] bg-rose-100 text-rose-500 px-1.5 py-0.5 rounded-full uppercase tracking-wide font-semibold">
                               Today
                             </span>
                           )}
@@ -559,7 +559,7 @@ export default function ContactPage() {
                       </div>
                       <span
                         className={`text-sm font-medium ${
-                          isToday ? 'text-gold-400' : item.open ? 'text-gray-400' : 'text-red-400'
+                          isToday ? 'text-rose-500' : item.open ? 'text-rose-700' : 'text-red-500'
                         }`}
                       >
                         {item.open ? item.hours : 'Closed'}
@@ -583,13 +583,13 @@ export default function ContactPage() {
               <p className="section-subtitle">Common Questions</p>
               <h2 className="section-title text-3xl">
                 Frequently Asked{' '}
-                <span className="text-gold-500 italic">Questions</span>
+                <span className="text-rose-500 italic">Questions</span>
               </h2>
-              <p className="text-gray-500 text-sm max-w-md mx-auto mt-2">
+              <p className="text-rose-600 text-sm max-w-md mx-auto mt-2">
                 Everything you need to know about booking, cancellations, and our services.
               </p>
               <div className="flex justify-center mt-5">
-                <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
+                <div className="h-px w-24 bg-gradient-to-r from-transparent via-rose-400 to-transparent" />
               </div>
             </motion.div>
 
@@ -602,10 +602,10 @@ export default function ContactPage() {
             {/* Still have questions CTA */}
             <motion.div
               variants={fadeUp}
-              className="mt-10 text-center bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-2xl p-8 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/10"
+              className="mt-10 text-center glass-panel border border-rose-200 hover:border-rose-400 rounded-2xl p-8 transition-all duration-300 hover:shadow-lg hover:shadow-rose-200/30"
             >
-              <p className="text-gray-400 text-sm mb-1">Still have questions?</p>
-              <h3 className="font-display text-xl font-bold text-white mb-4">
+              <p className="text-rose-600 text-sm mb-1">Still have questions?</p>
+              <h3 className="font-serif text-xl font-bold text-rose-950 mb-4">
                 We are just a message away
               </h3>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">

@@ -32,7 +32,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body className={inter.className}>
         <GoogleAuthWrapper>
         <AuthProvider>
@@ -46,39 +46,41 @@ export default function RootLayout({ children }) {
               toastOptions={{
                 duration: 4000,
                 style: {
-                  background: '#111111',
-                  color: '#ffffff',
-                  border: '1px solid #2a2a2a',
-                  borderRadius: '4px',
+                  background: 'rgba(255,255,255,0.9)',
+                  color: '#4c0519',
+                  border: '1px solid rgba(255,255,255,0.6)',
+                  borderRadius: '12px',
                   fontSize: '14px',
                   padding: '12px 16px',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 8px 32px rgba(244,63,94,0.08)',
                 },
                 success: {
                   iconTheme: {
-                    primary: '#D4AF37',
-                    secondary: '#111111',
+                    primary: '#f43f5e',
+                    secondary: '#fff1f2',
                   },
                   style: {
-                    background: '#111111',
-                    color: '#ffffff',
-                    border: '1px solid #D4AF37',
+                    background: 'rgba(255,255,255,0.9)',
+                    color: '#4c0519',
+                    border: '1px solid #fecdd3',
                   },
                 },
                 error: {
                   iconTheme: {
                     primary: '#ef4444',
-                    secondary: '#111111',
+                    secondary: '#fff1f2',
                   },
                   style: {
-                    background: '#111111',
-                    color: '#ffffff',
-                    border: '1px solid #ef4444',
+                    background: 'rgba(255,255,255,0.9)',
+                    color: '#4c0519',
+                    border: '1px solid #fca5a5',
                   },
                 },
                 loading: {
                   iconTheme: {
-                    primary: '#D4AF37',
-                    secondary: '#111111',
+                    primary: '#f43f5e',
+                    secondary: '#fff1f2',
                   },
                 },
               }}

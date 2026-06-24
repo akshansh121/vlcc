@@ -14,8 +14,8 @@ function StarRating({ rating = 5 }) {
           key={i}
           className={`w-4 h-4 ${
             i < Math.round(rating)
-              ? 'text-gold-500 fill-gold-500'
-              : 'text-dark-500 fill-dark-500'
+              ? 'text-rose-500 fill-rose-500'
+              : 'text-rose-200 fill-rose-200'
           }`}
         />
       ))}
@@ -34,8 +34,8 @@ function TestimonialCard({ testimonial }) {
     <div className="max-w-2xl mx-auto px-4">
       {/* Quote icon */}
       <div className="flex justify-center mb-6">
-        <div className="w-12 h-12 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center">
-          <Quote className="w-5 h-5 text-gold-500" />
+        <div className="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
+          <Quote className="w-5 h-5 text-rose-500" />
         </div>
       </div>
 
@@ -45,13 +45,13 @@ function TestimonialCard({ testimonial }) {
       </div>
 
       {/* Review Text */}
-      <blockquote className="text-gray-300 text-base sm:text-lg text-center leading-relaxed italic mb-8 min-h-[80px]">
+      <blockquote className="text-rose-900 text-base sm:text-lg text-center leading-relaxed italic mb-8 min-h-[80px] font-light">
         &ldquo;{testimonial.review || testimonial.message || testimonial.comment || 'Amazing experience!'}&rdquo;
       </blockquote>
 
       {/* Author */}
       <div className="flex flex-col items-center gap-3">
-        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-gold-500/40">
+        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-rose-500/30 ring-4 ring-rose-100">
           <img
             src={avatarUrl}
             alt={testimonial.name || testimonial.customerName}
@@ -61,16 +61,16 @@ function TestimonialCard({ testimonial }) {
             onError={(e) => {
               e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                 testimonial.name || 'Client'
-              )}&background=D4AF37&color=0a0a0a&size=100`;
+              )}&background=f43f5e&color=ffffff&size=100`;
             }}
           />
         </div>
         <div className="text-center">
-          <p className="text-white font-semibold text-sm">
+          <p className="text-rose-950 font-semibold text-sm">
             {testimonial.name || testimonial.customerName || 'Happy Client'}
           </p>
           {(testimonial.designation || testimonial.occupation) && (
-            <p className="text-gold-500/70 text-xs mt-0.5">
+            <p className="text-rose-500 text-xs mt-0.5">
               {testimonial.designation || testimonial.occupation}
             </p>
           )}
@@ -142,18 +142,12 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-dark-900 py-24 relative overflow-hidden">
+    <section ref={sectionRef} className="py-24 relative overflow-hidden bg-transparent">
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 50% 50%, #D4AF37 0%, transparent 60%)',
-          }}
-        />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-400/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-rose-400/30 to-transparent" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-rose-400/10 blur-[100px] pointer-events-none" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -178,11 +172,11 @@ export default function TestimonialsSection() {
         {/* Carousel */}
         {loading ? (
           <div className="flex flex-col items-center gap-5 animate-pulse">
-            <div className="w-12 h-12 rounded-full bg-dark-700" />
-            <div className="h-4 w-32 bg-dark-700 rounded" />
-            <div className="h-24 w-full max-w-lg bg-dark-700 rounded" />
-            <div className="w-14 h-14 rounded-full bg-dark-700" />
-            <div className="h-4 w-24 bg-dark-700 rounded" />
+            <div className="w-12 h-12 rounded-full bg-rose-100" />
+            <div className="h-4 w-32 bg-rose-100 rounded" />
+            <div className="h-24 w-full max-w-lg bg-rose-50 rounded" />
+            <div className="w-14 h-14 rounded-full bg-rose-100" />
+            <div className="h-4 w-24 bg-rose-100 rounded" />
           </div>
         ) : testimonials.length > 0 ? (
           <div className="relative">
@@ -206,14 +200,14 @@ export default function TestimonialsSection() {
             {/* Prev / Next Arrows */}
             <button
               onClick={() => { prev(); resetInterval(); }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 w-9 h-9 rounded-full bg-dark-800 border border-dark-600 hover:border-gold-500 text-gray-400 hover:text-gold-500 flex items-center justify-center transition-all duration-200"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 w-9 h-9 rounded-full glass-panel border-rose-200/50 hover:border-rose-400 text-rose-500 hover:text-rose-700 flex items-center justify-center transition-all duration-200"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={() => { next(); resetInterval(); }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 w-9 h-9 rounded-full bg-dark-800 border border-dark-600 hover:border-gold-500 text-gray-400 hover:text-gold-500 flex items-center justify-center transition-all duration-200"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 w-9 h-9 rounded-full glass-panel border-rose-200/50 hover:border-rose-400 text-rose-500 hover:text-rose-700 flex items-center justify-center transition-all duration-200"
               aria-label="Next testimonial"
             >
               <ChevronRight className="w-5 h-5" />
@@ -228,8 +222,8 @@ export default function TestimonialsSection() {
                   aria-label={`Go to testimonial ${i + 1}`}
                   className={`rounded-full transition-all duration-300 ${
                     i === current
-                      ? 'w-6 h-2 bg-gold-500'
-                      : 'w-2 h-2 bg-dark-600 hover:bg-dark-500'
+                      ? 'w-6 h-2 bg-rose-500'
+                      : 'w-2 h-2 bg-rose-200 hover:bg-rose-300'
                   }`}
                 />
               ))}
@@ -237,8 +231,8 @@ export default function TestimonialsSection() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <MessageSquare className="w-10 h-10 text-gold-500/40 mx-auto mb-4" />
-            <p className="text-gray-500">Client reviews coming soon!</p>
+            <MessageSquare className="w-10 h-10 text-rose-400/40 mx-auto mb-4" />
+            <p className="text-rose-600">Client reviews coming soon!</p>
           </div>
         )}
       </div>

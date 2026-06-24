@@ -34,10 +34,10 @@ export default function ServiceCard({
   return (
     <div
       onClick={() => onCardClick && onCardClick(service)}
-      className={`group relative bg-dark-800 rounded-2xl overflow-hidden border border-dark-600 hover:border-gold-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold-500/10 flex flex-col ${onCardClick ? 'cursor-pointer' : ''}`}
+      className={`group relative glass-panel-interactive rounded-2xl overflow-hidden flex flex-col ${onCardClick ? 'cursor-pointer' : ''}`}
     >
       {/* Image */}
-      <div className="relative h-48 w-full bg-gradient-to-br from-dark-700 to-dark-800 flex-shrink-0">
+      <div className="relative h-48 w-full bg-gradient-to-br from-rose-100 to-pink-50 flex-shrink-0">
         {service.image_url && !imgError ? (
           <Image
             src={service.image_url}
@@ -48,17 +48,17 @@ export default function ServiceCard({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-dark-700 to-dark-800">
-            <Sparkles className="w-12 h-12 text-gold-500/40" />
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-rose-100 to-pink-50">
+            <Sparkles className="w-12 h-12 text-rose-400/40" />
           </div>
         )}
 
         {/* Legibility overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent z-[1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-rose-950/30 to-transparent z-[1] pointer-events-none" />
 
         {/* Category badge */}
         {service.category_name && (
-          <span className="absolute top-3 left-3 bg-dark-900/80 backdrop-blur-sm text-gold-500 border border-gold-500/30 text-xs font-bold px-2 py-1 rounded-full z-10">
+          <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-sm text-rose-700 border border-rose-200/60 text-xs font-bold px-2 py-1 rounded-full z-10">
             {service.category_name}
           </span>
         )}
@@ -76,19 +76,19 @@ export default function ServiceCard({
 
       {/* Content */}
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-white font-bold text-lg leading-tight mb-1 line-clamp-1">
+        <h3 className="text-rose-950 font-semibold text-lg leading-tight mb-1 line-clamp-1">
           {service.name}
         </h3>
 
         {service.description && (
-          <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-3 flex-1">
+          <p className="text-rose-700 text-sm leading-relaxed line-clamp-2 mb-3 flex-1 font-light">
             {service.description}
           </p>
         )}
 
         {/* Duration */}
         {service.duration && (
-          <div className="flex items-center gap-1 text-gold-500 text-sm mb-3">
+          <div className="flex items-center gap-1 text-rose-500 text-sm mb-3">
             <Clock size={14} />
             <span>{service.duration} min</span>
           </div>
@@ -96,11 +96,11 @@ export default function ServiceCard({
 
         {/* Price */}
         <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-gold-500 font-bold text-xl">
+          <span className="text-rose-600 font-bold text-xl">
             ₹{parseFloat(displayPrice).toLocaleString('en-IN')}
           </span>
           {hasDiscount && (
-            <span className="text-gray-500 text-sm line-through">
+            <span className="text-rose-400 text-sm line-through">
               ₹{parseFloat(service.original_price).toLocaleString('en-IN')}
             </span>
           )}
@@ -110,10 +110,10 @@ export default function ServiceCard({
         <button
           onClick={handleAddToCart}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 disabled:bg-gold-700 disabled:cursor-not-allowed text-dark-900 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-xl transition-all duration-200 text-sm shadow-sm shadow-rose-500/15"
         >
           {loading ? (
-            <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
           ) : (
             <ShoppingCart size={16} />
           )}

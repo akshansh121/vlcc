@@ -12,16 +12,16 @@ import { useAuth } from '../contexts/AuthContext';
 /* ── Skeleton Card ─────────────────────────────────────────────────────────── */
 function SkeletonCard() {
   return (
-    <div className="bg-dark-800 border border-dark-600 rounded-xl overflow-hidden animate-pulse">
-      <div className="h-48 bg-dark-700" />
+    <div className="glass-panel rounded-xl overflow-hidden animate-pulse">
+      <div className="h-48 bg-rose-100/60" />
       <div className="p-5 space-y-3">
-        <div className="h-3 w-16 bg-dark-600 rounded" />
-        <div className="h-5 w-3/4 bg-dark-600 rounded" />
-        <div className="h-3 w-full bg-dark-700 rounded" />
-        <div className="h-3 w-2/3 bg-dark-700 rounded" />
+        <div className="h-3 w-16 bg-rose-100 rounded" />
+        <div className="h-5 w-3/4 bg-rose-100 rounded" />
+        <div className="h-3 w-full bg-rose-50 rounded" />
+        <div className="h-3 w-2/3 bg-rose-50 rounded" />
         <div className="flex justify-between items-center pt-2">
-          <div className="h-5 w-20 bg-dark-600 rounded" />
-          <div className="h-9 w-28 bg-dark-600 rounded" />
+          <div className="h-5 w-20 bg-rose-100 rounded" />
+          <div className="h-9 w-28 bg-rose-100 rounded" />
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ function ServiceCard({ service, index }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       whileHover={{ y: -4 }}
-      className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-xl overflow-hidden group transition-colors duration-300"
+      className="glass-panel-interactive rounded-xl overflow-hidden group"
     >
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
@@ -75,17 +75,17 @@ function ServiceCard({ service, index }) {
           loading="lazy"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-rose-950/30 to-transparent" />
 
         {/* Category Badge */}
         {service.category && (
-          <span className="absolute top-3 left-3 bg-dark-900/80 backdrop-blur-sm text-gold-500 text-xs font-semibold px-2.5 py-1 rounded-full border border-gold-500/30">
+          <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-sm text-rose-700 text-xs font-semibold px-2.5 py-1 rounded-full border border-rose-200/60">
             {service.category}
           </span>
         )}
 
         {hasDiscount && (
-          <span className="absolute top-3 right-3 bg-gold-500 text-dark-900 text-xs font-bold px-2 py-1 rounded-full">
+          <span className="absolute top-3 right-3 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
             {Math.round(((originalPrice - discountedPrice) / originalPrice) * 100)}% OFF
           </span>
         )}
@@ -93,16 +93,16 @@ function ServiceCard({ service, index }) {
 
       {/* Content */}
       <div className="p-5">
-        <h3 className="text-white font-semibold text-base mb-2 leading-snug line-clamp-1">
+        <h3 className="text-rose-950 font-semibold text-base mb-2 leading-snug line-clamp-1">
           {service.name}
         </h3>
-        <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2">
+        <p className="text-rose-700 text-xs leading-relaxed mb-4 line-clamp-2">
           {service.description || 'Experience a luxurious treatment tailored specifically for you.'}
         </p>
 
         <div className="flex items-center gap-2 mb-4">
-          <Clock className="w-3.5 h-3.5 text-gray-400" />
-          <span className="text-gray-400 text-xs">
+          <Clock className="w-3.5 h-3.5 text-rose-400" />
+          <span className="text-rose-600 text-xs">
             {service.duration ? `${service.duration} min` : '45 min'}
           </span>
         </div>
@@ -111,11 +111,11 @@ function ServiceCard({ service, index }) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             {hasDiscount && (
-              <span className="text-gray-500 text-xs line-through">
+              <span className="text-rose-400 text-xs line-through">
                 ₹{originalPrice?.toLocaleString('en-IN')}
               </span>
             )}
-            <span className="text-gold-500 font-bold text-lg">
+            <span className="text-rose-600 font-bold text-lg">
               ₹{discountedPrice?.toLocaleString('en-IN')}
             </span>
           </div>
@@ -123,7 +123,7 @@ function ServiceCard({ service, index }) {
           <button
             onClick={handleAddToCart}
             disabled={adding}
-            className="flex items-center gap-1.5 bg-gold-500/10 hover:bg-gold-500 border border-gold-500/40 hover:border-gold-500 text-gold-500 hover:text-dark-900 text-xs font-semibold px-3 py-2 rounded-lg transition-all duration-300 disabled:opacity-50"
+            className="flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500 border border-rose-500/30 hover:border-rose-500 text-rose-600 hover:text-white text-xs font-semibold px-3 py-2 rounded-lg transition-all duration-300 disabled:opacity-50"
           >
             <ShoppingCart className="w-3.5 h-3.5" />
             {adding ? 'Adding...' : 'Add to Cart'}
@@ -158,7 +158,7 @@ export default function FeaturedServices() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-dark-800 py-24">
+    <section ref={sectionRef} className="py-24 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -173,11 +173,11 @@ export default function FeaturedServices() {
             Featured{' '}
             <span className="text-gold-500 italic">Services</span>
           </h2>
-          <p className="text-gray-400 text-sm max-w-lg mx-auto mt-3">
+          <p className="text-rose-700 text-sm max-w-lg mx-auto mt-3 font-light">
             Explore our most loved treatments — each one crafted to perfection by our team of expert professionals.
           </p>
           <div className="flex justify-center mt-5">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
+            <div className="h-0.5 w-16 bg-rose-500/40 mx-auto" />
           </div>
         </motion.div>
 
@@ -194,8 +194,8 @@ export default function FeaturedServices() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <Star className="w-10 h-10 text-gold-500/40 mx-auto mb-4" />
-            <p className="text-gray-500">Services coming soon. Check back later!</p>
+            <Star className="w-10 h-10 text-rose-400/40 mx-auto mb-4" />
+            <p className="text-rose-600">Services coming soon. Check back later!</p>
           </div>
         )}
 

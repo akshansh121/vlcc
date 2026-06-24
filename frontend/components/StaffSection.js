@@ -8,13 +8,13 @@ import axios from 'axios';
 /* ── Skeleton ──────────────────────────────────────────────────────────────── */
 function StaffSkeleton() {
   return (
-    <div className="flex-shrink-0 w-56 bg-dark-800 border border-dark-600 rounded-2xl p-5 animate-pulse">
-      <div className="w-20 h-20 rounded-full bg-dark-700 mx-auto mb-4" />
-      <div className="h-4 w-28 bg-dark-700 rounded mx-auto mb-2" />
-      <div className="h-3 w-20 bg-dark-700 rounded mx-auto mb-3" />
+    <div className="flex-shrink-0 w-56 glass-panel rounded-2xl p-5 animate-pulse">
+      <div className="w-20 h-20 rounded-full bg-rose-100 mx-auto mb-4" />
+      <div className="h-4 w-28 bg-rose-100 rounded mx-auto mb-2" />
+      <div className="h-3 w-20 bg-rose-50 rounded mx-auto mb-3" />
       <div className="flex flex-wrap gap-1 justify-center">
         {[...Array(2)].map((_, i) => (
-          <div key={i} className="h-5 w-14 bg-dark-700 rounded-full" />
+          <div key={i} className="h-5 w-14 bg-rose-100 rounded-full" />
         ))}
       </div>
     </div>
@@ -40,11 +40,11 @@ function StaffCard({ member, index }) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
       whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className="flex-shrink-0 w-56 bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-2xl p-5 text-center group transition-all duration-300 cursor-default"
+      className="flex-shrink-0 w-56 glass-panel-interactive rounded-2xl p-5 text-center cursor-default"
     >
       {/* Avatar */}
       <div className="relative mx-auto w-20 h-20 mb-4">
-        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-dark-600 group-hover:border-gold-500/60 transition-colors duration-300">
+        <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-rose-200 group-hover:border-rose-400 transition-colors duration-300">
           <img
             src={avatarUrl}
             alt={member.name}
@@ -52,28 +52,28 @@ function StaffCard({ member, index }) {
             loading="lazy"
             decoding="async"
             onError={(e) => {
-              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=D4AF37&color=0a0a0a&size=150`;
+              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=f43f5e&color=ffffff&size=150`;
             }}
           />
         </div>
         {/* Experience badge */}
         {member.experience && (
-          <div className="absolute -bottom-1 -right-1 bg-gold-500 text-dark-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+          <div className="absolute -bottom-1 -right-1 bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none">
             {member.experience}y
           </div>
         )}
       </div>
 
       {/* Name */}
-      <h3 className="text-white font-semibold text-sm mb-1 truncate">{member.name}</h3>
+      <h3 className="text-rose-950 font-semibold text-sm mb-1 truncate">{member.name}</h3>
 
       {/* Designation */}
-      <p className="text-gold-500 text-xs font-medium mb-3 truncate">
+      <p className="text-rose-500 text-xs font-medium mb-3 truncate">
         {member.designation || member.role || 'Beauty Expert'}
       </p>
 
       {/* Divider */}
-      <div className="h-px bg-dark-600 mb-3 group-hover:bg-gold-500/20 transition-colors" />
+      <div className="h-px bg-rose-200/60 mb-3 group-hover:bg-rose-400/30 transition-colors" />
 
       {/* Specializations */}
       {specializations.length > 0 && (
@@ -84,7 +84,7 @@ function StaffCard({ member, index }) {
           ).map((tag, i) => (
             <span
               key={i}
-              className="bg-dark-700 border border-dark-500 text-gray-400 text-[10px] px-2 py-0.5 rounded-full truncate max-w-full"
+              className="bg-rose-500/10 border border-rose-200 text-rose-700 text-[10px] px-2 py-0.5 rounded-full truncate max-w-full"
             >
               {typeof tag === 'string' ? tag : tag.name || tag}
             </span>
@@ -120,7 +120,7 @@ export default function StaffSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-dark-800 py-24 overflow-hidden">
+    <section ref={sectionRef} className="py-24 overflow-hidden bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -133,17 +133,17 @@ export default function StaffSection() {
           <p className="section-subtitle">Our Team</p>
           <h2 className="section-title">
             Meet Our{' '}
-            <span className="text-gold-500 italic">Expert Staff</span>
+            <span className="text-rose-500 italic">Expert Staff</span>
           </h2>
 
           {/* Elegant divider */}
           <div className="flex items-center justify-center gap-4 mt-5">
-            <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-gold-500/60" />
-            <Award className="w-5 h-5 text-gold-500" />
-            <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-gold-500/60" />
+            <div className="h-px flex-1 max-w-24 bg-gradient-to-r from-transparent to-rose-400/60" />
+            <Award className="w-5 h-5 text-rose-500" />
+            <div className="h-px flex-1 max-w-24 bg-gradient-to-l from-transparent to-rose-400/60" />
           </div>
 
-          <p className="text-gray-400 text-sm max-w-lg mx-auto mt-4">
+          <p className="text-rose-700 text-sm max-w-lg mx-auto mt-4 font-light">
             Our passionate team of certified professionals bring years of expertise and artistry to
             every appointment.
           </p>
@@ -174,14 +174,14 @@ export default function StaffSection() {
             </div>
 
             {/* Mobile scroll hint */}
-            <p className="lg:hidden text-center text-gray-600 text-xs mt-4">
+            <p className="lg:hidden text-center text-rose-500 text-xs mt-4">
               Swipe to see more
             </p>
           </>
         ) : (
           <div className="text-center py-16">
-            <Users className="w-10 h-10 text-gold-500/40 mx-auto mb-4" />
-            <p className="text-gray-500">Staff profiles coming soon!</p>
+            <Users className="w-10 h-10 text-rose-400/40 mx-auto mb-4" />
+            <p className="text-rose-600">Staff profiles coming soon!</p>
           </div>
         )}
       </div>

@@ -2,11 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --color-gold: #D4AF37;
-  --color-dark: #1a1a1a;
+  --color-rose: #f43f5e;
 }
 
 * {
@@ -29,70 +28,128 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: rgb(var(--dark-900));
-  color: #ffffff;
+  background-color: #fff1f2;
+  color: #4c0519;
   overflow-x: hidden;
 }
 
 .font-display {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Rose-tinted scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #fee2e2; }
+::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+
+/* ── Mesh Background ─────────────────────────────────────────────────────── */
+.mesh-bg {
+  background-color: #fff1f2;
+  background-image:
+    radial-gradient(at 0% 0%, #fee2e2 0px, transparent 60%),
+    radial-gradient(at 100% 0%, #fae8ff 0px, transparent 60%),
+    radial-gradient(at 100% 100%, #fce7f3 0px, transparent 60%),
+    radial-gradient(at 0% 100%, #fff1f2 0px, transparent 60%);
+  background-attachment: fixed;
+}
+
+/* ── Glass Panels ────────────────────────────────────────────────────────── */
+.glass-panel {
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  background-color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.03);
+}
+
+.glass-panel-interactive {
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  background-color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(244, 63, 94, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-interactive:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 40px 0 rgba(244, 63, 94, 0.07);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  background-color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: #4c0519;
+  transition: all 0.2s ease;
+}
+
+.glass-input::placeholder { color: #be123c; opacity: 0.4; }
+
+.glass-input:focus {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(244, 63, 94, 0.4);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
+  outline: none;
 }
 
 @layer components {
   .btn-gold {
-    @apply bg-gold-500 hover:bg-gold-400 text-dark-900 font-semibold px-6 py-3 rounded-sm transition-all duration-300 inline-flex items-center gap-2;
+    @apply bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-300 inline-flex items-center gap-2 shadow-lg shadow-rose-500/15 hover:shadow-rose-500/25;
   }
 
   .btn-outline-gold {
-    @apply border border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-dark-900 font-semibold px-6 py-3 rounded-sm transition-all duration-300 inline-flex items-center gap-2;
+    @apply bg-white/60 border border-rose-200 hover:border-rose-400 text-rose-800 hover:text-rose-950 hover:bg-white/80 font-semibold px-6 py-3 rounded-xl transition-all duration-300 inline-flex items-center gap-2;
   }
 
   .card-dark {
-    @apply bg-dark-800 border border-dark-600 rounded-lg overflow-hidden;
+    @apply glass-panel rounded-xl overflow-hidden;
   }
 
   .input-dark {
-    @apply bg-dark-700 border border-dark-500 text-white placeholder-gray-500 rounded-sm px-4 py-3 w-full focus:outline-none focus:border-gold-500 transition-colors;
+    @apply glass-input rounded-xl px-4 py-3 w-full transition-all;
   }
 
   .section-title {
-    @apply text-3xl sm:text-4xl font-display font-bold text-white mb-4;
+    @apply text-3xl sm:text-4xl font-serif font-light text-rose-950 mb-4;
   }
 
   .section-subtitle {
-    @apply text-gold-500 text-sm uppercase tracking-widest font-semibold mb-3;
+    @apply text-rose-600 text-xs font-bold uppercase tracking-[0.25em] mb-3;
   }
 
   .gold-gradient {
-    background: linear-gradient(135deg, #D4AF37 0%, #FDF0A0 50%, #D4AF37 100%);
+    background: linear-gradient(135deg, #f43f5e 0%, #fda4af 50%, #f43f5e 100%);
   }
 
   .glass-dark {
-    @apply bg-dark-800 bg-opacity-80 backdrop-blur-sm border border-dark-600;
+    @apply glass-panel;
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, #FDF0A0, #D4AF37, #c49b2a);
+    background: linear-gradient(135deg, #fda4af, #f43f5e, #e11d48);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .card-premium {
-    @apply bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gold-500/50 hover:shadow-xl hover:shadow-gold-500/10;
+    @apply glass-panel-interactive rounded-2xl overflow-hidden;
   }
 
   .badge-gold {
-    @apply bg-gold-500/10 border border-gold-500/30 text-gold-500 text-xs font-semibold px-2.5 py-1 rounded-full;
+    @apply bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs font-semibold px-2.5 py-1 rounded-full;
   }
 
   .price-gold {
-    @apply text-gold-500 font-bold;
+    @apply text-rose-600 font-bold;
   }
 
   .divider-gold {
     height: 1px;
-    background: linear-gradient(to right, transparent, #D4AF37, transparent);
+    background: linear-gradient(to right, transparent, #f43f5e, transparent);
   }
 }
 
