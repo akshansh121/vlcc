@@ -11,18 +11,23 @@ export default function ThemeToggle({ className = '' }) {
     <button
       onClick={toggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={isDark ? 'Light mode' : 'Dark mode'}
-      className={`relative p-2 rounded-full transition-all duration-300 ${
+      title={isDark ? 'Switch to Light mode' : 'Switch to Dark mode'}
+      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all duration-300 ${
         isDark
-          ? 'text-amber-400 hover:bg-white/10 hover:text-amber-300'
-          : 'text-rose-500 hover:bg-rose-100 hover:text-rose-700'
+          ? 'border-amber-400/40 text-amber-400 bg-amber-400/10 hover:bg-amber-400/20 hover:border-amber-400/60'
+          : 'border-rose-300 text-rose-600 bg-rose-50 hover:bg-rose-100 hover:border-rose-400'
       } ${className}`}
     >
-      <span className="sr-only">{isDark ? 'Light mode' : 'Dark mode'}</span>
       {isDark ? (
-        <Sun className="w-5 h-5" />
+        <>
+          <Sun className="w-3.5 h-3.5" />
+          <span>Light</span>
+        </>
       ) : (
-        <Moon className="w-5 h-5" />
+        <>
+          <Moon className="w-3.5 h-3.5" />
+          <span>Dark</span>
+        </>
       )}
     </button>
   );
