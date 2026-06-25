@@ -15,7 +15,7 @@ const Footer = dynamic(() => import('../components/Footer'), { ssr: true });
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen mesh-bg">
+    <main className="min-h-screen bg-dark-900">
       <Navbar />
       <Hero />
       <AboutSection />

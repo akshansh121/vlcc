@@ -11,16 +11,16 @@ import * as api from '../../lib/api';
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 function PackageSkeleton() {
   return (
-    <div className="glass-panel rounded-2xl p-7 animate-pulse space-y-4">
-      <div className="h-4 w-20 bg-rose-100 rounded" />
-      <div className="h-7 w-40 bg-rose-100 rounded" />
-      <div className="h-10 w-32 bg-rose-100 rounded" />
+    <div className="bg-dark-800 border border-dark-600 rounded-2xl p-7 animate-pulse space-y-4">
+      <div className="h-4 w-20 bg-dark-700 rounded" />
+      <div className="h-7 w-40 bg-dark-700 rounded" />
+      <div className="h-10 w-32 bg-dark-700 rounded" />
       <div className="space-y-2">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-3 bg-rose-100 rounded w-full" />
+          <div key={i} className="h-3 bg-dark-700 rounded w-full" />
         ))}
       </div>
-      <div className="h-11 bg-rose-100 rounded-lg" />
+      <div className="h-11 bg-dark-700 rounded-lg" />
     </div>
   );
 }
@@ -29,27 +29,27 @@ function PackageSkeleton() {
 function PackageCard({ pkg, index }) {
   const tierStyles = {
     silver: {
-      wrapper: 'glass-panel hover:border-rose-200',
-      badge: 'bg-rose-100 text-rose-600 border-rose-200',
-      priceColor: 'text-rose-700',
-      iconBg: 'bg-rose-100',
-      iconColor: 'text-rose-500',
+      wrapper: 'bg-dark-800 border-dark-500 hover:border-gray-400/60',
+      badge: 'bg-gray-500/20 text-gray-300 border-gray-500/40',
+      priceColor: 'text-white',
+      iconBg: 'bg-gray-500/20',
+      iconColor: 'text-gray-300',
       button: 'btn-outline-gold',
     },
     gold: {
-      wrapper: 'glass-panel border-rose-400/60 shadow-lg shadow-rose-500/15',
-      badge: 'bg-rose-500/20 text-rose-600 border-rose-400/40',
-      priceColor: 'text-rose-600',
-      iconBg: 'bg-rose-500/20',
-      iconColor: 'text-rose-500',
+      wrapper: 'bg-gradient-to-b from-dark-800 to-dark-900 border-gold-500 shadow-lg shadow-gold-500/20',
+      badge: 'bg-gold-500/20 text-gold-400 border-gold-500/40',
+      priceColor: 'text-gold-500',
+      iconBg: 'bg-gold-500/20',
+      iconColor: 'text-gold-500',
       button: 'btn-gold',
     },
     platinum: {
-      wrapper: 'glass-panel border-purple-300/60 hover:border-purple-400/60',
-      badge: 'bg-purple-100 text-purple-600 border-purple-200',
-      priceColor: 'text-purple-600',
-      iconBg: 'bg-purple-100',
-      iconColor: 'text-purple-500',
+      wrapper: 'bg-gradient-to-b from-dark-900 to-dark-800 border-purple-500/50 hover:border-purple-400',
+      badge: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+      priceColor: 'text-purple-300',
+      iconBg: 'bg-purple-500/20',
+      iconColor: 'text-purple-300',
       button: 'btn-outline-gold',
     },
   };
@@ -80,7 +80,7 @@ function PackageCard({ pkg, index }) {
     >
       {isGold && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-          <span className="bg-gradient-to-r from-rose-500 to-rose-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide shadow-md shadow-rose-500/30">
+          <span className="bg-gold-500 text-dark-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide shadow-md">
             Most Popular
           </span>
         </div>
@@ -97,39 +97,39 @@ function PackageCard({ pkg, index }) {
             </span>
           )}
         </div>
-        <h3 className="font-serif text-xl font-light text-rose-950 mb-1">{pkg.name}</h3>
+        <h3 className="font-display text-xl font-bold text-white mb-1">{pkg.name}</h3>
         {pkg.description && (
-          <p className="text-rose-700 text-xs leading-relaxed line-clamp-2">{pkg.description}</p>
+          <p className="text-gray-500 text-xs leading-relaxed line-clamp-2">{pkg.description}</p>
         )}
       </div>
 
       <div className="mb-6">
         {hasDiscount && (
-          <span className="text-rose-400 text-sm line-through block">
+          <span className="text-gray-500 text-sm line-through block">
             ₹{pkg.price?.toLocaleString('en-IN')}
           </span>
         )}
         <div className="flex items-baseline gap-1">
-          <span className={`font-serif text-3xl sm:text-4xl font-light ${styles.priceColor}`}>
+          <span className={`font-display text-3xl sm:text-4xl font-bold ${styles.priceColor}`}>
             ₹{discountedPrice?.toLocaleString('en-IN')}
           </span>
-          <span className="text-rose-600 text-sm">/session</span>
+          <span className="text-gray-500 text-sm">/session</span>
         </div>
         {hasDiscount && (
-          <span className="text-green-500 text-xs font-medium mt-1 block">
+          <span className="text-green-400 text-xs font-medium mt-1 block">
             Save ₹{(pkg.price - discountedPrice).toLocaleString('en-IN')}
           </span>
         )}
       </div>
 
-      <div className="h-px mb-6 bg-rose-400/30" />
+      <div className={`h-px mb-6 ${isGold ? 'bg-gold-500/30' : 'bg-dark-600'}`} />
 
       {benefits.length > 0 && (
         <ul className="space-y-2.5 mb-5">
           {benefits.map((benefit, i) => (
             <li key={i} className="flex items-start gap-2.5">
-              <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${styles.iconColor}`} />
-              <span className="text-rose-800 text-xs leading-relaxed">
+              <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isGold ? 'text-gold-500' : styles.iconColor}`} />
+              <span className="text-gray-300 text-xs leading-relaxed">
                 {typeof benefit === 'string' ? benefit : benefit.name || benefit.title || ''}
               </span>
             </li>
@@ -139,18 +139,18 @@ function PackageCard({ pkg, index }) {
 
       {includedServices.length > 0 && (
         <div className="mb-6">
-          <p className="text-rose-600 text-xs uppercase tracking-wide font-semibold mb-2">Includes</p>
+          <p className="text-gray-500 text-xs uppercase tracking-wide font-semibold mb-2">Includes</p>
           <div className="flex flex-wrap gap-1.5">
             {includedServices.slice(0, 5).map((svc, i) => (
               <span
                 key={i}
-                className="bg-rose-500/10 border border-rose-200 text-rose-700 text-xs px-2 py-0.5 rounded-md"
+                className="bg-dark-700 border border-dark-500 text-gray-400 text-xs px-2 py-0.5 rounded-md"
               >
                 {typeof svc === 'string' ? svc : svc.name || ''}
               </span>
             ))}
             {includedServices.length > 5 && (
-              <span className="text-rose-500 text-xs px-2 py-0.5">
+              <span className="text-gray-600 text-xs px-2 py-0.5">
                 +{includedServices.length - 5} more
               </span>
             )}
@@ -187,21 +187,21 @@ export default function PackagesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen mesh-bg">
+    <div className="min-h-screen bg-dark-900">
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-32 pb-16 relative overflow-hidden">
+      <section className="pt-32 pb-16 bg-dark-900 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-rose-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-fuchsia-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-gold-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-xs text-rose-500 mb-8">
-            <Link href="/" className="hover:text-rose-950 transition-colors">Home</Link>
+          <nav className="flex items-center gap-2 text-xs text-gray-500 mb-8">
+            <Link href="/" className="hover:text-gold-500 transition-colors">Home</Link>
             <ChevronRight className="w-3 h-3" />
-            <span className="text-rose-800">Packages</span>
+            <span className="text-gray-300">Packages</span>
           </nav>
 
           <motion.div
@@ -211,14 +211,14 @@ export default function PackagesPage() {
             className="text-center"
           >
             <p className="section-subtitle">Value Bundles</p>
-            <h1 className="font-serif text-4xl sm:text-5xl font-light text-rose-950 mb-4">
-              Our <span className="text-rose-500 italic">Packages</span>
+            <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
+              Our <span className="text-gold-500 italic">Packages</span>
             </h1>
-            <p className="text-rose-700 max-w-xl mx-auto text-sm leading-relaxed font-light">
+            <p className="text-gray-400 max-w-xl mx-auto text-sm leading-relaxed">
               Curated beauty packages designed to deliver the ultimate experience at unbeatable value. Choose the one that suits you best.
             </p>
             <div className="flex justify-center mt-6">
-              <div className="h-0.5 w-16 bg-rose-500/40 mx-auto" />
+              <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
             </div>
           </motion.div>
         </div>
@@ -239,9 +239,9 @@ export default function PackagesPage() {
             </div>
           ) : (
             <div className="text-center py-24">
-              <Package className="w-12 h-12 text-rose-400/40 mx-auto mb-4" />
-              <p className="text-rose-700 text-lg font-serif font-light mb-2">No packages yet</p>
-              <p className="text-rose-500 text-sm">Check back soon for exciting bundle offers.</p>
+              <Package className="w-12 h-12 text-gold-500/30 mx-auto mb-4" />
+              <p className="text-gray-400 text-lg font-display mb-2">No packages yet</p>
+              <p className="text-gray-600 text-sm">Check back soon for exciting bundle offers.</p>
             </div>
           )}
         </div>

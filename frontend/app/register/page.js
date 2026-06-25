@@ -62,7 +62,7 @@ function PasswordStrengthIndicator({ password }) {
             <div
               key={i}
               className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                i < score ? level.color : 'bg-rose-100'
+                i < score ? level.color : 'bg-dark-600'
               }`}
             />
           ))}
@@ -79,9 +79,9 @@ function PasswordStrengthIndicator({ password }) {
               {ok ? (
                 <CheckCircle2 className="w-3 h-3 text-green-400 flex-shrink-0" />
               ) : (
-                <Circle className="w-3 h-3 text-rose-300 flex-shrink-0" />
+                <Circle className="w-3 h-3 text-dark-500 flex-shrink-0" />
               )}
-              <span className={`text-[11px] ${ok ? 'text-green-500' : 'text-rose-400'}`}>
+              <span className={`text-[11px] ${ok ? 'text-green-400' : 'text-gray-500'}`}>
                 {rule.label}
               </span>
             </div>
@@ -95,11 +95,11 @@ function PasswordStrengthIndicator({ password }) {
 function FormField({ label, required, error, children, hint }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em]">
-        {label} {required && <span className="text-rose-500">*</span>}
+      <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest">
+        {label} {required && <span className="text-gold-500">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="text-rose-500 text-[11px]">{hint}</p>}
+      {hint && !error && <p className="text-gray-600 text-[11px]">{hint}</p>}
       <AnimatePresence mode="wait">
         {error && (
           <motion.p
@@ -208,10 +208,10 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
       className="space-y-6"
     >
       <div>
-        <h2 className="text-xl font-semibold text-rose-950 mb-1">Verify your email</h2>
-        <p className="text-rose-700 text-sm">
+        <h2 className="text-xl font-bold text-white mb-1">Verify your email</h2>
+        <p className="text-gray-400 text-sm">
           We sent a 6-digit code to{' '}
-          <span className="text-rose-500 font-medium">{email}</span>
+          <span className="text-gold-400 font-medium">{email}</span>
           . Enter it below to activate your account.
         </p>
       </div>
@@ -228,8 +228,8 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
             value={digit}
             onChange={(e) => handleChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
-            className={`w-11 h-13 text-center text-xl font-bold rounded-lg border bg-white/70 text-rose-950 transition-all focus:outline-none focus:ring-2 focus:ring-rose-400 ${
-              digit ? 'border-rose-500 text-rose-600' : 'border-rose-200'
+            className={`w-11 h-13 text-center text-xl font-bold rounded-lg border bg-dark-700 text-white transition-all focus:outline-none focus:ring-2 focus:ring-gold-500 ${
+              digit ? 'border-gold-500 text-gold-400' : 'border-dark-500'
             }`}
             style={{ height: '52px' }}
           />
@@ -244,7 +244,7 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
       >
         {loading ? (
           <>
-            <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
             Verifying...
           </>
         ) : (
@@ -255,15 +255,15 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
       {/* Resend */}
       <div className="text-center">
         {resendCooldown > 0 ? (
-          <p className="text-rose-600 text-sm">
+          <p className="text-gray-500 text-sm">
             Resend OTP in{' '}
-            <span className="text-rose-500 font-semibold tabular-nums">{resendCooldown}s</span>
+            <span className="text-gold-500 font-semibold tabular-nums">{resendCooldown}s</span>
           </p>
         ) : (
           <button
             onClick={handleResend}
             disabled={resending}
-            className="flex items-center gap-1.5 mx-auto text-rose-500 hover:text-rose-700 text-sm font-medium transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 mx-auto text-gold-500 hover:text-gold-400 text-sm font-medium transition-colors disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
             {resending ? 'Sending…' : 'Resend OTP'}
@@ -274,7 +274,7 @@ function OtpStep({ email, formData, onBack, onSuccess }) {
       {/* Back */}
       <button
         onClick={onBack}
-        className="w-full text-center text-rose-500 hover:text-rose-700 text-sm transition-colors"
+        className="w-full text-center text-gray-500 hover:text-gray-300 text-sm transition-colors"
       >
         ← Back to registration form
       </button>
@@ -333,11 +333,11 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen mesh-bg flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-dark-900 flex flex-col items-center justify-center px-4 py-12">
 
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-rose-400/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-fuchsia-400/15 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-gold-500/3 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-gold-500/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
       </div>
 
       <motion.div
@@ -349,17 +349,15 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <Link href="/" className="flex items-center gap-2 mb-6 group">
-            <div className="rounded-full bg-rose-500/10 p-2 border border-rose-500/20 group-hover:bg-rose-500/20 transition-all">
-              <Sparkles className="w-5 h-5 text-rose-600" />
-            </div>
-            <span className="font-serif text-2xl font-bold text-rose-950 tracking-wide group-hover:text-rose-600 transition-colors">
+            <Sparkles className="w-7 h-7 text-gold-500 group-hover:scale-110 transition-transform" />
+            <span className="font-display text-2xl font-bold text-gold-500 tracking-wide">
               Beauty World
             </span>
           </Link>
-          <h1 className="font-serif text-3xl font-light text-rose-950 text-center">
+          <h1 className="font-display text-3xl font-bold text-white text-center">
             Create Account
           </h1>
-          <p className="text-rose-700 text-sm mt-1 text-center">
+          <p className="text-gray-400 text-sm mt-1 text-center">
             {step === 'otp'
               ? 'Verify your email to complete sign-up'
               : 'Join Beauty World and elevate your beauty experience'}
@@ -367,7 +365,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Card */}
-        <div className="glass-panel rounded-2xl overflow-hidden shadow-xl shadow-rose-500/5">
+        <div className="bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden shadow-2xl">
           <div className="p-7">
             <AnimatePresence mode="wait">
               {step === 'otp' ? (
@@ -391,7 +389,7 @@ export default function RegisterPage() {
                     {/* Full Name */}
                     <FormField label="Full Name" required error={errors.fullName?.message}>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                         <input
                           type="text"
                           placeholder="Your full name"
@@ -412,7 +410,7 @@ export default function RegisterPage() {
                     {/* Email */}
                     <FormField label="Email Address" required error={errors.email?.message}>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                         <input
                           type="email"
                           placeholder="you@example.com"
@@ -436,11 +434,11 @@ export default function RegisterPage() {
                       hint="We'll use this to confirm your bookings"
                     >
                       <div className="flex">
-                        <div className="flex items-center gap-1.5 bg-white/60 border border-rose-200 border-r-0 rounded-l-xl px-3 py-3 flex-shrink-0">
-                          <span className="text-sm text-rose-700 font-medium">+91</span>
+                        <div className="flex items-center gap-1.5 bg-dark-700 border border-dark-500 border-r-0 rounded-l-sm px-3 py-3 flex-shrink-0">
+                          <span className="text-sm text-gray-400 font-medium">+91</span>
                         </div>
                         <div className="relative flex-1">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                           <input
                             type="tel"
                             placeholder="98765 43210"
@@ -463,7 +461,7 @@ export default function RegisterPage() {
                     {/* Password */}
                     <FormField label="Password" required error={errors.password?.message}>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                         <input
                           type={showPassword ? 'text' : 'password'}
                           placeholder="Create a strong password"
@@ -476,7 +474,7 @@ export default function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowPassword((v) => !v)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-400 hover:text-rose-600 transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
                         >
                           {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -491,7 +489,7 @@ export default function RegisterPage() {
                     {/* Confirm Password */}
                     <FormField label="Confirm Password" required error={errors.confirmPassword?.message}>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
                         <input
                           type={showConfirm ? 'text' : 'password'}
                           placeholder="Repeat your password"
@@ -505,7 +503,7 @@ export default function RegisterPage() {
                         <button
                           type="button"
                           onClick={() => setShowConfirm((v) => !v)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-400 hover:text-rose-600 transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
                         >
                           {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -523,9 +521,9 @@ export default function RegisterPage() {
                               required: 'You must accept the Terms & Conditions to continue',
                             })}
                           />
-                          <div className="w-5 h-5 border border-rose-300 rounded peer-checked:bg-rose-500 peer-checked:border-rose-500 transition-all duration-200 flex items-center justify-center group-hover:border-rose-400">
+                          <div className="w-5 h-5 border border-dark-500 rounded peer-checked:bg-gold-500 peer-checked:border-gold-500 transition-all duration-200 flex items-center justify-center group-hover:border-gold-500/60">
                             <svg
-                              className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity"
+                              className="w-3 h-3 text-dark-900 opacity-0 peer-checked:opacity-100 transition-opacity"
                               fill="none"
                               viewBox="0 0 12 12"
                               stroke="currentColor"
@@ -535,13 +533,13 @@ export default function RegisterPage() {
                             </svg>
                           </div>
                         </div>
-                        <span className="text-rose-700 text-sm leading-relaxed">
+                        <span className="text-gray-400 text-sm leading-relaxed">
                           I agree to the{' '}
-                          <Link href="/terms" className="text-rose-500 hover:text-rose-700 transition-colors">
+                          <Link href="/terms" className="text-gold-500 hover:text-gold-400 transition-colors">
                             Terms &amp; Conditions
                           </Link>{' '}
                           and{' '}
-                          <Link href="/privacy" className="text-rose-500 hover:text-rose-700 transition-colors">
+                          <Link href="/privacy" className="text-gold-500 hover:text-gold-400 transition-colors">
                             Privacy Policy
                           </Link>
                         </span>
@@ -556,7 +554,7 @@ export default function RegisterPage() {
                     >
                       {isSubmitting ? (
                         <>
-                          <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
                           Sending OTP...
                         </>
                       ) : (
@@ -567,10 +565,10 @@ export default function RegisterPage() {
 
                   <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-rose-200/60" />
+                      <div className="w-full border-t border-dark-600" />
                     </div>
                     <div className="relative flex justify-center">
-                      <span className="bg-white/70 backdrop-blur-sm px-3 text-rose-500 text-xs rounded">
+                      <span className="bg-dark-800 px-3 text-gray-500 text-xs">
                         Already have an account?
                       </span>
                     </div>
@@ -578,7 +576,7 @@ export default function RegisterPage() {
 
                   <Link
                     href="/login"
-                    className="flex items-center justify-center w-full border border-rose-200 hover:border-rose-400 text-rose-700 hover:text-rose-950 rounded-xl py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/60"
+                    className="flex items-center justify-center w-full border border-dark-500 hover:border-gold-500/50 text-gray-300 hover:text-white rounded-sm py-2.5 text-sm font-medium transition-all duration-200 hover:bg-dark-700"
                   >
                     Sign In Instead
                   </Link>
@@ -588,9 +586,9 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <p className="text-center mt-6 text-rose-500 text-xs">
-          <Link href="/" className="hover:text-rose-950 transition-colors">
-            ← Back to home
+        <p className="text-center mt-6 text-gray-500 text-xs">
+          <Link href="/" className="hover:text-gold-500 transition-colors">
+            Back to home
           </Link>
         </p>
       </motion.div>

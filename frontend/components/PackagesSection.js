@@ -9,16 +9,16 @@ import axios from 'axios';
 /* ── Skeleton ──────────────────────────────────────────────────────────────── */
 function PackageSkeleton() {
   return (
-    <div className="glass-panel rounded-2xl p-7 animate-pulse space-y-4">
-      <div className="h-4 w-20 bg-rose-100 rounded" />
-      <div className="h-7 w-40 bg-rose-100 rounded" />
-      <div className="h-10 w-32 bg-rose-100 rounded" />
+    <div className="bg-dark-800 border border-dark-600 rounded-2xl p-7 animate-pulse space-y-4">
+      <div className="h-4 w-20 bg-dark-700 rounded" />
+      <div className="h-7 w-40 bg-dark-700 rounded" />
+      <div className="h-10 w-32 bg-dark-700 rounded" />
       <div className="space-y-2">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-3 bg-rose-50 rounded w-full" />
+          <div key={i} className="h-3 bg-dark-700 rounded w-full" />
         ))}
       </div>
-      <div className="h-11 bg-rose-100 rounded-lg" />
+      <div className="h-11 bg-dark-700 rounded-lg" />
     </div>
   );
 }
@@ -27,27 +27,27 @@ function PackageSkeleton() {
 function PackageCard({ pkg, index }) {
   const tierStyles = {
     silver: {
-      wrapper: 'glass-panel hover:border-rose-200',
-      badge: 'bg-rose-100/60 text-rose-700 border-rose-200',
-      priceColor: 'text-rose-800',
-      iconBg: 'bg-rose-100/60',
-      iconColor: 'text-rose-500',
+      wrapper: 'bg-dark-800 border-dark-500 hover:border-gray-400/60',
+      badge: 'bg-gray-500/20 text-gray-300 border-gray-500/40',
+      priceColor: 'text-white',
+      iconBg: 'bg-gray-500/20',
+      iconColor: 'text-gray-300',
       button: 'btn-outline-gold',
     },
     gold: {
-      wrapper: 'glass-panel border-rose-400/60 shadow-lg shadow-rose-500/15',
-      badge: 'bg-rose-500/20 text-rose-700 border-rose-400/40',
-      priceColor: 'text-rose-600',
-      iconBg: 'bg-rose-500/20',
-      iconColor: 'text-rose-500',
+      wrapper: 'bg-gradient-to-b from-dark-800 to-dark-900 border-gold-500 shadow-lg shadow-gold-500/20',
+      badge: 'bg-gold-500/20 text-gold-400 border-gold-500/40',
+      priceColor: 'text-gold-500',
+      iconBg: 'bg-gold-500/20',
+      iconColor: 'text-gold-500',
       button: 'btn-gold',
     },
     platinum: {
-      wrapper: 'glass-panel border-purple-300/60 hover:border-purple-400/60',
-      badge: 'bg-purple-500/10 text-purple-700 border-purple-300/50',
-      priceColor: 'text-purple-700',
-      iconBg: 'bg-purple-500/10',
-      iconColor: 'text-purple-500',
+      wrapper: 'bg-gradient-to-b from-dark-900 to-dark-800 border-purple-500/50 hover:border-purple-400',
+      badge: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+      priceColor: 'text-purple-300',
+      iconBg: 'bg-purple-500/20',
+      iconColor: 'text-purple-300',
       button: 'btn-outline-gold',
     },
   };
@@ -79,7 +79,7 @@ function PackageCard({ pkg, index }) {
       {/* Popular badge */}
       {isGold && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-          <span className="bg-gradient-to-r from-rose-500 to-rose-600 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide shadow-md shadow-rose-500/30">
+          <span className="bg-gold-500 text-dark-900 text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wide shadow-md">
             Most Popular
           </span>
         </div>
@@ -98,42 +98,42 @@ function PackageCard({ pkg, index }) {
           )}
         </div>
 
-        <h3 className="font-serif text-xl font-semibold text-rose-950 mb-1">{pkg.name}</h3>
+        <h3 className="font-display text-xl font-bold text-white mb-1">{pkg.name}</h3>
         {pkg.description && (
-          <p className="text-rose-700 text-xs leading-relaxed line-clamp-2">{pkg.description}</p>
+          <p className="text-gray-500 text-xs leading-relaxed line-clamp-2">{pkg.description}</p>
         )}
       </div>
 
       {/* Pricing */}
       <div className="mb-6">
         {hasDiscount && (
-          <span className="text-rose-400 text-sm line-through block">
+          <span className="text-gray-500 text-sm line-through block">
             ₹{pkg.price?.toLocaleString('en-IN')}
           </span>
         )}
         <div className="flex items-baseline gap-1">
-          <span className={`font-serif text-3xl sm:text-4xl font-bold ${styles.priceColor}`}>
+          <span className={`font-display text-3xl sm:text-4xl font-bold ${styles.priceColor}`}>
             ₹{discountedPrice?.toLocaleString('en-IN')}
           </span>
-          <span className="text-rose-600 text-sm">/session</span>
+          <span className="text-gray-500 text-sm">/session</span>
         </div>
         {hasDiscount && (
-          <span className="text-green-600 text-xs font-medium mt-1 block">
+          <span className="text-green-400 text-xs font-medium mt-1 block">
             Save ₹{(pkg.price - discountedPrice).toLocaleString('en-IN')}
           </span>
         )}
       </div>
 
       {/* Divider */}
-      <div className={`h-px mb-6 ${isGold ? 'bg-rose-400/30' : 'bg-rose-200/50'}`} />
+      <div className={`h-px mb-6 ${isGold ? 'bg-gold-500/30' : 'bg-dark-600'}`} />
 
       {/* Benefits */}
       {benefits.length > 0 && (
         <ul className="space-y-2.5 mb-5">
           {benefits.map((benefit, i) => (
             <li key={i} className="flex items-start gap-2.5">
-              <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isGold ? 'text-rose-500' : styles.iconColor}`} />
-              <span className="text-rose-800 text-xs leading-relaxed">
+              <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${isGold ? 'text-gold-500' : styles.iconColor}`} />
+              <span className="text-gray-300 text-xs leading-relaxed">
                 {typeof benefit === 'string' ? benefit : benefit.name || benefit.title || ''}
               </span>
             </li>
@@ -144,18 +144,18 @@ function PackageCard({ pkg, index }) {
       {/* Included Services */}
       {includedServices.length > 0 && (
         <div className="mb-6">
-          <p className="text-rose-600 text-xs uppercase tracking-wide font-semibold mb-2">Includes</p>
+          <p className="text-gray-500 text-xs uppercase tracking-wide font-semibold mb-2">Includes</p>
           <div className="flex flex-wrap gap-1.5">
             {includedServices.slice(0, 5).map((svc, i) => (
               <span
                 key={i}
-                className="bg-rose-500/10 border border-rose-200 text-rose-700 text-xs px-2 py-0.5 rounded-md"
+                className="bg-dark-700 border border-dark-500 text-gray-400 text-xs px-2 py-0.5 rounded-md"
               >
                 {typeof svc === 'string' ? svc : svc.name || ''}
               </span>
             ))}
             {includedServices.length > 5 && (
-              <span className="text-rose-500 text-xs px-2 py-0.5">
+              <span className="text-gray-600 text-xs px-2 py-0.5">
                 +{includedServices.length - 5} more
               </span>
             )}
@@ -201,7 +201,7 @@ export default function PackagesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 bg-transparent">
+    <section ref={sectionRef} className="bg-dark-900 py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -216,11 +216,11 @@ export default function PackagesSection() {
             Our{' '}
             <span className="text-gold-500 italic">Packages</span>
           </h2>
-          <p className="text-rose-700 text-sm max-w-lg mx-auto mt-3 font-light">
+          <p className="text-gray-400 text-sm max-w-lg mx-auto mt-3">
             Choose from our curated packages — designed to deliver the ultimate beauty experience at unbeatable value.
           </p>
           <div className="flex justify-center mt-5">
-            <div className="h-0.5 w-16 bg-rose-500/40 mx-auto" />
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
           </div>
         </motion.div>
 
@@ -237,8 +237,8 @@ export default function PackagesSection() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <Package className="w-10 h-10 text-rose-400/40 mx-auto mb-4" />
-            <p className="text-rose-600">Packages coming soon. Stay tuned!</p>
+            <Package className="w-10 h-10 text-gold-500/40 mx-auto mb-4" />
+            <p className="text-gray-500">Packages coming soon. Stay tuned!</p>
           </div>
         )}
 

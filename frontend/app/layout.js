@@ -35,21 +35,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        {/* Anti-flash: set dark class before first paint */}
+        {/* Anti-flash: set dark class before first paint, dark is default */}
         <script dangerouslySetInnerHTML={{
           __html: `try{var t=localStorage.getItem('theme')||'dark';if(t==='dark')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}`
         }} />
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-        <GoogleAuthWrapper>
-        <AuthProvider>
-          <CartProvider>
+          <GoogleAuthWrapper>
+            <AuthProvider>
+              <CartProvider>
                 {children}
-            <ThemedToaster />
-          </CartProvider>
-        </AuthProvider>
-        </GoogleAuthWrapper>
+                <ThemedToaster />
+              </CartProvider>
+            </AuthProvider>
+          </GoogleAuthWrapper>
         </ThemeProvider>
       </body>
     </html>

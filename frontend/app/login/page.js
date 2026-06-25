@@ -48,10 +48,10 @@ function GoogleLoginButton({ onSuccess, onError }) {
       type="button"
       disabled={loading}
       onClick={() => { setLoading(true); login(); }}
-      className="w-full flex items-center justify-center gap-3 bg-white/70 hover:bg-white/90 border border-rose-200 hover:border-rose-300 text-rose-800 rounded-xl py-3 px-4 text-sm font-medium transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm"
+      className="w-full flex items-center justify-center gap-3 bg-dark-800 hover:bg-dark-700 border border-dark-500 hover:border-gold-500/60 text-white rounded-lg py-3 px-4 text-sm font-medium transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed group"
     >
       {loading ? (
-        <span className="inline-block w-5 h-5 border-2 border-rose-400 border-t-transparent rounded-full animate-spin" />
+        <span className="inline-block w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
       ) : (
         <GoogleIcon />
       )}
@@ -66,7 +66,7 @@ function GoogleLoginButton({ onSuccess, onError }) {
 function FormField({ label, error, children }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-rose-700 text-xs font-bold uppercase tracking-[0.15em]">
+      <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest">
         {label}
       </label>
       {children}
@@ -92,7 +92,7 @@ function PasswordInput({ registration, error, placeholder = 'Enter your password
   const [show, setShow] = useState(false);
   return (
     <div className="relative">
-      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
       <input
         type={show ? 'text' : 'password'}
         placeholder={placeholder}
@@ -102,7 +102,7 @@ function PasswordInput({ registration, error, placeholder = 'Enter your password
       <button
         type="button"
         onClick={() => setShow((v) => !v)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-400 hover:text-rose-600 transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
       >
         {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
       </button>
@@ -158,10 +158,10 @@ function LoginForm({ onSuccess }) {
       {/* Divider */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-rose-200/60" />
+          <div className="w-full border-t border-dark-600" />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-white/70 backdrop-blur-sm px-3 text-rose-500 text-xs rounded">or sign in with email</span>
+          <span className="bg-dark-800 px-3 text-gray-500 text-xs">or sign in with email</span>
         </div>
       </div>
 
@@ -169,7 +169,7 @@ function LoginForm({ onSuccess }) {
         {/* Email */}
         <FormField label="Email Address" error={errors.email?.message}>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             <input
               type="email"
               placeholder="you@example.com"
@@ -200,7 +200,7 @@ function LoginForm({ onSuccess }) {
         <div className="flex justify-end">
           <Link
             href="/forgot-password"
-            className="text-xs text-rose-500 hover:text-rose-700 transition-colors"
+            className="text-xs text-gold-500 hover:text-gold-400 transition-colors"
           >
             Forgot Password?
           </Link>
@@ -214,7 +214,7 @@ function LoginForm({ onSuccess }) {
         >
           {isSubmitting ? (
             <>
-              <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
               Signing In...
             </>
           ) : (
@@ -241,12 +241,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen mesh-bg flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-dark-900 flex flex-col items-center justify-center px-4 py-12">
 
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-rose-400/20 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-fuchsia-400/15 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-gold-500/3 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-gold-500/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
       </div>
 
       <motion.div
@@ -258,42 +258,40 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <Link href="/" className="flex items-center gap-2 mb-6 group">
-            <div className="rounded-full bg-rose-500/10 p-2 border border-rose-500/20 group-hover:bg-rose-500/20 transition-all">
-              <Sparkles className="w-5 h-5 text-rose-600" />
-            </div>
-            <span className="font-serif text-2xl font-bold text-rose-950 tracking-wide group-hover:text-rose-600 transition-colors">
+            <Sparkles className="w-7 h-7 text-gold-500 group-hover:scale-110 transition-transform" />
+            <span className="font-display text-2xl font-bold text-gold-500 tracking-wide">
               Beauty World
             </span>
           </Link>
-          <h1 className="font-serif text-3xl font-light text-rose-950 text-center">Welcome Back</h1>
-          <p className="text-rose-700 text-sm mt-1 text-center">Sign in to access your account</p>
+          <h1 className="font-display text-3xl font-bold text-white text-center">Welcome Back</h1>
+          <p className="text-gray-400 text-sm mt-1 text-center">Sign in to access your account</p>
         </div>
 
         {/* Card */}
-        <div className="glass-panel rounded-2xl overflow-hidden shadow-xl shadow-rose-500/5 p-7">
+        <div className="bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden shadow-2xl p-7">
           <LoginForm onSuccess={handleSuccess} />
 
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-rose-200/60" />
+              <div className="w-full border-t border-dark-600" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-white/70 backdrop-blur-sm px-3 text-rose-500 text-xs rounded">New to Beauty World?</span>
+              <span className="bg-dark-800 px-3 text-gray-500 text-xs">New to Beauty World?</span>
             </div>
           </div>
 
           {/* Register link */}
           <Link
             href="/register"
-            className="flex items-center justify-center w-full border border-rose-200 hover:border-rose-400 text-rose-700 hover:text-rose-950 rounded-xl py-2.5 text-sm font-medium transition-all duration-200 hover:bg-white/60"
+            className="flex items-center justify-center w-full border border-dark-500 hover:border-gold-500/50 text-gray-300 hover:text-white rounded-lg py-2.5 text-sm font-medium transition-all duration-200 hover:bg-dark-700"
           >
             Create an Account
           </Link>
         </div>
 
-        <p className="text-center mt-6 text-rose-500 text-xs">
-          <Link href="/" className="hover:text-rose-950 transition-colors">
+        <p className="text-center mt-6 text-gray-500 text-xs">
+          <Link href="/" className="hover:text-gold-500 transition-colors">
             ← Back to home
           </Link>
         </p>

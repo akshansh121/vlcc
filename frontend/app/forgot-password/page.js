@@ -21,18 +21,18 @@ function Steps({ current }) {
           <div key={label} className="flex items-center gap-2">
             <div className="flex flex-col items-center gap-1">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
-                done ? 'bg-rose-500 border-rose-500 text-white'
-                  : active ? 'border-rose-500 text-rose-500'
-                  : 'border-rose-200 text-rose-400'
+                done ? 'bg-gold-500 border-gold-500 text-dark-900'
+                  : active ? 'border-gold-500 text-gold-500'
+                  : 'border-dark-500 text-gray-600'
               }`}>
                 {done ? <CheckCircle2 className="w-4 h-4" /> : idx}
               </div>
-              <span className={`text-xs hidden sm:block ${active ? 'text-rose-500' : done ? 'text-rose-600' : 'text-rose-400'}`}>
+              <span className={`text-xs hidden sm:block ${active ? 'text-gold-400' : done ? 'text-gold-600' : 'text-gray-600'}`}>
                 {label}
               </span>
             </div>
             {i < steps.length - 1 && (
-              <div className={`w-10 sm:w-16 h-px mb-4 ${idx < current ? 'bg-rose-500' : 'bg-rose-200'}`} />
+              <div className={`w-10 sm:w-16 h-px mb-4 ${idx < current ? 'bg-gold-500' : 'bg-dark-600'}`} />
             )}
           </div>
         );
@@ -69,18 +69,18 @@ function StepEmail({ onNext }) {
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.25 }}
     >
-      <h2 className="text-xl font-bold text-rose-950 mb-1">Forgot your password?</h2>
-      <p className="text-rose-700 text-sm mb-6">
+      <h2 className="text-xl font-bold text-white mb-1">Forgot your password?</h2>
+      <p className="text-gray-400 text-sm mb-6">
         Enter your email and we'll send you a 6-digit OTP to reset your password.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-1.5">
-          <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest">
+          <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest">
             Email Address
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             <input
               type="email"
               value={email}
@@ -99,7 +99,7 @@ function StepEmail({ onNext }) {
         >
           {loading ? (
             <>
-              <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
               Sending OTP...
             </>
           ) : (
@@ -191,11 +191,11 @@ function StepOtp({ email, onNext, onResend }) {
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.25 }}
     >
-      <h2 className="text-xl font-bold text-rose-950 mb-1">Enter your OTP</h2>
-      <p className="text-rose-700 text-sm mb-1">
+      <h2 className="text-xl font-bold text-white mb-1">Enter your OTP</h2>
+      <p className="text-gray-400 text-sm mb-1">
         We sent a 6-digit code to
       </p>
-      <p className="text-rose-500 text-sm font-medium mb-6">{email}</p>
+      <p className="text-gold-400 text-sm font-medium mb-6">{email}</p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* OTP boxes */}
@@ -210,10 +210,10 @@ function StepOtp({ email, onNext, onResend }) {
               value={digit}
               onChange={(e) => handleChange(e.target.value, idx)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
-              className={`w-11 h-14 text-center text-2xl font-bold rounded-lg border-2 bg-white/60 text-rose-950 outline-none transition-all ${
+              className={`w-11 h-14 text-center text-2xl font-bold rounded-lg border-2 bg-dark-700 text-white outline-none transition-all ${
                 digit
-                  ? 'border-rose-500 text-rose-500'
-                  : 'border-rose-200 focus:border-rose-400'
+                  ? 'border-gold-500 text-gold-400'
+                  : 'border-dark-500 focus:border-gold-500/70'
               }`}
             />
           ))}
@@ -226,7 +226,7 @@ function StepOtp({ email, onNext, onResend }) {
         >
           {loading ? (
             <>
-              <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
               Verifying...
             </>
           ) : (
@@ -238,14 +238,14 @@ function StepOtp({ email, onNext, onResend }) {
       {/* Resend */}
       <div className="mt-5 text-center">
         {countdown > 0 ? (
-          <p className="text-rose-600 text-sm">
-            Resend OTP in <span className="text-rose-500 font-medium">{countdown}s</span>
+          <p className="text-gray-500 text-sm">
+            Resend OTP in <span className="text-gold-500 font-medium">{countdown}s</span>
           </p>
         ) : (
           <button
             onClick={handleResend}
             disabled={resending}
-            className="inline-flex items-center gap-1.5 text-rose-500 hover:text-rose-600 text-sm font-medium transition-colors disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 text-gold-500 hover:text-gold-400 text-sm font-medium transition-colors disabled:opacity-60"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
             {resending ? 'Sending...' : 'Resend OTP'}
@@ -288,19 +288,19 @@ function StepPassword({ resetToken, onDone }) {
       exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.25 }}
     >
-      <h2 className="text-xl font-bold text-rose-950 mb-1">Set new password</h2>
-      <p className="text-rose-700 text-sm mb-6">
+      <h2 className="text-xl font-bold text-white mb-1">Set new password</h2>
+      <p className="text-gray-400 text-sm mb-6">
         Choose a strong password with at least 6 characters.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* New password */}
         <div className="space-y-1.5">
-          <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest">
+          <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest">
             New Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             <input
               type={showPw ? 'text' : 'password'}
               value={password}
@@ -312,7 +312,7 @@ function StepPassword({ resetToken, onDone }) {
             <button
               type="button"
               onClick={() => setShowPw((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-400 hover:text-rose-600 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
             >
               {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -326,7 +326,7 @@ function StepPassword({ resetToken, onDone }) {
                   <div key={lvl} className={`h-1 flex-1 rounded-full transition-colors ${
                     lvl <= strength
                       ? strength <= 1 ? 'bg-red-500' : strength <= 2 ? 'bg-amber-500' : strength <= 3 ? 'bg-yellow-400' : 'bg-green-500'
-                      : 'bg-rose-100'
+                      : 'bg-dark-500'
                   }`} />
                 );
               })}
@@ -336,11 +336,11 @@ function StepPassword({ resetToken, onDone }) {
 
         {/* Confirm password */}
         <div className="space-y-1.5">
-          <label className="block text-rose-700 text-xs font-medium uppercase tracking-widest">
+          <label className="block text-gray-400 text-xs font-medium uppercase tracking-widest">
             Confirm Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             <input
               type={showConfirm ? 'text' : 'password'}
               value={confirm}
@@ -354,7 +354,7 @@ function StepPassword({ resetToken, onDone }) {
             <button
               type="button"
               onClick={() => setShowConfirm((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-400 hover:text-rose-600 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
             >
               {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
@@ -371,7 +371,7 @@ function StepPassword({ resetToken, onDone }) {
         >
           {loading ? (
             <>
-              <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
               Resetting...
             </>
           ) : (
@@ -402,13 +402,13 @@ function SuccessScreen() {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.15, type: 'spring', stiffness: 200 }}
-        className="w-16 h-16 rounded-full bg-green-50 border-2 border-green-500 flex items-center justify-center mx-auto mb-4"
+        className="w-16 h-16 rounded-full bg-green-900/40 border-2 border-green-500 flex items-center justify-center mx-auto mb-4"
       >
-        <CheckCircle2 className="w-8 h-8 text-green-600" />
+        <CheckCircle2 className="w-8 h-8 text-green-400" />
       </motion.div>
-      <h2 className="text-xl font-bold text-rose-950 mb-2">Password Reset!</h2>
-      <p className="text-rose-700 text-sm mb-1">Your password has been updated successfully.</p>
-      <p className="text-rose-500 text-xs">Redirecting to login...</p>
+      <h2 className="text-xl font-bold text-white mb-2">Password Reset!</h2>
+      <p className="text-gray-400 text-sm mb-1">Your password has been updated successfully.</p>
+      <p className="text-gray-500 text-xs">Redirecting to login...</p>
     </motion.div>
   );
 }
@@ -421,11 +421,11 @@ export default function ForgotPasswordPage() {
   const [done, setDone] = useState(false);
 
   return (
-    <div className="min-h-screen mesh-bg flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-dark-900 flex flex-col items-center justify-center px-4 py-12">
       {/* Background decoration */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-rose-400/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-rose-400/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-gold-500/3 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-gold-500/3 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
       </div>
 
       <motion.div
@@ -437,18 +437,18 @@ export default function ForgotPasswordPage() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-8">
           <Link href="/" className="flex items-center gap-2 mb-6 group">
-            <Sparkles className="w-7 h-7 text-rose-500 group-hover:scale-110 transition-transform" />
-            <span className="font-serif text-2xl font-bold text-rose-500 tracking-wide">
+            <Sparkles className="w-7 h-7 text-gold-500 group-hover:scale-110 transition-transform" />
+            <span className="font-display text-2xl font-bold text-gold-500 tracking-wide">
               Beauty World
             </span>
           </Link>
-          <h1 className="font-serif text-2xl font-bold text-rose-950 text-center">
+          <h1 className="font-display text-2xl font-bold text-white text-center">
             Reset Password
           </h1>
         </div>
 
         {/* Card */}
-        <div className="glass-panel border border-rose-200 rounded-2xl shadow-2xl p-7">
+        <div className="bg-dark-800 border border-dark-600 rounded-2xl shadow-2xl p-7">
           {!done && <Steps current={step} />}
 
           <AnimatePresence mode="wait">
@@ -480,7 +480,7 @@ export default function ForgotPasswordPage() {
           <div className="text-center mt-5">
             <Link
               href="/login"
-              className="inline-flex items-center gap-1.5 text-rose-600 hover:text-rose-500 text-sm transition-colors"
+              className="inline-flex items-center gap-1.5 text-gray-500 hover:text-gold-500 text-sm transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               Back to Login

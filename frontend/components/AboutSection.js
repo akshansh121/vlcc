@@ -63,7 +63,7 @@ export default function AboutSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section ref={sectionRef} className="py-24 overflow-hidden bg-transparent">
+    <section ref={sectionRef} className="bg-dark-900 py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
@@ -76,10 +76,10 @@ export default function AboutSection() {
           <motion.p variants={fadeUp} className="section-subtitle">About Us</motion.p>
           <motion.h2 variants={fadeUp} className="section-title">
             Why Choose{' '}
-            <span className="text-rose-500 italic">Beauty World?</span>
+            <span className="text-gold-500 italic">Beauty World?</span>
           </motion.h2>
           <motion.div variants={fadeUp} className="flex justify-center">
-            <div className="h-0.5 w-16 bg-rose-500/40 mx-auto" />
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
           </motion.div>
         </motion.div>
 
@@ -98,10 +98,10 @@ export default function AboutSection() {
               initial={{ scale: 0, rotate: -12 }}
               animate={isInView ? { scale: 1, rotate: -12 } : { scale: 0, rotate: -12 }}
               transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
-              className="absolute -top-3 -left-3 sm:-top-5 sm:-left-5 z-10 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-rose-500 to-rose-600 flex flex-col items-center justify-center shadow-xl shadow-rose-500/30"
+              className="absolute -top-3 -left-3 sm:-top-5 sm:-left-5 z-10 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gold-500 flex flex-col items-center justify-center shadow-xl shadow-gold-500/30"
             >
-              <span className="font-serif text-white text-xl sm:text-2xl font-bold leading-none">15+</span>
-              <span className="text-white text-[9px] sm:text-xs font-semibold text-center leading-tight mt-1">Years of<br />Excellence</span>
+              <span className="font-display text-dark-900 text-xl sm:text-2xl font-bold leading-none">15+</span>
+              <span className="text-dark-900 text-[9px] sm:text-xs font-semibold text-center leading-tight mt-1">Years of<br />Excellence</span>
             </motion.div>
 
             <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
@@ -113,7 +113,7 @@ export default function AboutSection() {
                 decoding="async"
               />
               {/* Image overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-rose-950/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent" />
             </div>
 
             {/* Floating card */}
@@ -121,15 +121,15 @@ export default function AboutSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.7, duration: 0.5 }}
-              className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-6 glass-panel rounded-xl p-3 sm:p-4 shadow-xl"
+              className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-6 bg-dark-800 border border-dark-600 rounded-xl p-3 sm:p-4 shadow-2xl"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-                  <Award className="w-5 h-5 text-rose-500" />
+                <div className="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center">
+                  <Award className="w-5 h-5 text-gold-500" />
                 </div>
                 <div>
-                  <p className="text-rose-950 font-semibold text-sm">Award Winning</p>
-                  <p className="text-rose-600 text-xs">Best Salon 2023</p>
+                  <p className="text-white font-semibold text-sm">Award Winning</p>
+                  <p className="text-gray-500 text-xs">Best Salon 2023</p>
                 </div>
               </div>
             </motion.div>
@@ -144,14 +144,14 @@ export default function AboutSection() {
             <motion.p variants={fadeLeft} className="section-subtitle">Our Story</motion.p>
             <motion.h3
               variants={fadeLeft}
-              className="font-serif text-3xl font-light text-rose-950 mb-4 leading-snug"
+              className="font-display text-3xl font-bold text-white mb-4 leading-snug"
             >
               Crafting Beauty with{' '}
-              <span className="text-rose-500 italic">Passion &amp; Precision</span>
+              <span className="text-gold-500">Passion &amp; Precision</span>
             </motion.h3>
 
-            <motion.p variants={fadeLeft} className="text-rose-800/80 text-sm leading-relaxed mb-6 font-light">
-              Since 2009, Beauty World has been a premier destination for luxury beauty
+            <motion.p variants={fadeLeft} className="text-gray-400 text-sm leading-relaxed mb-6">
+              Since 2009, Beauty World has been Bangalore's premier destination for luxury beauty
               and wellness. We blend traditional beauty wisdom with modern techniques to deliver
               transformative experiences tailored to each individual.
             </motion.p>
@@ -164,8 +164,8 @@ export default function AboutSection() {
                   variants={fadeLeft}
                   className="flex items-start gap-3"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-rose-800 text-sm">{item}</span>
+                  <CheckCircle2 className="w-5 h-5 text-gold-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-300 text-sm">{item}</span>
                 </motion.li>
               ))}
             </motion.ul>
@@ -180,13 +180,13 @@ export default function AboutSection() {
                   key={title}
                   variants={fadeUp}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                  className="glass-panel-interactive rounded-xl p-4"
+                  className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-xl p-4 transition-colors duration-300"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center mb-3">
-                    <Icon className="w-5 h-5 text-rose-500" />
+                  <div className="w-10 h-10 rounded-lg bg-gold-500/10 flex items-center justify-center mb-3">
+                    <Icon className="w-5 h-5 text-gold-500" />
                   </div>
-                  <h4 className="text-rose-950 font-semibold text-sm mb-1.5">{title}</h4>
-                  <p className="text-rose-700 text-xs leading-relaxed">{description}</p>
+                  <h4 className="text-white font-semibold text-sm mb-1.5">{title}</h4>
+                  <p className="text-gray-500 text-xs leading-relaxed">{description}</p>
                 </motion.div>
               ))}
             </motion.div>

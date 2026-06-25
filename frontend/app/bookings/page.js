@@ -36,23 +36,23 @@ const TABS = [
 const STATUS_CONFIG = {
   pending: {
     label: 'Pending',
-    badgeClass: 'bg-amber-50 text-amber-600 border-amber-200',
-    dot: 'bg-amber-500',
+    badgeClass: 'bg-gold-500/10 text-gold-400 border-gold-500/30',
+    dot: 'bg-gold-400',
   },
   confirmed: {
     label: 'Confirmed',
-    badgeClass: 'bg-blue-50 text-blue-600 border-blue-200',
-    dot: 'bg-blue-500',
+    badgeClass: 'bg-blue-900/40 text-blue-400 border-blue-700/50',
+    dot: 'bg-blue-400',
   },
   completed: {
     label: 'Completed',
-    badgeClass: 'bg-green-50 text-green-600 border-green-200',
-    dot: 'bg-green-500',
+    badgeClass: 'bg-green-900/40 text-green-400 border-green-700/50',
+    dot: 'bg-green-400',
   },
   cancelled: {
     label: 'Cancelled',
-    badgeClass: 'bg-red-50 text-red-600 border-red-200',
-    dot: 'bg-red-500',
+    badgeClass: 'bg-red-900/40 text-red-400 border-red-700/50',
+    dot: 'bg-red-400',
   },
 };
 
@@ -93,8 +93,8 @@ function formatShortDate(dateStr) {
 function StatusBadge({ status }) {
   const config = STATUS_CONFIG[status?.toLowerCase()] || {
     label: status || 'Unknown',
-    badgeClass: 'bg-rose-50 text-rose-600 border-rose-200',
-    dot: 'bg-rose-400',
+    badgeClass: 'bg-dark-700 text-gray-400 border-dark-500',
+    dot: 'bg-gray-500',
   };
 
   return (
@@ -115,8 +115,8 @@ function PaymentBadge({ method, paymentStatus }) {
     <span
       className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border ${
         isOnline
-          ? 'bg-blue-50 text-blue-600 border-blue-200'
-          : 'bg-amber-50 text-amber-600 border-amber-200'
+          ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+          : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
       }`}
     >
       {isOnline ? <CreditCard className="w-3 h-3" /> : <Wallet className="w-3 h-3" />}
@@ -153,19 +153,19 @@ function BookingCard({ booking, onCancelClick }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.2 }}
-      className="glass-panel p-5 sm:p-6"
+      className="card-dark p-5 sm:p-6"
     >
       {/* Card Header */}
       <div className="flex items-start justify-between gap-3 mb-4">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-rose-400 text-xs font-mono">#{displayId}</span>
+            <span className="text-gray-500 text-xs font-mono">#{displayId}</span>
             <StatusBadge status={status} />
             {paymentMethod && (
               <PaymentBadge method={paymentMethod} paymentStatus={paymentStatus} />
             )}
           </div>
-          <p className="text-rose-600 text-xs mt-1 flex items-center gap-1">
+          <p className="text-gray-400 text-xs mt-1 flex items-center gap-1">
             <Calendar className="w-3 h-3" />
             {formatDateTime(
               booking.booking_date || booking.bookingDate || booking.date,
@@ -177,10 +177,10 @@ function BookingCard({ booking, onCancelClick }) {
         {/* Amount */}
         {totalAmount > 0 && (
           <div className="text-right flex-shrink-0">
-            <p className="text-rose-500 font-bold text-lg">
+            <p className="text-gold-400 font-bold text-lg">
               ₹{totalAmount.toLocaleString('en-IN')}
             </p>
-            <p className="text-rose-400 text-xs">Total</p>
+            <p className="text-gray-600 text-xs">Total</p>
           </div>
         )}
       </div>
@@ -188,13 +188,13 @@ function BookingCard({ booking, onCancelClick }) {
       {/* Services / Package */}
       <div className="mb-4">
         {isPackage ? (
-          <div className="flex items-center gap-2 glass-panel rounded-lg px-3 py-2">
-            <Package className="w-4 h-4 text-rose-500/70 flex-shrink-0" />
-            <span className="text-rose-700 text-sm">{packageName}</span>
+          <div className="flex items-center gap-2 bg-dark-700/60 rounded-lg px-3 py-2">
+            <Package className="w-4 h-4 text-gold-500/70 flex-shrink-0" />
+            <span className="text-gray-300 text-sm">{packageName}</span>
           </div>
         ) : services.length > 0 ? (
           <div className="space-y-1.5">
-            <p className="text-rose-600 text-xs uppercase tracking-wider flex items-center gap-1 mb-2">
+            <p className="text-gray-500 text-xs uppercase tracking-wider flex items-center gap-1 mb-2">
               <ShoppingBag className="w-3 h-3" /> Services
             </p>
             {services.slice(0, 3).map((item, idx) => {
@@ -202,35 +202,35 @@ function BookingCard({ booking, onCancelClick }) {
               const qty = item.quantity || 1;
               return (
                 <div key={idx} className="flex items-center gap-2 text-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 flex-shrink-0" />
-                  <span className="text-rose-700 truncate">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold-500/60 flex-shrink-0" />
+                  <span className="text-gray-300 truncate">
                     {name}
                     {qty > 1 && (
-                      <span className="text-rose-400 ml-1">×{qty}</span>
+                      <span className="text-gray-600 ml-1">×{qty}</span>
                     )}
                   </span>
                 </div>
               );
             })}
             {services.length > 3 && (
-              <p className="text-rose-400 text-xs pl-3.5">+{services.length - 3} more</p>
+              <p className="text-gray-600 text-xs pl-3.5">+{services.length - 3} more</p>
             )}
           </div>
         ) : (
-          <p className="text-rose-400 text-sm italic">No service details</p>
+          <p className="text-gray-600 text-sm italic">No service details</p>
         )}
       </div>
 
       {/* Note */}
       {(booking.notes || booking.note) && (
-        <p className="text-rose-600 text-xs bg-rose-50 border border-rose-200 rounded-lg px-3 py-2 mb-4 line-clamp-2">
+        <p className="text-gray-600 text-xs bg-dark-700/40 border border-dark-600 rounded-lg px-3 py-2 mb-4 line-clamp-2">
           Note: {booking.notes || booking.note}
         </p>
       )}
 
       {/* Footer Actions */}
       {canCancel && (
-        <div className="flex justify-end border-t border-rose-200 pt-4">
+        <div className="flex justify-end border-t border-dark-600 pt-4">
           <button
             onClick={() => onCancelClick(booking)}
             className="flex items-center gap-1.5 text-red-400 hover:text-red-300 text-sm font-medium transition-colors border border-red-900/40 hover:border-red-700/60 px-3 py-1.5 rounded-lg"
@@ -335,7 +335,7 @@ export default function BookingsPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen mesh-bg flex items-center justify-center">
+      <div className="min-h-screen bg-dark-900 flex items-center justify-center">
         <LoadingSpinner size="lg" label="Loading..." />
       </div>
     );
@@ -344,7 +344,7 @@ export default function BookingsPage() {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="min-h-screen mesh-bg">
+    <div className="min-h-screen bg-dark-900">
       <Navbar />
 
       <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
@@ -371,8 +371,8 @@ export default function BookingsPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 border flex-shrink-0 ${
                 activeTab === tab.key
-                  ? 'bg-rose-500 border-rose-500 text-white font-semibold'
-                  : 'border-rose-200 text-rose-600 hover:border-rose-400'
+                  ? 'bg-gold-500 border-gold-500 text-dark-900 font-semibold'
+                  : 'border-dark-600 text-gray-400 hover:border-dark-500 hover:text-gray-200'
               }`}
             >
               {tab.label}
@@ -380,8 +380,8 @@ export default function BookingsPage() {
                 <span
                   className={`text-xs rounded-full px-1.5 py-0.5 leading-none ${
                     activeTab === tab.key
-                      ? 'bg-white/20 text-white'
-                      : 'bg-rose-100 text-rose-600'
+                      ? 'bg-dark-900/30 text-dark-900'
+                      : 'bg-dark-600 text-gray-400'
                   }`}
                 >
                   {tabCounts[tab.key]}
@@ -403,13 +403,13 @@ export default function BookingsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex flex-col items-center justify-center py-32 text-center"
           >
-            <div className="w-20 h-20 rounded-full bg-rose-100 border border-rose-200 flex items-center justify-center mb-5">
-              <Calendar className="w-9 h-9 text-rose-400" />
+            <div className="w-20 h-20 rounded-full bg-dark-700 border border-dark-500 flex items-center justify-center mb-5">
+              <Calendar className="w-9 h-9 text-gray-700" />
             </div>
-            <h2 className="text-xl font-serif font-semibold text-rose-950 mb-2">
+            <h2 className="text-xl font-display font-semibold text-white mb-2">
               {activeTab === 'all' ? 'No bookings yet' : `No ${activeTab} bookings`}
             </h2>
-            <p className="text-rose-600 text-sm mb-7 max-w-xs">
+            <p className="text-gray-500 text-sm mb-7 max-w-xs">
               {activeTab === 'all'
                 ? "You haven't made any bookings. Book a service or package to get started."
                 : `You don't have any ${activeTab} bookings at the moment.`}
