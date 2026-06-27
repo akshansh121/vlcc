@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import Image from 'next/image';
-import { ShoppingCart, Clock, Edit, Trash2, Eye, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ShoppingCart, Clock, Edit, Trash2, Eye, Sparkles, Plus, Minus } from 'lucide-react';
 import CartContext from '../contexts/CartContext';
 
 export default function ServiceCard({
@@ -12,6 +12,7 @@ export default function ServiceCard({
   onDelete,
 }) {
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [imgError, setImgError] = useState(false);
 
   const cart = useContext(CartContext);
@@ -28,6 +29,22 @@ export default function ServiceCard({
       await onAddToCart(service);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Step quantity up/down once already in cart. qty <= 0 removes the item.
+  const changeQty = async (e, nextQty) => {
+    e.stopPropagation();
+    if (!cart || updating) return;
+    setUpdating(true);
+    try {
+      if (nextQty <= 0) {
+        await cart.removeFromCart(serviceId);
+      } else {
+        await cart.updateQuantity(serviceId, nextQty);
+      }
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -117,25 +134,49 @@ export default function ServiceCard({
           )}
         </div>
 
-        {/* Add to Cart button */}
-        <button
-          onClick={handleAddToCart}
-          disabled={loading}
-          className={`w-full flex items-center justify-center gap-2 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm disabled:opacity-60 disabled:cursor-not-allowed ${
-            isInCart
-              ? 'bg-green-600 hover:bg-green-500 text-white'
-              : 'bg-gold-500 hover:bg-gold-400 text-dark-900'
-          }`}
-        >
-          {loading ? (
-            <span className={`inline-block w-4 h-4 border-2 border-t-transparent rounded-full animate-spin ${isInCart ? 'border-white' : 'border-dark-900'}`} />
-          ) : isInCart ? (
-            <CheckCircle2 size={16} />
-          ) : (
-            <ShoppingCart size={16} />
-          )}
-          {loading ? 'Adding…' : isInCart ? `${cartQty} In Cart · Add More` : 'Add to Cart'}
-        </button>
+        {/* Cart control: quantity stepper when in cart, else Add to Cart */}
+        {isInCart ? (
+          <div className="w-full flex items-center justify-between gap-2 bg-green-600 rounded-xl p-1 select-none">
+            <button
+              onClick={(e) => changeQty(e, cartQty - 1)}
+              disabled={updating}
+              aria-label={cartQty === 1 ? 'Remove from cart' : 'Decrease quantity'}
+              className="w-10 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white transition-colors disabled:opacity-50"
+            >
+              {cartQty === 1 ? <Trash2 size={15} /> : <Minus size={16} />}
+            </button>
+
+            <span className="flex-1 text-center text-white font-semibold text-sm tabular-nums">
+              {updating ? (
+                <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin align-middle" />
+              ) : (
+                `${cartQty} in cart`
+              )}
+            </span>
+
+            <button
+              onClick={(e) => changeQty(e, cartQty + 1)}
+              disabled={updating}
+              aria-label="Increase quantity"
+              className="w-10 h-9 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white transition-colors disabled:opacity-50"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm disabled:opacity-60 disabled:cursor-not-allowed bg-gold-500 hover:bg-gold-400 text-dark-900"
+          >
+            {loading ? (
+              <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <ShoppingCart size={16} />
+            )}
+            {loading ? 'Adding…' : 'Add to Cart'}
+          </button>
+        )}
 
         {/* Admin actions */}
         {showAdminActions && (
