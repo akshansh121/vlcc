@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Image from 'next/image';
-import { ShoppingCart, Clock, Edit, Trash2, Eye, Sparkles } from 'lucide-react';
+import { ShoppingCart, Clock, Edit, Trash2, Eye, Sparkles, CheckCircle2 } from 'lucide-react';
+import CartContext from '../contexts/CartContext';
 
 export default function ServiceCard({
   service,
@@ -12,6 +13,12 @@ export default function ServiceCard({
 }) {
   const [loading, setLoading] = useState(false);
   const [imgError, setImgError] = useState(false);
+
+  const cart = useContext(CartContext);
+  const serviceId = service._id || service.id;
+  const cartItem = cart?.items?.find((i) => String(i.serviceId) === String(serviceId));
+  const isInCart = !!cartItem;
+  const cartQty = cartItem?.quantity || 0;
 
   const handleAddToCart = async (e) => {
     e.stopPropagation();
@@ -34,7 +41,11 @@ export default function ServiceCard({
   return (
     <div
       onClick={() => onCardClick && onCardClick(service)}
-      className={`group relative bg-dark-800 rounded-2xl overflow-hidden border border-dark-600 hover:border-gold-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-gold-500/10 flex flex-col ${onCardClick ? 'cursor-pointer' : ''}`}
+      className={`group relative bg-dark-800 rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 flex flex-col ${
+        isInCart
+          ? 'border-green-500/60 shadow-lg shadow-green-500/10 hover:border-green-400'
+          : 'border-dark-600 hover:border-gold-500/50 hover:shadow-xl hover:shadow-gold-500/10'
+      } ${onCardClick ? 'cursor-pointer' : ''}`}
     >
       {/* Image */}
       <div className="relative h-48 w-full bg-gradient-to-br from-dark-700 to-dark-800 flex-shrink-0">
@@ -60,6 +71,14 @@ export default function ServiceCard({
         {service.category_name && (
           <span className="absolute top-3 left-3 bg-dark-900/80 backdrop-blur-sm text-gold-500 border border-gold-500/30 text-xs font-bold px-2 py-1 rounded-full z-10">
             {service.category_name}
+          </span>
+        )}
+
+        {/* In-cart badge */}
+        {isInCart && (
+          <span className="absolute top-3 right-3 z-10 flex items-center gap-1 bg-green-500 text-white text-[11px] font-bold px-2 py-1 rounded-full shadow-md">
+            <CheckCircle2 size={11} />
+            {cartQty > 1 ? `×${cartQty} In Cart` : 'In Cart'}
           </span>
         )}
 
@@ -110,14 +129,20 @@ export default function ServiceCard({
         <button
           onClick={handleAddToCart}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 disabled:bg-gold-700 disabled:cursor-not-allowed text-dark-900 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm"
+          className={`w-full flex items-center justify-center gap-2 font-semibold py-2.5 rounded-xl transition-colors duration-200 text-sm disabled:opacity-60 disabled:cursor-not-allowed ${
+            isInCart
+              ? 'bg-green-600 hover:bg-green-500 text-white'
+              : 'bg-gold-500 hover:bg-gold-400 text-dark-900'
+          }`}
         >
           {loading ? (
-            <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+            <span className={`inline-block w-4 h-4 border-2 border-t-transparent rounded-full animate-spin ${isInCart ? 'border-white' : 'border-dark-900'}`} />
+          ) : isInCart ? (
+            <CheckCircle2 size={16} />
           ) : (
             <ShoppingCart size={16} />
           )}
-          {loading ? 'Adding…' : 'Add to Cart'}
+          {loading ? 'Adding…' : isInCart ? 'In Cart · Add More' : 'Add to Cart'}
         </button>
 
         {/* Admin actions */}
