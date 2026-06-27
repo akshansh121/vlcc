@@ -257,16 +257,16 @@ html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #f43f5e; }
 html:not(.dark) .hero-overlay-1 {
   background: linear-gradient(
     to right,
-    rgba(253, 242, 248, 0.92) 0%,
-    rgba(253, 242, 248, 0.68) 55%,
-    rgba(253, 242, 248, 0.18) 100%
+    rgba(253, 242, 248, 0.72) 0%,
+    rgba(253, 242, 248, 0.38) 50%,
+    rgba(253, 242, 248, 0.04) 100%
   ) !important;
 }
 html:not(.dark) .hero-overlay-2 {
   background: linear-gradient(
     to top,
-    rgba(253, 242, 248, 0.94) 0%,
-    rgba(253, 242, 248, 0.15) 40%,
+    rgba(253, 242, 248, 0.60) 0%,
+    rgba(253, 242, 248, 0.06) 35%,
     transparent 100%
   ) !important;
 }
