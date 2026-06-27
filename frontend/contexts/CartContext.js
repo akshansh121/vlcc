@@ -120,11 +120,28 @@ export function CartProvider({ children }) {
   const applyOffer = async (couponCode) => {
     try {
       const { data } = await api.applyOffer(couponCode, total);
-      const offerData = data.offer || data.data || data;
-      setAppliedOffer(offerData);
+      const raw = data.offer || data.data || data;
+      // Backend returns snake_case (discount_amount, coupon_code, …).
+      // Normalize to a consistent shape so every consumer reads the same fields.
+      const discountAmount = Number(
+        raw.discount_amount ?? raw.discountAmount ?? raw.discount ?? 0
+      );
+      const normalized = {
+        ...raw,
+        offer_id: raw.offer_id ?? raw.id,
+        id: raw.offer_id ?? raw.id,
+        code: raw.coupon_code ?? raw.code,
+        discount: discountAmount,
+        discountAmount,
+        finalAmount: raw.final_amount ?? raw.finalAmount,
+        cartTotal: raw.cart_total ?? raw.cartTotal,
+        discountType: raw.discount_type ?? raw.discountType,
+        discountValue: raw.discount_value ?? raw.discountValue,
+      };
+      setAppliedOffer(normalized);
       // Refresh cart to get updated total from server
       await fetchCart();
-      return offerData;
+      return normalized;
     } catch (err) {
       console.error('Failed to apply offer:', err);
       throw err;

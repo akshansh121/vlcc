@@ -207,6 +207,7 @@ const DUMMY_DETAILS = {
 function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
   const [imgError, setImgError] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
+  const [bookLoading, setBookLoading] = useState(false);
 
   if (!service) return null;
 
@@ -231,6 +232,16 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
       await onAddToCart(service);
     } finally {
       setCartLoading(false);
+    }
+  };
+
+  const handleBook = async () => {
+    if (!onBook) return;
+    setBookLoading(true);
+    try {
+      await onBook(service);
+    } finally {
+      setBookLoading(false);
     }
   };
 
@@ -421,14 +432,18 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
               )}
               {cartLoading ? 'Adding…' : 'Add to Cart'}
             </button>
-            <Link
-              href="/booking"
-              onClick={onClose}
-              className="flex-1 flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-dark-900 font-semibold py-3 rounded-xl transition-colors text-sm"
+            <button
+              onClick={handleBook}
+              disabled={bookLoading}
+              className="flex-1 flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-400 text-dark-900 font-semibold py-3 rounded-xl transition-colors text-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <CalendarCheck size={16} />
-              Book Now
-            </Link>
+              {bookLoading ? (
+                <span className="inline-block w-4 h-4 border-2 border-dark-900 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <CalendarCheck size={16} />
+              )}
+              {bookLoading ? 'Starting…' : 'Book Now'}
+            </button>
           </div>
         </motion.div>
       </motion.div>
@@ -438,7 +453,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
-  const { addToCart } = useCart();
+  const { addToCart, items } = useCart();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -503,6 +518,33 @@ export default function ServicesPage() {
       }
     },
     [addToCart, isAuthenticated, router]
+  );
+
+  // "Book Now" — ensure the service is in the cart, then go straight to booking
+  const handleBookNow = useCallback(
+    async (service) => {
+      if (!isAuthenticated) {
+        toast.error('Please login to book this service.');
+        router.replace('/login?redirect=/booking');
+        return;
+      }
+      const serviceId = service._id || service.id;
+      const alreadyInCart = items.some(
+        (i) => String(i.serviceId) === String(serviceId)
+      );
+      try {
+        if (!alreadyInCart) await addToCart(service);
+      } catch (err) {
+        // If it failed for a reason other than "already there", surface it and stop
+        if (!alreadyInCart) {
+          const msg = err?.response?.data?.message || 'Could not start booking. Please try again.';
+          toast.error(msg);
+          return;
+        }
+      }
+      router.push('/booking');
+    },
+    [addToCart, isAuthenticated, items, router]
   );
 
   return (
@@ -645,6 +687,7 @@ export default function ServicesPage() {
           onAddToCart={async (svc) => {
             await handleAddToCart(svc);
           }}
+          onBook={handleBookNow}
         />
       )}
     </>
