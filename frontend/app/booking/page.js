@@ -20,6 +20,7 @@ import {
   ArrowRight,
   CreditCard,
   Wallet,
+  Tag,
 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -90,7 +91,19 @@ function StepIndicator({ currentStep }) {
 
 // ── Step 1: Services / Package Selection ─────────────────────────────────────
 
-function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, onNext }) {
+function CouponBadge({ appliedOffer }) {
+  if (!appliedOffer) return null;
+  const amount = appliedOffer.discountAmount || appliedOffer.discount || 0;
+  if (!amount) return null;
+  return (
+    <div className="flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 text-green-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+      <Tag className="w-3 h-3 flex-shrink-0" />
+      {appliedOffer.code || 'Offer'} &nbsp;·&nbsp; −₹{parseFloat(amount).toLocaleString('en-IN')} off
+    </div>
+  );
+}
+
+function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, appliedOffer, onNext }) {
   const [packages, setPackages] = useState([]);
   const [loadingPkgs, setLoadingPkgs] = useState(false);
 
@@ -268,7 +281,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
 
       {/* Summary */}
       {canProceed && (
-        <div className="mt-6 bg-dark-700/60 border border-dark-500 rounded-lg px-4 py-3 flex items-center justify-between gap-3">
+        <div className="mt-6 bg-dark-700/60 border border-dark-500 rounded-lg px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
           <div className="text-sm text-gray-400">
             {mode === 'services' ? (
               <>
@@ -281,6 +294,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
               </>
             )}
           </div>
+          <CouponBadge appliedOffer={appliedOffer} />
         </div>
       )}
 
@@ -301,7 +315,7 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
 
 // ── Step 2: Date & Time ───────────────────────────────────────────────────────
 
-function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, onNext, onBack }) {
+function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, appliedOffer, onNext, onBack }) {
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const minDate = getTodayPlus1();
@@ -431,8 +445,15 @@ function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, o
         </motion.div>
       )}
 
+      {/* Applied coupon indicator */}
+      {appliedOffer && (
+        <div className="mt-6 flex justify-center">
+          <CouponBadge appliedOffer={appliedOffer} />
+        </div>
+      )}
+
       {/* Navigation */}
-      <div className="mt-8 flex justify-between">
+      <div className="mt-6 flex justify-between">
         <button onClick={onBack} className="btn-outline-gold text-sm py-2.5 px-5">
           <ChevronLeft className="w-4 h-4" />
           Back
@@ -920,6 +941,7 @@ export default function BookingPage() {
                   cartItems={cartItems}
                   selectedPackage={selectedPackage}
                   setSelectedPackage={setSelectedPackage}
+                  appliedOffer={appliedOffer}
                   onNext={() => setCurrentStep(2)}
                 />
               )}
@@ -930,6 +952,7 @@ export default function BookingPage() {
                   setSelectedDate={setSelectedDate}
                   selectedTime={selectedTime}
                   setSelectedTime={setSelectedTime}
+                  appliedOffer={appliedOffer}
                   onNext={() => setCurrentStep(3)}
                   onBack={() => setCurrentStep(1)}
                 />
