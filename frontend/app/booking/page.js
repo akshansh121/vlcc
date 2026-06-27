@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -305,6 +305,7 @@ function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, o
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const minDate = getTodayPlus1();
+  const dateInputRef = useRef(null);
 
   const fetchSlots = useCallback(async (date) => {
     if (!date) return;
@@ -347,14 +348,18 @@ function Step2({ selectedDate, setSelectedDate, selectedTime, setSelectedTime, o
         <label className="block text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">
           Select Date
         </label>
-        <div className="relative max-w-xs">
-          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+        <div
+          className="relative max-w-xs cursor-pointer"
+          onClick={() => dateInputRef.current?.showPicker?.()}
+        >
+          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none z-10" />
           <input
+            ref={dateInputRef}
             type="date"
             value={selectedDate}
             min={minDate}
             onChange={handleDateChange}
-            className="input-dark pl-10 max-w-xs cursor-pointer"
+            className="input-dark pl-10 max-w-xs cursor-pointer w-full"
             style={{ colorScheme: 'dark' }}
           />
         </div>
