@@ -438,7 +438,7 @@ function ServiceDetailModal({ service, onClose, onAddToCart, onBook }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
-  const { addToCart, cartCount } = useCart();
+  const { addToCart } = useCart();
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -446,7 +446,6 @@ export default function ServicesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('');
-  const [cartOpen, setCartOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
 
   // Fetch all services on mount
@@ -513,51 +512,6 @@ export default function ServicesPage() {
       {/* Page Content */}
       <main className="min-h-screen bg-dark-900 pt-20">
 
-        {/* ── Hero Header ───────────────────────────────────────────────── */}
-        <section className="relative bg-dark-800 border-b border-dark-600 py-16 overflow-hidden">
-          {/* Decorative background glow */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold-500/5 rounded-full blur-3xl" />
-          </div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="section-subtitle"
-            >
-              Beauty World
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="section-title text-3xl sm:text-5xl"
-            >
-              Our{' '}
-              <span className="text-gold-500 italic font-display">Services</span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-400 max-w-lg mx-auto text-sm mt-2"
-            >
-              Discover our full range of luxury beauty treatments, crafted to make you look and
-              feel extraordinary.
-            </motion.p>
-            {/* Gold divider */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex justify-center mt-5"
-            >
-              <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
-            </motion.div>
-          </div>
-        </section>
-
         {/* ── Filters Bar ───────────────────────────────────────────────── */}
         <section className="sticky top-[72px] z-30 bg-dark-900/95 backdrop-blur-md border-b border-dark-600 py-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -583,36 +537,21 @@ export default function ServicesPage() {
                 )}
               </div>
 
-              {/* Category tabs + cart row */}
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1 pb-0.5 min-w-0">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat.value}
-                      onClick={() => setActiveCategory(cat.value)}
-                      className={`flex-shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
-                        activeCategory === cat.value
-                          ? 'bg-gold-500 text-dark-900'
-                          : 'bg-dark-700 text-gray-400 hover:text-white hover:bg-dark-600 border border-dark-600'
-                      }`}
-                    >
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Cart button */}
-                <button
-                  onClick={() => setCartOpen(true)}
-                  className="relative flex items-center gap-1.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 hover:border-gold-500/40 text-gray-300 hover:text-white px-3 py-2 rounded-xl transition-all duration-200 text-sm flex-shrink-0"
-                >
-                  <ShoppingCart className="w-4 h-4" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-gold-500 text-dark-900 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                      {cartCount > 9 ? '9+' : cartCount}
-                    </span>
-                  )}
-                </button>
+              {/* Category tabs */}
+              <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-0.5">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.value}
+                    onClick={() => setActiveCategory(cat.value)}
+                    className={`flex-shrink-0 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                      activeCategory === cat.value
+                        ? 'bg-gold-500 text-dark-900'
+                        : 'bg-dark-700 text-gray-400 hover:text-white hover:bg-dark-600 border border-dark-600'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -697,9 +636,6 @@ export default function ServicesPage() {
       </main>
 
       <Footer />
-
-      {/* Cart Sidebar */}
-      <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} />
 
       {/* Service Detail Modal */}
       {selectedService && (
