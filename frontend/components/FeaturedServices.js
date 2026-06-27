@@ -63,8 +63,8 @@ function ServiceCard({ service, index }) {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      whileHover={{ y: -4 }}
-      className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 rounded-xl overflow-hidden group transition-colors duration-300"
+      whileHover={{ y: -6 }}
+      className="bg-dark-800 border border-dark-600 hover:border-gold-500/50 hover:shadow-gold rounded-xl overflow-hidden group transition-all duration-500 ease-luxury"
     >
       {/* Image */}
       <div className="relative h-48 overflow-hidden">

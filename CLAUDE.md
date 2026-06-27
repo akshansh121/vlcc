@@ -187,6 +187,31 @@ npm run lint    # ESLint
 
 ---
 
+## Design System (premium look & motion)
+
+Defined in [tailwind.config.js](vlcc/frontend/tailwind.config.js) + [app/globals.css](vlcc/frontend/app/globals.css). Reuse these — don't hand-roll new gradients/shadows.
+
+**Palette**
+- Dark base is a **warm plum-espresso near-black** (CSS vars `--dark-900..500` in globals). Gold pops against the warmth = luxury feel. Don't revert to pure black.
+- Accent gold `#D4AF37` (`gold-*`). Secondary `blush-*` / `champagne-*` added in config.
+- Light mode = rose (`#f43f5e`), driven entirely by `html:not(.dark)` overrides at the bottom of globals.css. **Any new gold gradient/shadow needs a matching `html:not(.dark)` rose override** or it leaks gold into light mode.
+
+**Utility classes (globals.css `@layer components`)**
+- `.btn-gold` — animated champagne-gradient fill + glow + lift on hover.
+- `.btn-outline-gold` — gold fill sweeps in via `::before` (needs `isolation:isolate`, already set).
+- `.text-shimmer-gold` — animated shimmering gold text (used for "Beauty World" wordmark, hero "Luxury").
+- `.glow-orb` — soft ambient radial glow; place inside a `relative` parent, render BEFORE the content div so content paints above. Pair with `animate-glow-pulse`.
+- `.divider-luxe` — hairline divider with side ticks.
+- `.section-subtitle` — eyebrow label; auto-prepends a gradient tick via `::before`.
+- `.card-premium` — card surface with luxury shadow on hover.
+
+**Motion tokens (config)**
+- Easing: `ease-luxury` (cubic-bezier .22,1,.36,1) and `ease-silk`. Use `ease-luxury` for premium transitions.
+- Animations: `animate-ken-burns` (slow image drift), `animate-glow-pulse`, `animate-shimmer`/`-slow`, `animate-float`, `animate-gradient-pan`.
+- Shadows: `shadow-gold`, `shadow-gold-lg`, `shadow-glow`, `shadow-premium`.
+- `prefers-reduced-motion` is respected globally (globals.css).
+- Section reveals use framer-motion `useInView({ once: true })` + `fadeUp` variants — follow that pattern for new sections.
+
 ## Frontend Architecture Notes
 
 - `lib/api.js` — single Axios instance; all API functions live here; JWT injected via request interceptor; 401 auto-logout via response interceptor

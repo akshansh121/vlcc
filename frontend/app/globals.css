@@ -15,16 +15,19 @@
 
 @layer base {
   :root {
-    --dark-900: 10 10 10;
-    --dark-800: 17 17 17;
-    --dark-700: 26 26 26;
-    --dark-600: 42 42 42;
-    --dark-500: 58 58 58;
+    /* Warm plum-espresso near-blacks — gold reads as luxury against warmth */
+    --dark-900: 16 12 15;
+    --dark-800: 24 18 23;
+    --dark-700: 34 26 32;
+    --dark-600: 50 39 47;
+    --dark-500: 70 56 66;
+    --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
 html {
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -32,19 +35,83 @@ body {
   background-color: rgb(var(--dark-900));
   color: #ffffff;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Premium text selection */
+::selection {
+  background-color: rgba(212, 175, 55, 0.28);
+  color: #fff;
+}
+html:not(.dark) ::selection {
+  background-color: rgba(244, 63, 94, 0.22);
+  color: #1c0a2e;
 }
 
 .font-display {
   font-family: 'Playfair Display', serif;
 }
 
+/* Guaranteed keyframes for shimmer (referenced by raw CSS utilities below) */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer components {
   .btn-gold {
-    @apply bg-gold-500 hover:bg-gold-400 text-dark-900 font-semibold px-6 py-3 rounded-sm transition-all duration-300 inline-flex items-center gap-2;
+    @apply text-dark-900 font-semibold px-6 py-3 rounded-md transition-all duration-500 inline-flex items-center gap-2 relative;
+    background-image: linear-gradient(110deg, #c49b2a 0%, #D4AF37 28%, #f3df8f 50%, #D4AF37 72%, #c49b2a 100%);
+    background-size: 200% auto;
+    background-position: 0% center;
+    box-shadow: 0 8px 22px -8px rgba(212, 175, 55, 0.55);
+    transition-timing-function: var(--ease-luxury);
+  }
+  .btn-gold:hover {
+    background-position: 100% center;
+    box-shadow: 0 14px 32px -8px rgba(212, 175, 55, 0.7);
+    transform: translateY(-2px);
+  }
+  .btn-gold:active {
+    transform: translateY(0);
   }
 
   .btn-outline-gold {
-    @apply border border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-dark-900 font-semibold px-6 py-3 rounded-sm transition-all duration-300 inline-flex items-center gap-2;
+    @apply border border-gold-500/70 text-gold-500 hover:text-dark-900 font-semibold px-6 py-3 rounded-md transition-all duration-500 inline-flex items-center gap-2 relative overflow-hidden;
+    transition-timing-function: var(--ease-luxury);
+    isolation: isolate;
+  }
+  .btn-outline-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image: linear-gradient(110deg, #c49b2a, #D4AF37 50%, #c49b2a);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s var(--ease-luxury);
+  }
+  .btn-outline-gold:hover {
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -10px rgba(212, 175, 55, 0.5);
+  }
+  .btn-outline-gold:hover::before {
+    transform: scaleX(1);
   }
 
   .card-dark {
@@ -56,11 +123,19 @@ body {
   }
 
   .section-title {
-    @apply text-3xl sm:text-4xl font-display font-bold text-white mb-4;
+    @apply text-3xl sm:text-4xl font-display font-bold text-white mb-4 tracking-tight;
   }
 
   .section-subtitle {
-    @apply text-gold-500 text-sm uppercase tracking-widest font-semibold mb-3;
+    @apply inline-flex items-center gap-2 text-gold-500 text-xs sm:text-sm uppercase tracking-luxe font-semibold mb-3;
+  }
+  /* Decorative leading tick on eyebrow subtitles */
+  .section-subtitle::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(to right, transparent, currentColor);
+    display: inline-block;
   }
 
   .gold-gradient {
@@ -78,8 +153,47 @@ body {
     color: transparent;
   }
 
+  /* Animated shimmering gold wordmark / heading accent */
+  .text-shimmer-gold {
+    background-image: linear-gradient(110deg, #c49b2a 0%, #D4AF37 25%, #fdf0a0 50%, #D4AF37 75%, #c49b2a 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 6s linear infinite;
+  }
+
   .card-premium {
-    @apply bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden transition-all duration-300 hover:border-gold-500/50 hover:shadow-xl hover:shadow-gold-500/10;
+    @apply bg-dark-800 border border-dark-600 rounded-2xl overflow-hidden transition-all duration-500 hover:border-gold-500/50 hover:shadow-gold;
+    transition-timing-function: var(--ease-luxury);
+  }
+
+  /* Soft ambient glow orb for atmospheric section backgrounds */
+  .glow-orb {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    filter: blur(80px);
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, transparent 70%);
+    z-index: 0;
+  }
+  html:not(.dark) .glow-orb {
+    background: radial-gradient(circle, rgba(244, 63, 94, 0.16) 0%, transparent 70%);
+  }
+
+  /* Hairline luxe divider with centered diamond accent */
+  .divider-luxe {
+    @apply flex items-center justify-center gap-3;
+  }
+  .divider-luxe::before,
+  .divider-luxe::after {
+    content: '';
+    height: 1px;
+    width: 3rem;
+    background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.7));
+  }
+  .divider-luxe::after {
+    background: linear-gradient(to left, transparent, rgba(212, 175, 55, 0.7));
   }
 
   .badge-gold {
@@ -155,6 +269,10 @@ html:not(.dark) [class*="bg-gold-500\/"] { background-color: rgba(244,63,94,0.1)
 html:not(.dark) [class*="border-gold-500\/"] { border-color: rgba(244,63,94,0.3) !important; }
 html:not(.dark) [class*="text-gold-500\/"] { color: rgba(244,63,94,0.7) !important; }
 html:not(.dark) [class*="shadow-gold-"] { box-shadow: none !important; }
+/* New premium shadows → soft rose in light mode */
+html:not(.dark) .shadow-gold,
+html:not(.dark) .hover\:shadow-gold:hover { box-shadow: 0 14px 34px -12px rgba(244, 63, 94, 0.28) !important; }
+html:not(.dark) .shadow-premium { box-shadow: 0 10px 30px -14px rgba(244, 63, 94, 0.18) !important; }
 
 /* Dark borders → light */
 html:not(.dark) .border-dark-600 { border-color: #f0d6e8 !important; }
@@ -194,17 +312,24 @@ html:not(.dark) .glass-dark {
   backdrop-filter: blur(12px);
 }
 html:not(.dark) .btn-gold {
-  background-color: #f43f5e;
-  color: #ffffff;
+  background-image: linear-gradient(110deg, #e11d48 0%, #f43f5e 28%, #fb7185 50%, #f43f5e 72%, #e11d48 100%) !important;
+  background-color: #f43f5e !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 22px -8px rgba(244, 63, 94, 0.5);
 }
-html:not(.dark) .btn-gold:hover { background-color: #e11d48; }
+html:not(.dark) .btn-gold:hover {
+  box-shadow: 0 14px 32px -8px rgba(244, 63, 94, 0.65);
+}
 html:not(.dark) .btn-outline-gold {
-  border-color: #f43f5e;
-  color: #e11d48;
+  border-color: rgba(244, 63, 94, 0.6) !important;
+  color: #e11d48 !important;
+}
+html:not(.dark) .btn-outline-gold::before {
+  background-image: linear-gradient(110deg, #e11d48, #f43f5e 50%, #e11d48) !important;
 }
 html:not(.dark) .btn-outline-gold:hover {
-  background-color: #f43f5e;
-  color: #ffffff;
+  color: #ffffff !important;
+  box-shadow: 0 12px 28px -10px rgba(244, 63, 94, 0.45);
 }
 html:not(.dark) .section-title { color: #1c0a2e; }
 html:not(.dark) .section-subtitle { color: #e11d48; }
@@ -222,6 +347,9 @@ html:not(.dark) .text-gradient-gold {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+html:not(.dark) .text-shimmer-gold {
+  background-image: linear-gradient(110deg, #e11d48 0%, #f43f5e 25%, #fda4af 50%, #f43f5e 75%, #e11d48 100%);
 }
 html:not(.dark) .gold-gradient {
   background: linear-gradient(135deg, #f43f5e 0%, #fb7185 50%, #f43f5e 100%);

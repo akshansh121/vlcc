@@ -201,8 +201,12 @@ export default function PackagesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-dark-900 py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="bg-dark-900 py-24 relative overflow-hidden">
+      {/* Ambient glows */}
+      <div className="glow-orb w-[480px] h-[480px] -left-40 top-10" />
+      <div className="glow-orb w-[420px] h-[420px] -right-32 bottom-0 animate-glow-pulse" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
         <motion.div

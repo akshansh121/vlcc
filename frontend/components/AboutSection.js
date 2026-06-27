@@ -63,8 +63,11 @@ export default function AboutSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section ref={sectionRef} className="bg-dark-900 py-24 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="bg-dark-900 py-24 overflow-hidden relative">
+      {/* Ambient glow */}
+      <div className="glow-orb w-[460px] h-[460px] -right-40 top-1/4 animate-glow-pulse" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <motion.div

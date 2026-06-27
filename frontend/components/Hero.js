@@ -32,7 +32,7 @@ export default function Hero() {
         <img
           src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1920&q=80"
           alt="Luxury Salon Interior"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center animate-ken-burns"
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -40,6 +40,8 @@ export default function Hero() {
         {/* Multi-layer gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-dark-900/95 via-dark-900/75 to-dark-900/40 hero-overlay-1" />
         <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/30 to-transparent hero-overlay-2" />
+        {/* Ambient glow */}
+        <div className="glow-orb w-[520px] h-[520px] -left-32 top-1/4 animate-glow-pulse" />
       </div>
 
       {/* Decorative gold particles */}
@@ -85,10 +87,10 @@ export default function Hero() {
           {/* Heading */}
           <motion.h1
             variants={itemVariants}
-            className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight text-white mb-4"
+            className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] text-white mb-4"
           >
-            Experience{' '}
-            <span className="block text-gold-500 italic">Luxury</span>
+            Experience
+            <span className="block mt-1 italic text-shimmer-gold">Luxury</span>
           </motion.h1>
 
           <motion.h2

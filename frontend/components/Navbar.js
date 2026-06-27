@@ -67,7 +67,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-dark-800/95 backdrop-blur-md shadow-lg shadow-black/40 border-b border-dark-600'
+            ? 'bg-dark-800/95 backdrop-blur-xl shadow-premium border-b border-gold-500/10'
             : 'bg-transparent'
         }`}
       >
@@ -77,9 +77,10 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
               <div className="relative">
-                <Sparkles className="w-6 h-6 text-gold-500 group-hover:scale-110 transition-transform duration-300" />
+                <span className="absolute inset-0 rounded-full bg-gold-500/30 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Sparkles className="relative w-6 h-6 text-gold-500 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-500 ease-luxury" />
               </div>
-              <span className="font-display text-xl font-bold text-gold-500 tracking-wide">
+              <span className="font-display text-xl font-bold text-shimmer-gold tracking-wide">
                 Beauty World
               </span>
             </Link>
@@ -235,7 +236,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between px-6 py-5 border-b border-dark-600">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-gold-500" />
-                <span className="font-display text-lg font-bold text-gold-500">Beauty World</span>
+                <span className="font-display text-lg font-bold text-shimmer-gold">Beauty World</span>
               </div>
               <button
                 onClick={() => setMobileOpen(false)}

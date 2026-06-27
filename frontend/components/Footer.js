@@ -61,7 +61,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-5">
               <Sparkles className="w-6 h-6 text-gold-500" />
-              <span className="font-display text-2xl font-bold text-gold-500">Beauty World</span>
+              <span className="font-display text-2xl font-bold text-shimmer-gold">Beauty World</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Where luxury meets beauty. Experience premium salon services crafted with expertise
