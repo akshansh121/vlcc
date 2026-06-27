@@ -22,6 +22,7 @@ import Footer from '../../components/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
+import { getActiveOffers } from '../../lib/api';
 
 export default function CartPage() {
   const router = useRouter();
@@ -42,6 +43,15 @@ export default function CartPage() {
   const [applyingOffer, setApplyingOffer] = useState(false);
   const [removingItem, setRemovingItem] = useState(null);
   const [updatingItem, setUpdatingItem] = useState(null);
+  const [offers, setOffers] = useState([]);
+
+  // Load available coupon codes to surface them to the user
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    getActiveOffers()
+      .then(({ data }) => setOffers(data.data || data.offers || data || []))
+      .catch(() => setOffers([]));
+  }, [isAuthenticated]);
 
   // Auth guard
   useEffect(() => {
@@ -80,14 +90,15 @@ export default function CartPage() {
     }
   };
 
-  const handleApplyOffer = async () => {
-    if (!couponCode.trim()) {
+  const handleApplyOffer = async (codeArg) => {
+    const code = (typeof codeArg === 'string' ? codeArg : couponCode).trim().toUpperCase();
+    if (!code) {
       toast.error('Please enter a coupon code');
       return;
     }
     setApplyingOffer(true);
     try {
-      const result = await applyOffer(couponCode.trim().toUpperCase());
+      const result = await applyOffer(code);
       toast.success(`Offer applied! You saved ₹${result.discount || result.discountAmount || 0}`);
       setCouponCode('');
     } catch (err) {
@@ -98,6 +109,12 @@ export default function CartPage() {
       setApplyingOffer(false);
     }
   };
+
+  // Discount label, e.g. "20% OFF up to ₹500" or "₹150 OFF"
+  const formatDiscount = (o) =>
+    o.discount_type === 'percentage'
+      ? `${o.discount_value}% OFF${o.max_discount ? ` up to ₹${parseFloat(o.max_discount).toLocaleString('en-IN')}` : ''}`
+      : `₹${parseFloat(o.discount_value).toLocaleString('en-IN')} OFF`;
 
   const handleRemoveOffer = () => {
     removeOffer();
@@ -332,7 +349,7 @@ export default function CartPage() {
                         disabled={applyingOffer}
                       />
                       <button
-                        onClick={handleApplyOffer}
+                        onClick={() => handleApplyOffer()}
                         disabled={applyingOffer || !couponCode.trim()}
                         className="px-4 py-2 bg-dark-600 border border-dark-500 text-gold-500 hover:border-gold-500 text-sm font-semibold rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap"
                       >
@@ -344,6 +361,75 @@ export default function CartPage() {
                         Apply
                       </button>
                     </div>
+
+                    {/* Available coupon codes */}
+                    {offers.length > 0 && (
+                      <div className="space-y-2 pt-2">
+                        <p className="text-gray-500 text-[11px] font-medium uppercase tracking-wider">
+                          Available Offers
+                        </p>
+                        <div className="space-y-2 max-h-64 overflow-y-auto pr-1 scrollbar-hide">
+                          {offers.map((o) => {
+                            const min = parseFloat(o.min_amount || 0);
+                            const usageOk =
+                              !o.usage_limit || (o.used_count || 0) < o.usage_limit;
+                            const eligible = subtotal >= min && usageOk;
+                            const needed = Math.max(0, min - subtotal);
+
+                            return (
+                              <button
+                                key={o.id}
+                                onClick={() => eligible && handleApplyOffer(o.coupon_code)}
+                                disabled={!eligible || applyingOffer}
+                                className={`w-full text-left rounded-lg border p-3 transition-all duration-200 ${
+                                  eligible
+                                    ? 'border-dashed border-gold-500/50 bg-gold-500/5 hover:bg-gold-500/10 hover:border-gold-500 cursor-pointer'
+                                    : 'border-dark-600 bg-dark-700/40 opacity-70 cursor-not-allowed'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-2">
+                                  <span className="font-mono font-bold text-sm text-gold-400 tracking-wide">
+                                    {o.coupon_code}
+                                  </span>
+                                  <span
+                                    className={`text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded ${
+                                      eligible
+                                        ? 'bg-green-500/15 text-green-400'
+                                        : 'bg-dark-600 text-gray-500'
+                                    }`}
+                                  >
+                                    {eligible ? 'Tap to apply' : 'Locked'}
+                                  </span>
+                                </div>
+                                <p className="text-white text-xs font-medium mt-1">
+                                  {formatDiscount(o)}
+                                </p>
+                                {o.title && (
+                                  <p className="text-gray-500 text-[11px] mt-0.5 line-clamp-1">
+                                    {o.title}
+                                  </p>
+                                )}
+                                {!eligible && needed > 0 && (
+                                  <p className="text-amber-400/90 text-[11px] mt-1">
+                                    Add ₹{needed.toLocaleString('en-IN')} more to unlock
+                                  </p>
+                                )}
+                                {!eligible && needed <= 0 && (
+                                  <p className="text-gray-500 text-[11px] mt-1">
+                                    Usage limit reached
+                                  </p>
+                                )}
+                                {eligible && min > 0 && (
+                                  <p className="text-gray-500 text-[11px] mt-1">
+                                    Min order ₹{min.toLocaleString('en-IN')}
+                                  </p>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   /* Applied Offer Badge */
