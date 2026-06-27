@@ -128,7 +128,7 @@ export default function CartPage() {
   }, 0);
 
   const discountAmount = appliedOffer
-    ? appliedOffer.discountAmount || appliedOffer.discount || 0
+    ? Math.ceil(appliedOffer.discountAmount || appliedOffer.discount || 0)
     : 0;
   const finalTotal = Math.max(0, subtotal - discountAmount);
 

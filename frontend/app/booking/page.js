@@ -93,12 +93,12 @@ function StepIndicator({ currentStep }) {
 
 function CouponBadge({ appliedOffer }) {
   if (!appliedOffer) return null;
-  const amount = appliedOffer.discountAmount || appliedOffer.discount || 0;
+  const amount = Math.ceil(appliedOffer.discountAmount || appliedOffer.discount || 0);
   if (!amount) return null;
   return (
     <div className="flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 text-green-400 text-xs font-semibold px-3 py-1.5 rounded-full">
       <Tag className="w-3 h-3 flex-shrink-0" />
-      {appliedOffer.code || 'Offer'} &nbsp;·&nbsp; −₹{parseFloat(amount).toLocaleString('en-IN')} off
+      {appliedOffer.code || 'Offer'} &nbsp;·&nbsp; −₹{amount.toLocaleString('en-IN')} off
     </div>
   );
 }
@@ -123,6 +123,15 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
 
   const canProceed =
     mode === 'services' ? cartItems.length > 0 : !!selectedPackage;
+
+  // Compute proportional coupon discount per item (rounded in customer's favour)
+  const couponDiscount = appliedOffer
+    ? Math.ceil(appliedOffer.discountAmount || appliedOffer.discount || 0)
+    : 0;
+  const step1Subtotal = cartItems.reduce((sum, item) => {
+    const p = parseFloat(item.discounted_price || item.original_price || 0);
+    return sum + p * (item.quantity || 1);
+  }, 0);
 
   return (
     <motion.div
@@ -182,6 +191,12 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
                 const price = parseFloat(
                   item.discounted_price || item.original_price || service.discounted_price || service.original_price || 0
                 );
+                const lineTotal = price * (item.quantity || 1);
+                // Proportional share of coupon discount for this item
+                const itemDiscountShare = step1Subtotal > 0 && couponDiscount > 0
+                  ? Math.round(couponDiscount * (lineTotal / step1Subtotal))
+                  : 0;
+                const finalLineTotal = lineTotal - itemDiscountShare;
                 return (
                   <div key={serviceId} className="card-dark p-4 flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg bg-dark-700 flex items-center justify-center flex-shrink-0">
@@ -194,9 +209,20 @@ function Step1({ mode, setMode, cartItems, selectedPackage, setSelectedPackage, 
                       )}
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-gold-400 font-semibold text-sm">
-                        ₹{(price * (item.quantity || 1)).toLocaleString('en-IN')}
-                      </p>
+                      {itemDiscountShare > 0 ? (
+                        <>
+                          <p className="text-gray-500 text-xs line-through">
+                            ₹{lineTotal.toLocaleString('en-IN')}
+                          </p>
+                          <p className="text-green-400 font-semibold text-sm">
+                            ₹{finalLineTotal.toLocaleString('en-IN')}
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-gold-400 font-semibold text-sm">
+                          ₹{lineTotal.toLocaleString('en-IN')}
+                        </p>
+                      )}
                       {item.quantity > 1 && (
                         <p className="text-gray-600 text-xs">x{item.quantity}</p>
                       )}
@@ -496,7 +522,7 @@ function Step3({
       : parseFloat(selectedPackage?.discounted_price || selectedPackage?.original_price || 0);
 
   const discountAmount = appliedOffer
-    ? appliedOffer.discountAmount || appliedOffer.discount || 0
+    ? Math.ceil(appliedOffer.discountAmount || appliedOffer.discount || 0)
     : 0;
   const finalTotal = Math.max(0, subtotal - discountAmount);
 
