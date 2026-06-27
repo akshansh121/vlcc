@@ -247,3 +247,32 @@ html:not(.dark) ::-webkit-scrollbar { width: 6px; }
 html:not(.dark) ::-webkit-scrollbar-track { background: #fdf2f8; }
 html:not(.dark) ::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 3px; }
 html:not(.dark) ::-webkit-scrollbar-thumb:hover { background: #f43f5e; }
+
+/* ============================================================
+   HERO SECTION — light mode fixes
+   The gradient overlays use CSS variables for color (from-dark-900/*)
+   which aren't caught by background-color overrides above,
+   so we swap them to a light pink-white overlay instead.
+   ============================================================ */
+html:not(.dark) .hero-overlay-1 {
+  background: linear-gradient(
+    to right,
+    rgba(253, 242, 248, 0.92) 0%,
+    rgba(253, 242, 248, 0.68) 55%,
+    rgba(253, 242, 248, 0.18) 100%
+  ) !important;
+}
+html:not(.dark) .hero-overlay-2 {
+  background: linear-gradient(
+    to top,
+    rgba(253, 242, 248, 0.94) 0%,
+    rgba(253, 242, 248, 0.15) 40%,
+    transparent 100%
+  ) !important;
+}
+html:not(.dark) .hero-stats-bar {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-top-color: #f0d6e8 !important;
+}
+/* text-white/90, text-white/80 etc. are not caught by the .text-white rule above */
+html:not(.dark) [class*="text-white\/"] { color: #1c0a2e !important; }

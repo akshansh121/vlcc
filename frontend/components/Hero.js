@@ -38,8 +38,8 @@ export default function Hero() {
           decoding="async"
         />
         {/* Multi-layer gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-dark-900/95 via-dark-900/75 to-dark-900/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-dark-900/95 via-dark-900/75 to-dark-900/40 hero-overlay-1" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/30 to-transparent hero-overlay-2" />
       </div>
 
       {/* Decorative gold particles */}
@@ -170,7 +170,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.8 }}
-        className="relative z-10 bg-dark-800/90 backdrop-blur-md border-t border-dark-600"
+        className="relative z-10 bg-dark-800/90 backdrop-blur-md border-t border-dark-600 hero-stats-bar"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-dark-600">
