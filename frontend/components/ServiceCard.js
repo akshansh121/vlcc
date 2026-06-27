@@ -74,14 +74,6 @@ export default function ServiceCard({
           </span>
         )}
 
-        {/* In-cart badge */}
-        {isInCart && (
-          <span className="absolute top-3 right-3 z-10 flex items-center gap-1 bg-green-500 text-white text-[11px] font-bold px-2 py-1 rounded-full shadow-md">
-            <CheckCircle2 size={11} />
-            {cartQty} In Cart
-          </span>
-        )}
-
         {/* View details overlay on hover */}
         {onCardClick && (
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
