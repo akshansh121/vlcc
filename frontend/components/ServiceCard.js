@@ -78,7 +78,7 @@ export default function ServiceCard({
         {isInCart && (
           <span className="absolute top-3 right-3 z-10 flex items-center gap-1 bg-green-500 text-white text-[11px] font-bold px-2 py-1 rounded-full shadow-md">
             <CheckCircle2 size={11} />
-            {cartQty > 1 ? `×${cartQty} In Cart` : 'In Cart'}
+            {cartQty} In Cart
           </span>
         )}
 
@@ -142,7 +142,7 @@ export default function ServiceCard({
           ) : (
             <ShoppingCart size={16} />
           )}
-          {loading ? 'Adding…' : isInCart ? 'In Cart · Add More' : 'Add to Cart'}
+          {loading ? 'Adding…' : isInCart ? `${cartQty} In Cart · Add More` : 'Add to Cart'}
         </button>
 
         {/* Admin actions */}
